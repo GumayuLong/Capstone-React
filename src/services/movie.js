@@ -10,7 +10,7 @@ class MovieService {
     };
     fetchMovieDetailApi(movieId) {
       return request({
-			url: `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${movieId}`,
+			url: `/QuanLyPhim/LayThongTinPhim?MaPhim=${movieId}`,
 			method: "GET",
 		});
     }

@@ -1,34 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { cinemaService } from '../../../../services/cinema';
+import { useParams } from 'react-router-dom';
 
 export default function Showtimes() {
+	const [data, setData] = useState([])
+	const params = useParams();
+	useEffect(() => {
+		fetchShowtimes();
+	}, []);
+	const fetchShowtimes = async () => {
+		const result = await cinemaService.fetchShowtimesApi(params.movieId);
+		// console.log(result);
+		setData(result.data.content.heThongRapChieu)
+	};
+
+	const renderTabList = () => {
+		return data.map((element, idx) => {
+			return (
+				<a
+					key={element.maHeThongRap}
+					class={`nav-link text-capitalize ${idx === 0 && "active"}`}
+					data-toggle="pill"
+					href={`#${element.maHeThongRap}`}
+					role="tab"
+					aria-selected="true"
+				>
+					{element.tenHeThongRap}
+				</a>
+			);
+		})
+	}
+
   return (
 		<div class="row">
 			<div class="col-3">
+
 				<div
 					class="nav flex-column nav-pills"
 					id="v-pills-tab"
 					role="tablist"
 					aria-orientation="vertical"
 				>
-					<a
-						class="nav-link text-capitalize active"
-						data-toggle="pill"
-						href="#galaxy"
-						role="tab"
-						aria-selected="true"
-					>
-						Galaxy Cinema
-					</a>
-					<a
-						class="nav-link text-capitalize"
-						data-toggle="pill"
-						href="#bhd"
-						role="tab"
-						aria-selected="false"
-					>
-						BHD Star
-					</a>
+				{renderTabList()}	
+
 				</div>
+
 			</div>
 			<div class="col-9">
 				<div class="tab-content" id="v-pills-tabContent">
