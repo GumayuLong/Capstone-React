@@ -7,6 +7,12 @@ class MovieService {
       method: "GET",
       
     });
+    };
+    fetchMovieDetailApi(movieId) {
+      return request({
+			url: `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${movieId}`,
+			method: "GET",
+		});
     }
 } 
 export const movieService = new MovieService();

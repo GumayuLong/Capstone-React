@@ -35,14 +35,14 @@ export default function Home() {
 						<div className="card-body">
 							<h5 className="card-title">{element.tenPhim}</h5>
 							<button
-								onClick={() => navigate(`/movie-detail`)}
-								className="btn btn-danger"
+								onClick={() => navigate(`/movie-detail/${element.maPhim}`)}
+								className="btn btn-danger px-1"
 							>
 								XEM CHI TIẾT
 							</button>
 							<button
 								onClick={() => navigate(`/booking`)}
-								className="btn btn-warning ml-3"
+								className="btn btn-warning px-1 ml-2"
 							>
 								BOOKING
 							</button>

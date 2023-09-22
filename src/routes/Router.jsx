@@ -23,7 +23,7 @@ export default function Router() {
 					element: <Booking />,
 				},
 				{
-					path: "/movie-detail",
+					path: "/movie-detail/:movieId",
 					element: <MovieDetail />,
 				},
 				{
