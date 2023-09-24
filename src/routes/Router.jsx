@@ -19,7 +19,7 @@ export default function Router() {
 					element: <Home />,
 				},
 				{
-					path: "/booking",
+					path: "/booking/:Id",
 					element: <Booking />,
 				},
 				{

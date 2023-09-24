@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { cinemaService } from '../../../../services/cinema';
-import { useParams } from 'react-router-dom';
+/** @format */
+
+import React, { useEffect, useState } from "react";
+import { cinemaService } from "../../../../services/cinema";
+import { Link, useParams } from "react-router-dom";
+import { formatDate } from "../../../../utils/date";
 
 export default function Showtimes() {
-	const [data, setData] = useState([])
+	const [data, setData] = useState([]);
 	const params = useParams();
 	useEffect(() => {
 		fetchShowtimes();
@@ -11,7 +14,7 @@ export default function Showtimes() {
 	const fetchShowtimes = async () => {
 		const result = await cinemaService.fetchShowtimesApi(params.movieId);
 		// console.log(result);
-		setData(result.data.content.heThongRapChieu)
+		setData(result.data.content.heThongRapChieu);
 	};
 
 	const renderTabList = () => {
@@ -28,99 +31,74 @@ export default function Showtimes() {
 					{element.tenHeThongRap}
 				</a>
 			);
-		})
-	}
+		});
+	};
 
-  return (
+	const renderTabContent = () => {
+		return data.map((element, idx) => {
+			return (
+				<div
+					key={element.maHeThongRap}
+					class={`tab-pane fade show ${idx === 0 && "active"}`}
+					id={element.maHeThongRap}
+					role="tabpanel"
+				>
+					{element.cumRapChieu.map((element) => {
+						return (
+							<div key={element.maCumRap} class="row mb-5">
+								<div class="col-1">
+									<img
+										class="img-fluid rounded"
+										src={element.hinhAnh}
+									/>
+								</div>
+								<div class="col-11 pl-0">
+									<h5>{element.tenCumRap}</h5>
+									<span class="text-muted">
+										{element.diaChi}
+									</span>
+								</div>
+								<div class="col-12">
+									<div class="row">
+										{element.lichChieuPhim.map((element) => {
+											return (
+												<div key={element.maRap} class="col-3">
+													<Link to={`/booking/${element.maLichChieu}`}>
+														{formatDate(element.ngayChieuGioChieu)}
+													</Link>
+												</div>
+											);
+										})}
+									</div>
+								</div>
+							</div>
+						);
+					})}
+				</div>
+			);
+		});
+	};
+
+	return (
 		<div class="row">
 			<div class="col-3">
-
 				<div
 					class="nav flex-column nav-pills"
 					id="v-pills-tab"
 					role="tablist"
 					aria-orientation="vertical"
 				>
-				{renderTabList()}	
-
+					{renderTabList()}
 				</div>
-
 			</div>
 			<div class="col-9">
 				<div class="tab-content" id="v-pills-tabContent">
-					<div
-						class="tab-pane fade show active"
-						id="galaxy"
-						role="tabpanel"
-					>
-						<div class="row mb-5">
-							<div class="col-1">
-								<img
-									class="img-fluid rounded"
-									src="https://s3img.vcdn.vn/123phim/2021/01/bhd-star-bitexco-16105952137769.png"
-								/>
-							</div>
-							<div class="col-11 pl-0">
-								<h5>Galaxy Cinema Cineplex - 3/2</h5>
-								<span class="text-muted">
-									L5-Vincom 3/2, 3C Đường 3/2, Q.10
-								</span>
-							</div>
-							<div class="col-12">
-								<div class="row">
-									<div class="col-3">
-										<a href="">2022-12-12T09:30:00</a>
-									</div>
-									<div class="col-3">
-										<a href="">2022-12-12T09:30:00</a>
-									</div>
-									<div class="col-3">
-										<a href="">2022-12-12T09:30:00</a>
-									</div>
-									<div class="col-3">
-										<a href="">2022-12-12T09:30:00</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row mb-5">
-							<div class="col-1">
-								<img
-									class="img-fluid rounded"
-									src="https://s3img.vcdn.vn/123phim/2021/01/bhd-star-bitexco-16105952137769.png"
-								/>
-							</div>
-							<div class="col-11 pl-0">
-								<h5>
-									Galaxy Cinema Cineplex - Vincom Thảo Điền
-								</h5>
-								<span class="text-muted">
-									L5-Megamall, 159 XL Hà Nội, Q.2
-								</span>
-							</div>
-							<div class="col-12">
-								<div class="row">
-									<div class="col-3">
-										<a href="">2022-12-12T09:30:00</a>
-									</div>
-									<div class="col-3">
-										<a href="">2022-05-12T18:12:23</a>
-									</div>
-									<div class="col-3">
-										<a href="">2022-05-12T18:12:23</a>
-									</div>
-									<div class="col-3">
-										<a href="">2022-05-12T18:12:23</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="tab-pane fade" id="bhd" role="tabpanel">
+					{renderTabContent()}
+					{/* <div class="tab-pane fade" id="bhd" role="tabpanel">
 						...
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>
-  );
+	);
 }

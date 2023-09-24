@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import {movieService} from "../../../../services/movie"
+import {movieService} from "../../../../services/movie";
+import { formatDate } from '../../../../utils/date';
+
 
 export default function Detail() {
 	const params = useParams();
@@ -19,12 +21,12 @@ export default function Detail() {
   return (
 		<div className="row">
 			<div className="col-3">
-				<img className='w-100' src={detail.hinhAnh}/>
+				<img className="w-100" src={detail.hinhAnh} />
 			</div>
 			<div className="col-9">
 				<h4>{detail.tenPhim}</h4>
 				<p>{detail.moTa}</p>
-				<p>{detail.ngayKhoiChieu}</p>
+				<p>{formatDate(detail.ngayKhoiChieu)}</p>
 				<div>
 					<button className="btn btn-info mr-2">TRAILER</button>
 				</div>
