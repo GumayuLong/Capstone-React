@@ -38,7 +38,7 @@ export default function Home() {
   const renderMovieList = () => {
     return movieList.map((element) => {
       return (
-        <div key={element.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div key={element.id} className="col-3">
           <div
             className="card movie-card"
             style={{ marginBottom: 20, height: 500 }}
@@ -51,35 +51,23 @@ export default function Home() {
             />
             <div className="card-body">
               <h5 className="card-title">{element.tenPhim}</h5>
-              <div className="button-group">
-                <button
-                  onClick={() => navigate(`/movie-detail`)}
-                  className="btn btn-danger w-50"
-                >
-                  XEM CHI TIẾT
-                </button>
-                <button
-                  onClick={() => navigate(`/booking`)}
-                  className="btn btn-warning w-50"
-                >
-                  BOOKING
-                </button>
-              </div>
+              <button
+                onClick={() => navigate(`/movie-detail`)}
+                className="btn btn-danger"
+              >
+                XEM CHI TIẾT
+              </button>
+              <button
+                onClick={() => navigate(`/booking`)}
+                className="btn btn-warning ml-3"
+              >
+                BOOKING
+              </button>
             </div>
           </div>
         </div>
       );
     });
-  };
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
   };
 
   return (
