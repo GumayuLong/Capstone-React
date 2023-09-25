@@ -54,7 +54,7 @@ export default function Home() {
               <div className="button-group">
                 <button
                   onClick={() => navigate(`/movie-detail`)}
-                  className="btn btn-danger w-50"
+                  className="btn btn-info w-50"
                 >
                   XEM CHI TIẾT
                 </button>
