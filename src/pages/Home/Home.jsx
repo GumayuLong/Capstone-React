@@ -1,61 +1,92 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { movieService } from "../../services/movie";
 
+// Slick library
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import "./home.scss";
+import { bannerService } from "../../services/banner";
+
 export default function Home() {
-	const navigate = useNavigate();
-	const [movieList, setMovieList] = useState([]);
+  const navigate = useNavigate();
+  const [movieList, setMovieList] = useState([]);
+  const [bannerList, setBannerList] = useState([]);
 
-	useEffect(() => {
-		fetchMovieList();
-	}, []);
+  useEffect(() => {
+    fetchMovieList();
+    fetchBannerList();
+  }, []);
 
-	const fetchMovieList = async () => {
-		const result = await movieService.fetchMovieListApi();
+  const fetchMovieList = async () => {
+    const result = await movieService.fetchMovieListApi();
 
-		setMovieList(result.data.content);
-	};
+    setMovieList(result.data.content);
+  };
 
-	const renderMovieList = () => {
-		return movieList.map((element) => {
-			return (
-				<div key={element.id} className="col-3">
-					<div
-						className="card movie-card"
-						style={{ marginBottom: 20, height: 500 }}
-					>
-						<img
-							style={{ height: 350, objectFit: "cover" }}
-							className="card-img-top"
-							src={element.hinhAnh}
-							alt="movie"
-						/>
-						<div className="card-body">
-							<h5 className="card-title">{element.tenPhim}</h5>
-							<button
-								onClick={() => navigate(`/movie-detail/${element.maPhim}`)}
-								className="btn btn-danger px-1"
-							>
-								XEM CHI TIẾT
-							</button>
-							<button
-								onClick={() => navigate(`/booking`)}
-								className="btn btn-warning px-1 ml-2"
-							>
-								BOOKING
-							</button>
-						</div>
-					</div>
-				</div>
-			);
-		});
-	};
+  const fetchBannerList = async () => {
+    const result = await bannerService.fetchBannerListApi();
+    console.log(result);
 
-	return (
-		<div className="py-5">
-			<div className="row mt-3 mx-auto w-75">{renderMovieList()}</div>
-		</div>
-	);
+    setBannerList(result.data.content);
+  };
+
+  const renderMovieList = () => {
+    return movieList.map((element) => {
+      return (
+        <div key={element.id} className="col-3">
+          <div
+            className="card movie-card"
+            style={{ marginBottom: 20, height: 500 }}
+          >
+            <img
+              style={{ height: 350, objectFit: "cover" }}
+              className="card-img-top"
+              src={element.hinhAnh}
+              alt="movie"
+            />
+            <div className="card-body">
+              <h5 className="card-title">{element.tenPhim}</h5>
+              <div className="button-group">
+                <button
+                  onClick={() => navigate(`/movie-detail`)}
+                  className="btn btn-info w-50"
+                >
+                  XEM CHI TIẾT
+                </button>
+                <button
+                  onClick={() => navigate(`/booking`)}
+                  className="btn btn-warning w-50"
+                >
+                  BOOKING
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+
+  return (
+    <Fragment>
+      <section className="carosel">
+        <Slider {...settings}>
+          {bannerList.map((element) => (
+            <div key={element.maBanner}>
+              <img className="img-fluid" src={element.hinhAnh} />
+            </div>
+          ))}
+        </Slider>
+      </section>
+      <div class="mx-auto my-5 w-65">
+        <h1 className="text-center my-5">MOVIE SELECTION</h1>
+        <div className="row">{renderMovieList()}</div>
+      </div>
+    </Fragment>
+  );
 }
