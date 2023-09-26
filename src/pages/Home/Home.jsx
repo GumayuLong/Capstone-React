@@ -36,39 +36,44 @@ export default function Home() {
   };
 
   const renderMovieList = () => {
+    console.log(movieList)
     return movieList.map((element) => {
       return (
-        <div key={element.id} className="col-3">
-          <div
-            className="card movie-card"
-            style={{ marginBottom: 20, height: 500 }}
-          >
-            <img
-              style={{ height: 350, objectFit: "cover" }}
-              className="card-img-top"
-              src={element.hinhAnh}
-              alt="movie"
-            />
-            <div className="card-body">
-              <h5 className="card-title">{element.tenPhim}</h5>
-              <div className="button-group">
-                <button
-                  onClick={() => navigate(`/movie-detail`)}
-                  className="btn btn-info w-50"
-                >
-                  XEM CHI TIẾT
-                </button>
-                <button
-                  onClick={() => navigate(`/booking`)}
-                  className="btn btn-warning w-50"
-                >
-                  BOOKING
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+			<div key={element.id} className="col-3">
+				<div
+					className="card movie-card"
+					style={{ marginBottom: 20, height: 500 }}
+				>
+					<img
+						style={{ height: 350, objectFit: "cover" }}
+						className="card-img-top"
+						src={element.hinhAnh}
+						alt="movie"
+					/>
+					<div className="card-body">
+						<h5 className="card-title">{element.tenPhim}</h5>
+						<div className="button-group">
+							<button
+								onClick={() =>
+									navigate(`/movie-detail/${element.maPhim}`)
+								}
+								className="btn btn-info w-50"
+							>
+								XEM CHI TIẾT
+							</button>
+							{/* <button
+								onClick={() =>
+									navigate(`/booking/${element.maLichChieu}`)
+								}
+								className="btn btn-warning w-50"
+							>
+								BOOKING
+							</button> */}
+						</div>
+					</div>
+				</div>
+			</div>
+		);
     });
   };
 

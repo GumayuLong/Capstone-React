@@ -1,9 +1,57 @@
-import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { setUserInfoAction } from "../../store/actions/userAction";
 
 export default function Header() {
-    const navigate = useNavigate();
-  return (
+	const dispatch = useDispatch();
+	const userState = useSelector((state) => state.userReducer);
+	const navigate = useNavigate();
+	const renderContent = () => {
+		// CHƯA ĐĂNG NHẬP USER INFO = NULL
+		if (!userState.userInfo) {
+			return (
+				<>
+					<button
+						onClick={() => navigate("/login")}
+						className="btn btn-outline-info my-2 my-sm-0 mr-2"
+						>
+						Sign in
+					</button>
+					<button
+						onClick={() => navigate("/register")}
+						className="btn btn-outline-success my-2 my-sm-0"
+						type="sumit"
+					>
+						Sign up
+					</button>
+				</>
+			);
+		}
+
+		// ĐÃ ĐĂNG NHẬP
+		else {
+			return (
+				<>
+					<span>Hello {userState.userInfo.hoTen}</span>
+					<button
+						onClick={handleLogout}
+						className=" ml-3 btn btn-danger"
+					>
+						LOGOUT
+					</button>
+				</>
+			);
+		}
+	};
+
+	const handleLogout = () => {
+		localStorage.removeItem("USER_INFO");
+		dispatch(setUserInfoAction(null));
+		navigate("/");
+	};
+
+	return (
 		<div>
 			{/* Header */}
 			<nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -31,19 +79,19 @@ export default function Header() {
 							</NavLink>
 						</li>
 						<li className="nav-item active">
-							<a className="nav-link" href='#'>
+							<a className="nav-link" href="#">
 								{" "}
 								Contact{" "}
 							</a>
 						</li>
 						<li className="nav-item active">
-							<a className="nav-link" href='#'>
+							<a className="nav-link" href="#">
 								{" "}
 								News{" "}
 							</a>
 						</li>
 						<li className="nav-item active">
-							<a className="nav-link" href='#'>
+							<a className="nav-link" href="#">
 								{" "}
 								Apps{" "}
 							</a>
@@ -55,12 +103,9 @@ export default function Header() {
 							</NavLink>
 						</li> */}
 					</ul>
-					<div className="ml-auto">
-                        <button className='btn btn-success' onClick={() => {return navigate("/login")}}>Login</button>
-                        <button className='btn btn-info ml-3' onClick={() => navigate("/register")}>Register</button>
-                    </div>
+					<div className="ml-auto">{renderContent()}</div>
 				</div>
 			</nav>
 		</div>
-  );
+	);
 }

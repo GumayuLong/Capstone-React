@@ -1,6 +1,8 @@
+import { SET_USER_INFO } from "../types/userType";
+
 export const setUserInfoAction = (data) => {
-    return {
-		type: "USER_INFO",
+	return {
+		type: SET_USER_INFO,
 		payload: data,
 	};
 };
