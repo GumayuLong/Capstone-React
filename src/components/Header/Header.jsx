@@ -45,10 +45,6 @@ export default function Header() {
                 Apps
               </a>
             </li>
-            {/* <li className="nav-item active">
-							<NavLink to="/booking">Booking
-							</NavLink>
-						</li> */}
           </ul>
           <div className="ml-auto">
             <button
