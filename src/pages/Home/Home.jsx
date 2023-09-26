@@ -85,13 +85,13 @@ export default function Home() {
   return (
     <Fragment>
       <section className="carosel">
-        <Slider {...settings}>
+        {/* <Slider {...settings}>
           {bannerList.map((element) => (
             <div key={element.maBanner}>
               <img className="img-fluid" src={element.hinhAnh} />
             </div>
           ))}
-        </Slider>
+        </Slider> */}
       </section>
       <div class="mx-auto my-5 w-65">
         <h1 className="text-center my-5">MOVIE SELECTION</h1>

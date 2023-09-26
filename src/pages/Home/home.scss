@@ -1,11 +1,10 @@
 .carosel {
   overflow: hidden;
   max-height: 90vh;
-}
-
-.carosel img {
-  width: 100%;
-  height: 100%;
+  & img {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .w-65 {
