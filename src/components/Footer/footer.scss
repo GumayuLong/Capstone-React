@@ -1,20 +1,56 @@
 footer {
   padding: 50px;
+
+  .navbar-brand {
+    display: block;
+    padding-bottom: 10px;
+  }
 }
 
 .title-custom {
-  border-left: 5px solid rgba(0, 0, 0, 0.9);
+  border-left: 5px solid #f26b38;
+
+  &.navbar-brand {
+    display: block;
+    padding-bottom: 0;
+  }
 }
 
 .list-unstyled {
   a {
-    color: rgba(0, 0, 0, 0.9);
+    color: #ffffff80;
     font-size: 18px;
-    transition: all 0.5s;
+    transition: all 0.3s;
 
     &:hover {
-      color: rgba(0, 0, 0, 0.9);
-      transition: all 0.5s;
+      color: #f26b38;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+  }
+}
+
+.flex {
+  .social {
+    margin-top: 10px;
+
+    a {
+      .social-icon {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        margin: 0 2px;
+        border: 1px solid #f26b38;
+        color: #f26b38;
+        border-radius: 3px;
+        padding: 5px;
+        transition: all 0.3s;
+      }
+
+      &:hover .social-icon {
+        background-color: #f26b38;
+        color: #343a40;
+      }
     }
   }
 }

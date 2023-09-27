@@ -1,19 +1,46 @@
 import React from "react";
 
 import "./footer.scss";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebookF,
+  faTiktok,
+  faTwitter,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+
 export default function Footer() {
   return (
-    <footer className="bg-light">
+    <footer className="navbar-dark bg-dark">
       <div className="mx-auto w-65">
         <div className="row">
           <div className="col-12 col-xl-3 col-md-12 col-sm-12">
             <div className="flex flex-col shop-info">
-              <h3 className="text-100 text-black text-center">Cyber Cinema</h3>
+              <a className="navbar-brand" href="#">
+                <h3 className="text-center">Cyber Cinema</h3>
+              </a>
+              <div className="social text-center">
+                <a href="https://www.facebook.com/">
+                  <FontAwesomeIcon className="social-icon" icon={faFacebookF} />
+                </a>
+                <a href="https://www.youtube.com/">
+                  <FontAwesomeIcon className="social-icon" icon={faYoutube} />
+                </a>
+                <a href="https://www.tiktok.com/">
+                  <FontAwesomeIcon className="social-icon" icon={faTiktok} />
+                </a>
+                <a href="https://www.twitter.com/">
+                  <FontAwesomeIcon className="social-icon" icon={faTwitter} />
+                </a>
+              </div>
             </div>
           </div>
           <div className="col-12 col-xl-3 col-md-4 col-sm-6">
             <div className="flex flex-col">
-              <h5 className="my-2 pl-3 title-custom">GIỚI THIỆU</h5>
+              <h5 className="my-2 pl-3 title-custom navbar-brand">
+                GIỚI THIỆU
+              </h5>
               <ul className="list-unstyled my-2">
                 <li>
                   <a className="pl-4 py-2" href="#">
@@ -40,7 +67,7 @@ export default function Footer() {
           </div>
           <div className="col-12 col-xl-3 col-md-4 col-sm-6">
             <div className="flex flex-col">
-              <h5 className="my-2 pl-3 title-custom">GÓC PHIM</h5>
+              <h5 className="my-2 pl-3 title-custom navbar-brand">GÓC PHIM</h5>
               <ul className="list-unstyled my-2">
                 <li>
                   <a className="pl-4 py-2" href="#">
@@ -67,7 +94,7 @@ export default function Footer() {
           </div>
           <div className="col-12 col-xl-3 col-md-4 col-sm-6">
             <div className="flex flex-col">
-              <h5 className="my-2 pl-3 title-custom">HỖ TRỢ</h5>
+              <h5 className="my-2 pl-3 title-custom navbar-brand">HỖ TRỢ</h5>
               <ul className="list-unstyled my-2">
                 <li>
                   <a className="pl-4 py-2" href="#">

@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <div>
       {/* Header */}
-      <nav className="navbar navbar-expand-sm navbar-light bg-light">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark header">
         <a className="navbar-brand" href="#">
           <h3>Cyber Cinema</h3>
         </a>
@@ -48,7 +48,7 @@ export default function Header() {
           </ul>
           <div className="ml-auto">
             <button
-              className="btn btn-success"
+              className="btn btn-login"
               onClick={() => {
                 return navigate("/login");
               }}
@@ -56,7 +56,7 @@ export default function Header() {
               Login
             </button>
             <button
-              className="btn btn-info ml-3"
+              className="btn btn-register ml-3"
               onClick={() => navigate("/register")}
             >
               Register
