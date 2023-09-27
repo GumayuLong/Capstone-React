@@ -1,0 +1,17 @@
+.table {
+  td,
+  th {
+    vertical-align: middle;
+  }
+}
+
+.hot {
+  width: 40px;
+  height: 40px;
+  color: green;
+}
+
+.not-hot {
+  @extend .hot;
+  color: red;
+}

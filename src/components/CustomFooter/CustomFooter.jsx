@@ -10,7 +10,7 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
-export default function Footer() {
+export default function CustomFooter() {
   return (
     <footer className="navbar-dark bg-dark">
       <div className="mx-auto w-65">
