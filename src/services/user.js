@@ -8,6 +8,14 @@ class UserService {
 			data,
 		});
 	}
+
+	register(data) {
+		return request({
+			url: `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangKy`,
+			method: "POST",
+			data,
+		});
+	}
 }
 
 export const userService = new UserService();

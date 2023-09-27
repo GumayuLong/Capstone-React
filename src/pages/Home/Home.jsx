@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { movieService } from "../../services/movie";
@@ -57,7 +55,7 @@ export default function Home() {
 								onClick={() =>
 									navigate(`/movie-detail/${element.maPhim}`)
 								}
-								className="btn btn-info w-50"
+								className="btn btn-info w-100"
 							>
 								XEM CHI TIẾT
 							</button>

@@ -7,6 +7,8 @@ import MovieDetail from "../pages/MovieDetail/MovieDetail";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
+import NoAuthGuard from "../guards/NoAuthGuard";
+import AuthGuard from "../guards/AuthGuard";
 
 export default function Router() {
 	const routing = useRoutes([
@@ -20,7 +22,11 @@ export default function Router() {
 				},
 				{
 					path: "/booking/:Id",
-					element: <Booking />,
+					element: (
+						<AuthGuard>
+							<Booking />
+						</AuthGuard>
+						),
 				},
 				{
 					path: "/movie-detail/:movieId",
@@ -28,7 +34,11 @@ export default function Router() {
 				},
 				{
 					path: "/login",
-					element: <Login />,
+					element: (
+						<NoAuthGuard>
+							<Login />
+						</NoAuthGuard>
+					),
 				},
 				{
 					path: "/register",
