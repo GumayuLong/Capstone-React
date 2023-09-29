@@ -56,14 +56,14 @@ export default function Register() {
 			validation.validateRequired(
 				state.taiKhoan,
 				usernameInputRef.current,
-				"Please enter your account !"
+				"Vui lòng nhập tài khoản!"
 			) 
 
 		// CHECK VALIDATION PASSWORD
 		isValid &= validation.validateRequired(
 			state.matKhau,
 			passwordInputRef.current,
-			"Please enter your password !"
+			"Vui lòng nhập mật khẩu!"
 		);
 
 		// CHECK VALIDATION CONFIRM PASSWORD
@@ -71,14 +71,14 @@ export default function Register() {
 			validation.validateRequired(
 				confirmPassword,
 				confirmPasswordInputRef.current,
-				"Please confirm your password again !"
+				"Vui lòng xác nhận lại mật khẩu!"
 			) 
 			&&
 			validation.validateConfirmPassword(
 				state.matKhau,
 				confirmPassword.confirmPassword,
 				confirmPasswordInputRef.current,
-				"Please re-enter the correct password !"
+				"Vui lòng nhập lại đúng mật khẩu ở trên!"
 			);
 
 		// CHECK VALIDATION FULL NAME
@@ -86,12 +86,12 @@ export default function Register() {
 			validation.validateRequired(
 				state.hoTen,
 				fullNameInputRef.current,
-				"Please enter your full name !"
+				"Vui lòng nhập họ tên!"
 			) &&
 			validation.validateFullName(
 				state.hoTen,
 				fullNameInputRef.current,
-				"Please enter your first and last name in letters !"
+				"Vui lòng nhập họ tên là ký tự chữ!"
 			);
 
 		// CHECK VALIDATION EMAIL
@@ -99,12 +99,12 @@ export default function Register() {
 			validation.validateRequired(
 				state.email,
 				emailInputRef.current,
-				"Please enter your email !"
+				"Vui lòng nhập email!"
 			) &&
 			validation.validateEmail(
 				state.email,
 				emailInputRef.current,
-				"Please enter the correct email format !"
+				"Vui lòng nhập đúng định dạng email!"
 			) 
 
 		// CHECK VALIDATION PHONE NUMBER
@@ -112,12 +112,12 @@ export default function Register() {
 			validation.validateRequired(
 				state.soDt,
 				phoneNumberInputRef.current,
-				"Please enter your phone number !"
+				"Vui lòng nhập số điện thoại!"
 			) &&
 			validation.validatePhoneNumber(
 				state.soDt,
 				phoneNumberInputRef.current,
-				"Please enter the phone number as numeric characters !"
+				"Vui lòng nhập số điện thoại là ký tự chữ số!"
 			);
 
 		if (isValid) {
@@ -125,7 +125,7 @@ export default function Register() {
 				dispatch(setUserInfoAction(result.data.content));
 				// console.log(result.data.content.email)
 				notification.success({
-					message: "Register successfully",
+					message: "Đăng ký thành công",
 					placement: "topLeft",
 				});
 				setErrMessage("");
@@ -141,7 +141,7 @@ export default function Register() {
 		<div className="w-25 mx-auto py-5">
 			<form onSubmit={handleSubmit}>
 				<div className="form-group">
-					<label htmlFor="">Account</label>
+					<label htmlFor="">Tài khoản</label>
 					<input
 						onChange={handleChangeRegister}
 						name="taiKhoan"
@@ -151,7 +151,7 @@ export default function Register() {
 					<p ref={usernameInputRef} className="text-danger"></p>
 				</div>
 				<div className="form-group">
-					<label htmlFor="">Password</label>
+					<label htmlFor="">Mật khẩu</label>
 					<input
 						onChange={handleChangeRegister}
 						name="matKhau"
@@ -161,7 +161,7 @@ export default function Register() {
 					<p ref={passwordInputRef} className="text-danger"></p>
 				</div>
 				<div className="form-group">
-					<label htmlFor="">Confirm password</label>
+					<label htmlFor="">Xác nhận lại mật khẩu</label>
 					<input
 						onChange={handleChangeConfirmPassword}
 						id="confirmPassword"
@@ -175,7 +175,7 @@ export default function Register() {
 					></p>
 				</div>
 				<div className="form-group">
-					<label htmlFor="">Full name</label>
+					<label htmlFor="">Họ tên</label>
 					<input
 						onChange={handleChangeRegister}
 						name="hoTen"
@@ -195,7 +195,7 @@ export default function Register() {
 					<p ref={emailInputRef} className="text-danger"></p>
 				</div>
 				<div className="form-group">
-					<label htmlFor="">Phone number</label>
+					<label htmlFor="">Số điện thoại</label>
 					<input
 						onChange={handleChangeRegister}
 						name="soDt"
@@ -204,7 +204,7 @@ export default function Register() {
 					/>
 					<p ref={phoneNumberInputRef} className="text-danger">{errMessage}</p>
 				</div>
-				<button className="btn btn-success">REGISTER</button>
+				<button className="btn btn-success">Đăng ký</button>
 			</form>
 		</div>
 	);

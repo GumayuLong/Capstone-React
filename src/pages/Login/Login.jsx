@@ -19,28 +19,7 @@ export default function Login() {
 
 	const [posts, setPosts] = useState([]);
 	const [errMessage, setErrMessage] = useState("");
-	// 	checkPassword();
-	// 	checkUsername();
-	// }, []);
-
-	// const checkUsername = async () => {
-	// 	const result = await userService.Exist(params.taiKhoan);
-
-	// 	const usernameList = result.data.content.map((element) => {
-	// 		return element;
-	// 	});
-	// 	setAccount(usernameList);
-	// };
-
-	// const checkPassword = async () => {
-	// 	const result = await userService.Exist(params.taiKhoan);
-
-	// 	const passwordList = result.data.content.map((element) => {
-	// 		return element;
-	// 	});
-	// 	setPassword(passwordList);
-	// };
-
+	
 	const handleChange = (event) => {
 		setState({
 			...state,
@@ -58,7 +37,7 @@ export default function Login() {
 			validation.validateRequired(
 				state.taiKhoan,
 				accountInputRef.current,
-				"Please enter your account !"
+				"Vui lòng nhập tài khoản!"
 			) 
 
 		// CHECK VALIDATION PASSWORD ACCOUNT LOGIN
@@ -66,7 +45,7 @@ export default function Login() {
 			validation.validateRequired(
 				state.matKhau,
 				passwordInputRef.current,
-				"Please enter your password !"
+				"Vui lòng nhập mật khẩu!"
 			)
 		if (isValid) {
 				await userService.loginApi(state)
@@ -93,7 +72,7 @@ export default function Login() {
 		<div className="w-25 mx-auto py-5">
 			<form onSubmit={handleSubmit}>
 				<div className="form-group">
-					<label htmlFor="">Username</label>
+					<label htmlFor="">Tài khoản</label>
 					<input
 						onChange={handleChange}
 						name="taiKhoan"
@@ -103,7 +82,7 @@ export default function Login() {
 					<p ref={accountInputRef} className="text-danger"></p>
 				</div>
 				<div className="form-group">
-					<label htmlFor="">Password</label>
+					<label htmlFor="">Mật khẩu</label>
 					<input
 						onChange={handleChange}
 						name="matKhau"
@@ -114,7 +93,7 @@ export default function Login() {
 						{errMessage}
 					</p>
 				</div>
-				<button className="btn btn-primary">LOGIN</button>
+				<button className="btn btn-primary">Đăng nhập</button>
 			</form>
 		</div>
 	);
