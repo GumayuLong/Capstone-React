@@ -96,10 +96,11 @@ export default function Register() {
         emailInputRef.current,
         "Vui lòng nhập email!"
       ) &&
-      validation.validateEmail(
+      validation.validateWithRegex(
         state.email,
         emailInputRef.current,
-        "Vui lòng nhập đúng định dạng email!"
+        "Vui lòng nhập đúng định dạng email!",
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
       );
 
     // CHECK VALIDATION PHONE NUMBER
@@ -109,10 +110,11 @@ export default function Register() {
         phoneNumberInputRef.current,
         "Vui lòng nhập số điện thoại!"
       ) &&
-      validation.validatePhoneNumber(
+      validation.validateWithRegex(
         state.soDt,
         phoneNumberInputRef.current,
-        "Vui lòng nhập số điện thoại là ký tự chữ số!"
+        "Vui lòng nhập số điện thoại là ký tự chữ số!",
+        /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
       );
 
     if (isValid) {

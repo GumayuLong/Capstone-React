@@ -34,6 +34,18 @@ export default function RegisterForm() {
     if (validation.validateRequiredError(value)) {
       errorMessage = "Dữ liệu không được để trống";
     }
+
+    if (name === "email") {
+      let isValid = validation.validateWithRegex(
+        value,
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      );
+
+      if (isValid) {
+        errorMessage = "Email không đúng định dạng";
+      }
+    }
+
     setData(
       {
         ...data,
@@ -156,6 +168,7 @@ export default function RegisterForm() {
               <div className="form-group">
                 <label>Password</label>
                 <input
+                  type="password"
                   placeholder="Password"
                   className="form-control"
                   value={data.values.matKhau}

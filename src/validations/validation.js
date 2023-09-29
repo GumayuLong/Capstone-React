@@ -25,28 +25,6 @@ class Validation {
     return false;
   };
 
-  validateEmail = (value, ref, mess) => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-      ref.innerHTML = "";
-
-      return true;
-    }
-    ref.innerHTML = mess;
-
-    return false;
-  };
-
-  validatePhoneNumber = (value, ref, mess) => {
-    if (/^\d+$/.test(value)) {
-      ref.innerHTML = "";
-
-      return true;
-    }
-    ref.innerHTML = mess;
-
-    return false;
-  };
-
   validateConfirmPassword = (state_1, state_2, ref, mess) => {
     if (state_1 !== state_2) {
       ref.innerHTML = mess;
@@ -58,14 +36,25 @@ class Validation {
     return true;
   };
 
-  validateWithRegex = (value, regex) => {
+  validateWithRegex = (value, ref, mess, regex) => {
+    if (regex.test(value)) {
+      ref.innerHTML = "";
+
+      return true;
+    }
+    ref.innerHTML = mess;
+
+    return false;
+  };
+
+  validateWithRegexAdmin = (value, regex) => {
     if (regex.test(value)) {
       return true;
     }
     return false;
   };
 
-  validateRequiredError = (value) => {
+  validateRequiredAdmin = (value) => {
     if (value.trim() === "") {
       return true;
     }
