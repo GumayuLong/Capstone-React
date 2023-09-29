@@ -1,10 +1,54 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { setUserInfoAction } from "../../store/actions/userAction";
 import "./header.scss";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
+  const renderContent = () => {
+    // CHƯA ĐĂNG NHẬP USER INFO = NULL
+    if (!userState.userInfo) {
+      return (
+        <>
+          <button
+            onClick={() => navigate("/login")}
+            className="btn btn-login my-2 my-sm-0 mr-2"
+          >
+            SIGN IN
+          </button>
+          <button
+            onClick={() => navigate("/register")}
+            className="btn btn-register my-2 my-sm-0"
+            type="submit"
+          >
+            REGISTER
+          </button>
+        </>
+      );
+    }
+
+    // ĐÃ ĐĂNG NHẬP
+    else {
+      return (
+        <>
+          <span className="text-white">Hello {userState.userInfo.hoTen}</span>
+          <button onClick={handleLogout} className=" ml-3 btn btn-login">
+            LOGOUT
+          </button>
+        </>
+      );
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("USER_INFO");
+    dispatch(setUserInfoAction(null));
+    navigate("/");
+  };
+
   return (
     <div>
       {/* Header */}
@@ -45,23 +89,13 @@ export default function Header() {
                 Apps
               </a>
             </li>
+            {/* <li className="nav-item">
+              <NavLink className="nav-link" to="/booking">
+                Booking
+              </NavLink>
+            </li> */}
           </ul>
-          <div className="ml-auto">
-            <button
-              className="btn btn-login"
-              onClick={() => {
-                return navigate("/login");
-              }}
-            >
-              Login
-            </button>
-            <button
-              className="btn btn-register ml-3"
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </button>
-          </div>
+          <div className="ml-auto">{renderContent()}</div>
         </div>
       </nav>
     </div>

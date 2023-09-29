@@ -35,9 +35,9 @@ export default function MovieManagement() {
           <td>{element.tenPhim}</td>
           <td width={150} align="center">
             {element.hot ? (
-              <FontAwesomeIcon className="hot" icon={faCheck} />
+              <FontAwesomeIcon className="check" icon={faCheck} />
             ) : (
-              <FontAwesomeIcon className="not-hot" icon={faXmark} />
+              <FontAwesomeIcon className="uncheck" icon={faXmark} />
             )}
           </td>
           <td>{formatDateAdmin(element.ngayKhoiChieu)}</td>
