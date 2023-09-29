@@ -57,9 +57,8 @@ export default function Header() {
 			{/* Header */}
 			<nav className="navbar navbar-expand-sm navbar-dark bg-dark header">
 				<a className="navbar-brand" href="#">
-					<h3>Cyber Cinema</h3>
 					{" "}
-					Movie{" "}
+					<h3>Cyber Cinema</h3>{" "}
 				</a>
 				<button
 					className="navbar-toggler d-lg-none"
