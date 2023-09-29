@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { setUserInfoAction } from "../../store/actions/userAction";
+import "./header.scss";
 
 export default function Header() {
 	const dispatch = useDispatch();
@@ -54,8 +55,9 @@ export default function Header() {
 	return (
 		<div>
 			{/* Header */}
-			<nav className="navbar navbar-expand-sm navbar-light bg-light">
+			<nav className="navbar navbar-expand-sm navbar-dark bg-dark header">
 				<a className="navbar-brand" href="#">
+					<h3>Cyber Cinema</h3>
 					{" "}
 					Movie{" "}
 				</a>
@@ -72,31 +74,31 @@ export default function Header() {
 				</button>
 				<div className="collapse navbar-collapse" id="collapsibleNavId">
 					<ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-						<li className="nav-item active">
+						<li className="nav-item">
 							<NavLink className="nav-link" to="/">
 								{" "}
 								Home{" "}
 							</NavLink>
 						</li>
-						<li className="nav-item active">
+						<li className="nav-item">
 							<a className="nav-link" href="#">
 								{" "}
 								Contact{" "}
 							</a>
 						</li>
-						<li className="nav-item active">
+						<li className="nav-item">
 							<a className="nav-link" href="#">
 								{" "}
 								News{" "}
 							</a>
 						</li>
-						<li className="nav-item active">
+						<li className="nav-item">
 							<a className="nav-link" href="#">
 								{" "}
 								Apps{" "}
 							</a>
 						</li>
-						{/* <li className="nav-item active">
+						{/* <li className="nav-item">
 							<NavLink className="nav-link" to="/booking">
 								{" "}
 								Booking{" "}

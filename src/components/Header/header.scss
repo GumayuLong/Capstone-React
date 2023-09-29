@@ -1,0 +1,100 @@
+.header {
+  .nav-link {
+    font-size: 18px;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 0%;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      background-color: #f26b38;
+      transition: all 0.5s;
+    }
+
+    &:hover {
+      color: #f26b38 !important;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+
+    &.active {
+      color: #f26b38 !important;
+    }
+
+    &.active::after {
+      width: 100%;
+    }
+  }
+
+  .btn-login {
+    display: inline-block;
+    position: relative;
+    color: #f26b38;
+    font-size: 18px;
+    background: transparent;
+    border: 1px solid #f26b38;
+    z-index: 1;
+    overflow: hidden;
+    transition: 0.5s;
+
+    &::before {
+      content: "";
+      position: absolute;
+      background: #f26b38;
+      height: 150px;
+      width: 200px;
+      border-radius: 50%;
+      z-index: -1;
+      top: 100%;
+      left: 100%;
+      transition: 0.5s;
+    }
+
+    &:hover {
+      color: #ffffff;
+      &::before {
+        top: -30px;
+        left: -30px;
+      }
+    }
+  }
+
+  .btn-register {
+    display: inline-block;
+    position: relative;
+    color: #ffffff;
+    font-size: 18px;
+    background: #f26b38;
+    border: 1px solid #f26b38;
+    z-index: 1;
+    overflow: hidden;
+    transition: 0.5s;
+
+    &::before {
+      content: "";
+      position: absolute;
+      background: #343a40;
+      height: 150px;
+      width: 200px;
+      border-radius: 50%;
+      z-index: -1;
+      top: 100%;
+      left: 100%;
+      transition: 0.5s;
+    }
+
+    &:hover {
+      color: #f26b38;
+      &::before {
+        top: -30px;
+        left: -30px;
+      }
+    }
+  }
+}
