@@ -18,13 +18,6 @@ class UserService {
 			data,
 		});
 	}
-	Exist(data, group) {
-		return request({
-			url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP00`,
-			method: "GET",
-			data,
-		});
-	}
 }
 
 export const userService = new UserService();
