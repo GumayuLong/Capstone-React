@@ -1,62 +1,76 @@
 class Validation {
-	validateRequired = (value, ref, mess) => {
-		if (value) {
-			ref.innerHTML = "";
+  validateRequired = (value, ref, mess) => {
+    if (value) {
+      ref.innerHTML = "";
 
-			return true;
-		}
-		ref.innerHTML = mess;
+      return true;
+    }
+    ref.innerHTML = mess;
 
-		return false;
-	};
+    return false;
+  };
 
-	validateFullName = (value, ref, mess) => {
-		let letter =
-			"^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
-			"ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
-			"ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$";
-		if (value.match(letter)) {
-			ref.innerHTML = "";
+  validateFullName = (value, ref, mess) => {
+    let letter =
+      "^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+      "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+      "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$";
+    if (value.match(letter)) {
+      ref.innerHTML = "";
 
-			return true;
-		}
-		ref.innerHTML = mess;
+      return true;
+    }
+    ref.innerHTML = mess;
 
-		return false;
-	};
+    return false;
+  };
 
-	validateEmail = (value, ref, mess) => {
-		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-			ref.innerHTML = "";
+  validateEmail = (value, ref, mess) => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+      ref.innerHTML = "";
 
-			return true;
-		}
-		ref.innerHTML = mess;
+      return true;
+    }
+    ref.innerHTML = mess;
 
-		return false;
-	};
+    return false;
+  };
 
-	validatePhoneNumber = (value, ref, mess) => {
-		if (/^\d+$/.test(value)) {
-			ref.innerHTML = "";
+  validatePhoneNumber = (value, ref, mess) => {
+    if (/^\d+$/.test(value)) {
+      ref.innerHTML = "";
 
-			return true;
-		}
-		ref.innerHTML = mess;
+      return true;
+    }
+    ref.innerHTML = mess;
 
-		return false;
-	};
+    return false;
+  };
 
-	validateConfirmPassword = (state_1, state_2, ref, mess) => {
-		if (state_1 !== state_2) {
-			ref.innerHTML = mess;
+  validateConfirmPassword = (state_1, state_2, ref, mess) => {
+    if (state_1 !== state_2) {
+      ref.innerHTML = mess;
 
-			return false;
-		}
-		ref.innerHTML = "";
+      return false;
+    }
+    ref.innerHTML = "";
 
-		return true;
-	};
+    return true;
+  };
+
+  validateWithRegex = (value, regex) => {
+    if (regex.test(value)) {
+      return true;
+    }
+    return false;
+  };
+
+  validateRequiredError = (value) => {
+    if (value.trim() === "") {
+      return true;
+    }
+    return false;
+  };
 }
 
 export const validation = new Validation();

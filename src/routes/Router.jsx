@@ -9,47 +9,60 @@ import Register from "../pages/Register/Register";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import NoAuthGuard from "../guards/NoAuthGuard";
 import AuthGuard from "../guards/AuthGuard";
+import MovieManagement from "../pages/MovieManagement/MovieManagement";
+import UserManagement from "../pages/UserManagement/UserManagement";
 
 export default function Router() {
-	const routing = useRoutes([
-		{
-			path: "/",
-			element: <HomeLayout />,
-			children: [
-				{
-					path: "/",
-					element: <Home />,
-				},
-				{
-					path: "/booking/:Id",
-					element: (
-						<AuthGuard>
-							<Booking />
-						</AuthGuard>
-						),
-				},
-				{
-					path: "/movie-detail/:movieId",
-					element: <MovieDetail />,
-				},
-				{
-					path: "/login",
-					element: (
-						<NoAuthGuard>
-							<Login />
-						</NoAuthGuard>
-					),
-				},
-				{
-					path: "/register",
-					element: <Register />,
-				},
-			],
-		},
-		{
-			path: "/admin",
-			element: <AdminLayout />,
-		},
-	]);
-	return routing;
+  const routing = useRoutes([
+    {
+      path: "/",
+      element: <HomeLayout />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/booking/:Id",
+          element: (
+            <AuthGuard>
+              <Booking />
+            </AuthGuard>
+          ),
+        },
+        {
+          path: "/movie-detail/:movieId",
+          element: <MovieDetail />,
+        },
+        {
+          path: "/login",
+          element: (
+            <NoAuthGuard>
+              <Login />
+            </NoAuthGuard>
+          ),
+        },
+        {
+          path: "/register",
+          element: <Register />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          path: "/admin",
+          element: <MovieManagement />,
+        },
+        {
+          path: "/admin/user",
+          element: <UserManagement />,
+        },
+      ],
+    },
+  ]);
+  return routing;
 }
