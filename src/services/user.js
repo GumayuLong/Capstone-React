@@ -1,3 +1,5 @@
+/** @format */
+
 import { request } from "../configs/api";
 
 class UserService {
@@ -11,8 +13,15 @@ class UserService {
 
 	register(data) {
 		return request({
-			url: `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangKy`,
+			url: `/QuanLyNguoiDung/DangKy`,
 			method: "POST",
+			data,
+		});
+	}
+	Exist(data, group) {
+		return request({
+			url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP00`,
+			method: "GET",
 			data,
 		});
 	}

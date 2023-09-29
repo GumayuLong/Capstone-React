@@ -28,13 +28,13 @@ export default function Home() {
 
   const fetchBannerList = async () => {
     const result = await bannerService.fetchBannerListApi();
-    console.log(result);
+    // console.log(result);
 
     setBannerList(result.data.content);
   };
 
   const renderMovieList = () => {
-    console.log(movieList)
+    // console.log(movieList)
     return movieList.map((element) => {
       return (
 			<div key={element.id} className="col-3">
