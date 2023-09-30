@@ -25,6 +25,6 @@ export default function AdminGuard(props) {
         navigate("/");
       }
     }
-  });
-  return <div>{props.children}</div>;
+  }, []);
+  return <>{props.children}</>;
 }
