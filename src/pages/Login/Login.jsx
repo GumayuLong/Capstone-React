@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import { setUserInfoAction } from "../../store/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import { validation } from "../../validations/validation";
+import "./login.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -68,32 +71,55 @@ export default function Login() {
   };
 
   return (
-    <div className="w-25 mx-auto py-5">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="">Tài khoản</label>
-          <input
-            onChange={handleChange}
-            name="taiKhoan"
-            type="text"
-            className="form-control"
-          />
-          <p ref={accountInputRef} className="text-danger"></p>
-        </div>
-        <div className="form-group">
-          <label htmlFor="">Mật khẩu</label>
-          <input
-            onChange={handleChange}
-            name="matKhau"
-            type="password"
-            className="form-control"
-          />
-          <p ref={passwordInputRef} className="text-danger">
-            {errMessage}
-          </p>
-        </div>
-        <button className="btn btn-primary">Đăng nhập</button>
-      </form>
-    </div>
+		<div className="bgcustom">
+			<main className="main">
+				<div className="form">
+					<div className="w-75 mx-auto py-5">
+						<div style={{textAlign:"center"}}>
+              <FontAwesomeIcon className="icon" icon={faUser}></FontAwesomeIcon>
+						</div>
+						<h1 className="title">Đăng nhập</h1>
+						<form onSubmit={handleSubmit}>
+							<div className="form-group">
+								<input
+                  placeholder="Tài khoản"
+									onChange={handleChange}
+									name="taiKhoan"
+									type="text"
+									className="form-control"
+								/>
+								<p
+									ref={accountInputRef}
+									className="text-danger"
+								></p>
+							</div>
+							<div className="form-group">
+								<input
+                  placeholder="Mật khẩu"
+									onChange={handleChange}
+									name="matKhau"
+									type="password"
+									className="form-control"
+								/>
+								<p
+									ref={passwordInputRef}
+									className="text-danger"
+								>
+									{errMessage}
+								</p>
+							</div>
+							<button className="btn btn-primary btncustom">
+								Đăng nhập
+							</button>
+              <div>
+                <a href="/register">
+                  <h3 className="connectlink">Bạn chưa có tài khoản? Đăng ký</h3>
+                </a>
+              </div>
+						</form>
+					</div>
+				</div>
+			</main>
+		</div>
   );
 }
