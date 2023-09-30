@@ -111,6 +111,11 @@ export default function Login() {
 							<button className="btn btn-primary btncustom">
 								Đăng nhập
 							</button>
+              <div>
+                <a href="/register">
+                  <h3 className="connectlink">Bạn chưa có tài khoản? Đăng ký</h3>
+                </a>
+              </div>
 						</form>
 					</div>
 				</div>
