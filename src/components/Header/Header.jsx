@@ -9,7 +9,7 @@ export default function Header() {
   const userState = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
   const renderContent = () => {
-    // CHƯA ĐĂNG NHẬP USER INFO = NULL
+    console.log(userState.userInfo);
     if (!userState.userInfo) {
       return (
         <>

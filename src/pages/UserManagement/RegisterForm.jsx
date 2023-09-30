@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { userService } from "../../services/user";
 import { validation } from "../../validations/validation";
+import { setUserInfoAction } from "../../store/actions/userAction";
+import { notification } from "antd";
+import { useDispatch } from "react-redux";
 
 export default function RegisterForm() {
   const [data, setData] = useState({
@@ -9,8 +12,8 @@ export default function RegisterForm() {
       matKhau: "",
       email: "",
       soDt: "",
-      maNhom: "",
-      maLoaiNguoiDung: "",
+      maNhom: "GP1",
+      maLoaiNguoiDung: "QuanTri",
       hoTen: "",
     },
 
@@ -27,61 +30,86 @@ export default function RegisterForm() {
     valid: false,
   });
 
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+
   const handleChange = (event) => {
     let { name, value } = event.target;
     let errorMessage = "";
 
-    if (validation.validateRequiredError(value)) {
+    if (validation.validateRequiredAdmin(value)) {
       errorMessage = "Dữ liệu không được để trống";
     }
 
     if (name === "email") {
-      let isValid = validation.validateWithRegex(
+      let isValid = validation.validateWithRegexAdmin(
         value,
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
       );
 
-      if (isValid) {
+      if (!isValid) {
         errorMessage = "Email không đúng định dạng";
       }
     }
 
-    setData(
-      {
-        ...data,
-        values: {
-          ...data.values,
-          [name]: value,
-        },
-        errors: {
-          ...data.errors,
-          [name]: errorMessage,
-        },
-      },
-      () => {
-        let valid = true;
-        for (let key in data.errors) {
-          if (data.errors[key] !== "") {
-            valid = false;
-          }
+    if (name === "soDt") {
+      let isValid = validation.validateWithRegexAdmin(
+        value,
+        /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
+      );
 
-          setData({
-            ...data,
-            valid,
-          });
-
-          if (valid) {
-            userService.fetchCreateUserApi(data);
-          }
-        }
+      if (!isValid) {
+        errorMessage = "Số điện thoại không hợp lệ";
       }
-    );
+    }
 
-    console.log(data);
+    setData({
+      ...data,
+      values: {
+        ...data.values,
+        [name]: value,
+      },
+      errors: {
+        ...data.errors,
+        [name]: errorMessage,
+      },
+    });
   };
+
+  // checkValid = () => {
+  //   let valid = true;
+  //   for (let key in data.errors) {
+  //     if (data.errors[key] !== "" || data.values[key] == "") {
+  //       valid = false;
+  //     }
+  //   }
+
+  //   setData({
+  //     ...data,
+  //     valid,
+  //   });
+  // };
 
   const handleCreateUser = (event) => {
     event.preventDefault();
+
+    const promise = userService.fetchCreateUserApi(data);
+
+    console.log(promise);
+    // promise.then((result) => {
+    //   dispatch(setUserInfoAction(result.data.content));
+
+    //   notification.success({
+    //     message: "Tạo người dùng thành công",
+    //     placement: "topLeft",
+    //   });
+
+    //   setMessage("Tạo người dùng thành công");
+    // });
+    // promise.catch((error) => {
+    //   setMessage("Tạo người dùng thất bại", error);
+    // });
+    // console.log(data.values, data.values.maLoaiNguoiDung, data.valid);
   };
 
   return (
@@ -205,15 +233,13 @@ export default function RegisterForm() {
             >
               Close
             </button>
-            {data.valid ? (
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            ) : (
-              <button disabled type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            )}
+            <button
+              type="button"
+              class="btn btn-primary"
+              onClick={handleCreateUser}
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
