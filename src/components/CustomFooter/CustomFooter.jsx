@@ -1,6 +1,4 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./footer.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,9 +8,8 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
+import "./footer.scss";
 export default function CustomFooter() {
-  const navigate = useNavigate();
-
   return (
     <footer className="navbar-dark bg-dark">
       <div className="mx-auto w-65">

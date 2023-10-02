@@ -15,10 +15,24 @@ class MovieService {
     });
   }
 
+  fetchMovieCreateApi() {
+    return request({
+      url: `/QuanLyPhim/ThemPhimUploadHinh`,
+      method: "POST",
+    });
+  }
+
   fetchMovieUpdateApi(id) {
     return request({
-      url: ``,
-      method: "PUT",
+      url: `/QuanLyPhim/CapNhatPhimUpload/${id}`,
+      method: "POST",
+    });
+  }
+
+  fetchMovieDeletApi(id) {
+    return request({
+      url: `/QuanLyPhim/XoaPhim/${id}`,
+      method: "DELETE",
     });
   }
 }

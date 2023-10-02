@@ -11,7 +11,7 @@ import NoAuthGuard from "../guards/NoAuthGuard";
 import AuthGuard from "../guards/AuthGuard";
 import MovieManagement from "../pages/MovieManagement/MovieManagement";
 import UserManagement from "../pages/UserManagement/UserManagement";
-import AdminGuard from "../guards/AdminGuard";
+import CreateMovie from "../pages/MovieManagement/components/CreateMovie";
 
 export default function Router() {
   const routing = useRoutes([
@@ -52,14 +52,26 @@ export default function Router() {
 
     {
       path: "/admin",
-      element: 
-      <AdminGuard>
-        <AdminLayout />
-      </AdminGuard>,
+      element: (
+        <AuthGuard>
+          <AdminLayout />
+        </AuthGuard>
+      ),
       children: [
         {
-          path: "/admin",
+          path: "/admin/films",
           element: <MovieManagement />,
+          // children: [
+          //   {
+          //     path: "/admin/films/addnew",
+          //     element: <CreateMovie />,
+          //   },
+          // ],
+        },
+
+        {
+          path: "/admin/addnew",
+          element: <CreateMovie />,
         },
         {
           path: "/admin/user",
