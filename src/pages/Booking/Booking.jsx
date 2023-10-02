@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ticketService } from "../../services/ticket";
-import { sumBy } from "lodash";
+import { filter, sumBy } from "lodash";
 
 export default function Booking() {
   const params = useParams();
+  const navigate = useNavigate()
 
   const [movieDetail, setMovieDetail] = useState({});
   const [chairList, setChairList] = useState([]);
@@ -15,7 +16,7 @@ export default function Booking() {
 
   const fetchTicketDetail = async () => {
     const result = await ticketService.fetchTicketDetailApi(params.Id);
-    console.log(result);
+    // console.log(result);
 
     setMovieDetail(result.data.content.thongTinPhim);
     setChairList(result.data.content.danhSachGhe.map((element) => {
@@ -46,7 +47,7 @@ export default function Booking() {
       };
 
       if(element.dangChon){
-        className = "btn-primary";
+        className = "btn-success";
       }
 
       return (
@@ -83,22 +84,40 @@ export default function Booking() {
     return total.toLocaleString();
   };
 
+  const handleBookTicket = async () => {
+		const data = filter(chairList, "dangChon");
+		const body = {
+			maLichChieu: +params.Id,
+			danhSachVe: data.map((element) => {
+				return {
+					maGhe: element.maGhe,
+					giaVe: element.giaVe,
+				};
+			}),
+		};
+
+		// console.log(params.Id);
+
+		const result = await ticketService.bookTicketApi(body);
+		navigate("/");
+  };
+
 	return (
 		<div className="py-5">
 			<div className="row">
 				<div className="col-8 mb-4">
 					<div style={{ width: "95%" }} className="mx-auto">
-						<div className="mr-1 mb-1 d-inline-block p-2 rounded text-white bg-secondary">
-							Seats are booked
+						<div className="mr-2 mb-1 d-inline-block p-2 rounded text-white bg-secondary">
+							GHẾ ĐÃ ĐẶT
 						</div>
-						<div className="mr-1 mb-1 d-inline-block p-2 rounded text-white bg-dark">
-							Seats not booked
+						<div className="mr-2 mb-1 d-inline-block p-2 rounded text-white bg-dark">
+							GHẾ TRỐNG
 						</div>
-						<div className="mr-1 mb-1 d-inline-block p-2 rounded text-white bg-primary">
-							Seats are being booked
+						<div className="mr-2 mb-1 d-inline-block p-2 rounded text-white bg-success">
+							GHẾ ĐANG CHỌN
 						</div>
-						<div className="mr-1 mb-1 d-inline-block p-2 rounded text-white bg-warning">
-							VIP seats
+						<div className="mr-2 mb-1 d-inline-block p-2 rounded text-white bg-warning">
+							GHẾ VIP
 						</div>
 					</div>
 				</div>
@@ -116,11 +135,13 @@ export default function Booking() {
 					/>
 					<h4 className="mb-0">{movieDetail.tenPhim}</h4>
 					<h5 className="mb-0">
-						Number of seats:
+						Số ghế:
 						<div className="d-flex">{renderSeatList()}</div>
 					</h5>
-					<h5>Total: {renderTotalPrice()}</h5>
-					<button className="btn btn-warning">BOOK</button>
+					<h5>Tổng tiền: {renderTotalPrice()}</h5>
+					<button className="btn btn-info" onClick={handleBookTicket}>
+						ĐẶT VÉ
+					</button>
 				</div>
 			</div>
 		</div>
