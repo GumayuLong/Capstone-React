@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ticketService } from "../../services/ticket";
 import { filter, sumBy } from "lodash";
+import { LoadingContext } from "../../contexts/LoadingContext/LoadingContext";
 
 export default function Booking() {
   const params = useParams();
@@ -9,12 +10,14 @@ export default function Booking() {
 
   const [movieDetail, setMovieDetail] = useState({});
   const [chairList, setChairList] = useState([]);
+  const [loadingState, setLoadingState] = useContext(LoadingContext);
 
   useEffect(() => {
     fetchTicketDetail();
   }, []);
 
   const fetchTicketDetail = async () => {
+	setLoadingState({ isLoading: true });
     const result = await ticketService.fetchTicketDetailApi(params.Id);
     // console.log(result);
 
@@ -25,6 +28,7 @@ export default function Booking() {
       // return element;
       return {...element, dangChon: false}
     }));
+	setLoadingState({ isLoading: false });
   }
 
   const handleSelect = (chair) => {
