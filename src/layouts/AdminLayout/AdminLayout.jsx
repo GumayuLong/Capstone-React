@@ -1,16 +1,40 @@
 import React from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import CustomFooter from "../../components/CustomFooter/CustomFooter";
+import { setUserInfoAction } from "../../store/actions/userAction";
 
 import { DesktopOutlined, UserOutlined } from "@ant-design/icons";
-
 import { Layout, Menu } from "antd";
 
-import { Link, Outlet } from "react-router-dom";
-
-import CustomFooter from "../../components/CustomFooter/CustomFooter";
+// import "../../components/Header/header.scss";
+import "./adminLayout.scss";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 export default function AdminLayout() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.userReducer);
+  const renderContent = () => {
+    if (userState.userInfo) {
+      return (
+        <div className="d-flex align-item-center justify-content-end mx-3">
+          <span className="text-white">Hello {userState.userInfo.hoTen}</span>
+          <button onClick={handleLogout} className=" ml-3  btn btn-login">
+            LOGOUT
+          </button>
+        </div>
+      );
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("USER_INFO");
+    dispatch(setUserInfoAction(null));
+    navigate("/");
+  };
+
   return (
     <Layout>
       <Sider
@@ -23,7 +47,7 @@ export default function AdminLayout() {
 
         <Menu mode="inline" theme="dark" defaultSelectedKeys={["1"]}>
           <Menu.Item key="1" icon={<DesktopOutlined />}>
-            <Link to="/admin">Movie Management</Link>
+            <Link to="/admin/films">Movie Management</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<UserOutlined />}>
             <Link to="/admin/user">User Management</Link>
@@ -36,7 +60,9 @@ export default function AdminLayout() {
             padding: 0,
             background: "#343a40",
           }}
-        />
+        >
+          {renderContent()}
+        </Header>
         <Content style={{ padding: "10px 20px" }}>
           <Outlet />
         </Content>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { userService } from "../../services/user";
-import { validation } from "../../validations/validation";
-import { setUserInfoAction } from "../../store/actions/userAction";
+import { userService } from "../../../services/user";
+import { validation } from "../../../validations/validation";
+import { setUserInfoAction } from "../../../store/actions/userAction";
 import { notification } from "antd";
 import { useDispatch } from "react-redux";
 
@@ -30,15 +30,27 @@ export default function RegisterForm() {
     valid: false,
   });
 
-  const [message, setMessage] = useState("");
+  const [_, setMessage] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
     let { name, value } = event.target;
     let errorMessage = "";
 
+    let valid = true;
+    for (let key in data.errors) {
+      if (data.errors[key] !== "" || data.values[key] == "") {
+        valid &= false;
+      } else {
+        valid &= true;
+      }
+    }
+
     if (validation.validateRequiredAdmin(value)) {
       errorMessage = "Dữ liệu không được để trống";
+      valid &= false;
+    } else {
+      valid &= true;
     }
 
     if (name === "email") {
@@ -49,6 +61,9 @@ export default function RegisterForm() {
 
       if (!isValid) {
         errorMessage = "Email không đúng định dạng";
+        valid &= false;
+      } else {
+        valid &= true;
       }
     }
 
@@ -60,6 +75,9 @@ export default function RegisterForm() {
 
       if (!isValid) {
         errorMessage = "Số điện thoại không hợp lệ";
+        valid &= false;
+      } else {
+        valid &= true;
       }
     }
 
@@ -73,43 +91,32 @@ export default function RegisterForm() {
         ...data.errors,
         [name]: errorMessage,
       },
+      valid,
     });
+
+    console.log(data.values, data.valid);
   };
-
-  // checkValid = () => {
-  //   let valid = true;
-  //   for (let key in data.errors) {
-  //     if (data.errors[key] !== "" || data.values[key] == "") {
-  //       valid = false;
-  //     }
-  //   }
-
-  //   setData({
-  //     ...data,
-  //     valid,
-  //   });
-  // };
 
   const handleCreateUser = (event) => {
     event.preventDefault();
 
-    const promise = userService.fetchCreateUserApi(data);
+    if (data.valid) {
+      const promise = userService.fetchCreateUserApi(data.values);
 
-    console.log(promise);
-    // promise.then((result) => {
-    //   dispatch(setUserInfoAction(result.data.content));
+      promise.then((result) => {
+        dispatch(setUserInfoAction(result.data.content));
 
-    //   notification.success({
-    //     message: "Tạo người dùng thành công",
-    //     placement: "topLeft",
-    //   });
+        notification.success({
+          message: "Tạo người dùng thành công",
+          placement: "topLeft",
+        });
 
-    //   setMessage("Tạo người dùng thành công");
-    // });
-    // promise.catch((error) => {
-    //   setMessage("Tạo người dùng thất bại", error);
-    // });
-    // console.log(data.values, data.values.maLoaiNguoiDung, data.valid);
+        setMessage("Tạo người dùng thành công");
+      });
+      promise.catch((error) => {
+        setMessage("Tạo người dùng thất bại", error);
+      });
+    }
   };
 
   return (
@@ -138,9 +145,9 @@ export default function RegisterForm() {
           <div class="modal-body">
             <form onSubmit={handleCreateUser}>
               <div className="form-group">
-                <label>Full name</label>
+                <label>Họ và tên</label>
                 <input
-                  placeholder="Full name"
+                  placeholder="Họ và tên"
                   className="form-control"
                   value={data.values.hoTen}
                   name="hoTen"
@@ -152,9 +159,9 @@ export default function RegisterForm() {
               </div>
 
               <div className="form-group">
-                <label>Phone number</label>
+                <label>Số điện thoại</label>
                 <input
-                  placeholder="Phone number"
+                  placeholder="Số điện thoại"
                   className="form-control"
                   value={data.values.soDt}
                   name="soDt"
@@ -180,9 +187,9 @@ export default function RegisterForm() {
               </div>
 
               <div className="form-group">
-                <label>Username</label>
+                <label>Tài khoản</label>
                 <input
-                  placeholder="Username"
+                  placeholder="Tài khoản"
                   className="form-control"
                   value={data.values.taiKhoan}
                   name="taiKhoan"
@@ -194,7 +201,7 @@ export default function RegisterForm() {
               </div>
 
               <div className="form-group">
-                <label>Password</label>
+                <label>Mật khẩu</label>
                 <input
                   type="password"
                   placeholder="Password"
@@ -209,7 +216,7 @@ export default function RegisterForm() {
               </div>
 
               <div className="form-group">
-                <label>User group</label>
+                <label>Loại người dùng</label>
                 <select
                   className="form-control"
                   value={data.values.maLoaiNguoiDung}
@@ -231,14 +238,14 @@ export default function RegisterForm() {
               class="btn btn-secondary"
               data-dismiss="modal"
             >
-              Close
+              Đóng
             </button>
             <button
               type="button"
               class="btn btn-primary"
               onClick={handleCreateUser}
             >
-              Save changes
+              Lưu
             </button>
           </div>
         </div>

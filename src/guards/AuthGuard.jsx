@@ -12,5 +12,6 @@ export default function AuthGuard(props) {
       navigate("/login");
     }
   }, []);
+
   return <>{props.children}</>;
 }

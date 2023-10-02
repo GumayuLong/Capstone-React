@@ -1,11 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faPen,
+  faPlus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { userService } from "../../services/user";
 
 import "./userManagement.scss";
-import RegisterForm from "./RegisterForm";
+import RegisterForm from "./components/RegisterForm";
 
 export default function UserManagement() {
   const [userList, setUserList] = useState([]);
@@ -49,8 +54,12 @@ export default function UserManagement() {
             )}
           </td>
           <td align="center">
-            <button className="btn btn-info mr-2">Edit</button>
-            <button className="btn btn-danger">Delete</button>
+            <button className="btn btn-info mr-2">
+              <FontAwesomeIcon icon={faPen} />
+            </button>
+            <button className="btn btn-danger">
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
           </td>
         </tr>
       );
@@ -66,7 +75,7 @@ export default function UserManagement() {
           data-target="#exampleModal"
         >
           <FontAwesomeIcon className="pr-2" icon={faPlus} />
-          Add
+          Thêm người dùng
         </button>
       </div>
 
@@ -75,14 +84,14 @@ export default function UserManagement() {
       <table className="table table-bordered mt-2" style={{ fontSize: 18 }}>
         <thead className="bg-light p-2 text-center">
           <tr>
-            <th>No.</th>
-            <th>Full Name</th>
-            <th>Username</th>
-            <th>Phone Number</th>
+            <th>STT</th>
+            <th>Họ và tên</th>
+            <th>Tài khoản</th>
+            <th>Số điện thoại</th>
             <th>Email</th>
-            <th>Admin</th>
-            <th>Customer</th>
-            <th>Action</th>
+            <th>Quản trị</th>
+            <th>Khách hàng</th>
+            <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>{renderUserList()}</tbody>

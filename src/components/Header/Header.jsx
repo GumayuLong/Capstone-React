@@ -42,6 +42,20 @@ export default function Header() {
     }
   };
 
+  const renderMenuAdmin = () => {
+    if (userState.userInfo) {
+      if (userState.userInfo.maLoaiNguoiDung === "QuanTri") {
+        return (
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/admin/films">
+              Admin
+            </NavLink>
+          </li>
+        );
+      }
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("USER_INFO");
     dispatch(setUserInfoAction(null));
@@ -93,6 +107,8 @@ export default function Header() {
                 Booking
               </NavLink>
             </li> */}
+
+            {renderMenuAdmin()}
           </ul>
           <div className="ml-auto">{renderContent()}</div>
         </div>

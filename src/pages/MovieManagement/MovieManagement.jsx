@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { movieService } from "../../services/movie";
 
 import "./movieManagement.scss";
 import { formatDateAdmin } from "../../utils/date";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faPen,
+  faPlus,
+  faTrash,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 export default function MovieManagement() {
+  const navigate = useNavigate();
   const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
@@ -42,28 +50,45 @@ export default function MovieManagement() {
           </td>
           <td>{formatDateAdmin(element.ngayKhoiChieu)}</td>
           <td align="center">
-            <button className="btn btn-info mr-2">Edit</button>
-            <button className="btn btn-danger">Delete</button>
+            <button className="btn btn-info mr-2">
+              <FontAwesomeIcon icon={faPen} />
+            </button>
+            <button className="btn btn-danger">
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
           </td>
         </tr>
       );
     });
   };
 
+  const handleAdd = () => {
+    navigate("/admin/films/addnew");
+  };
+
   return (
-    <table className="table mt-2" style={{ fontSize: 18 }}>
-      <thead className="bg-light p-2 text-center">
-        <tr>
-          <th>No.</th>
-          <th>Poster</th>
-          <th>Movie ID</th>
-          <th>Movie Name</th>
-          <th>Hot</th>
-          <th>Start Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>{renderMovieList()}</tbody>
-    </table>
+    <Fragment>
+      <div className="d-flex align-item-center justify-content-end">
+        <button className="btn btn-success" onClick={handleAdd}>
+          <FontAwesomeIcon className="pr-2" icon={faPlus} />
+          Thêm phim
+        </button>
+      </div>
+
+      <table className="table mt-2" style={{ fontSize: 18 }}>
+        <thead className="bg-light p-2 text-center">
+          <tr>
+            <th>STT</th>
+            <th>Hình ảnh</th>
+            <th>Mã phim</th>
+            <th>Tên phim</th>
+            <th>Hot</th>
+            <th>Ngày khởi chiếu</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>{renderMovieList()}</tbody>
+      </table>
+    </Fragment>
   );
 }
