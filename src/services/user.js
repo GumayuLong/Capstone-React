@@ -33,6 +33,13 @@ class UserService {
       data,
     });
   }
+
+  fetchUserTypeListApi() {
+    return request({
+      url: "/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung",
+      method: "GET",
+    });
+  }
 }
 
 export const userService = new UserService();
