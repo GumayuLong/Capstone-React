@@ -5,6 +5,7 @@ import { formatDate } from "../../../../utils/date";
 import "../../../../components/Modal/modal.scss";
 import Popup from "../../../../components/Modal/Modal";
 import "../../../../components/Modal/modal.scss";
+import "../../movieDetail.scss"
 
 export default function Detail() {
 	const params = useParams();
@@ -47,7 +48,7 @@ export default function Detail() {
 				<p>{detail.moTa}</p>
 				<p>{formatDate(detail.ngayKhoiChieu)}</p>
 				<div>
-					<button onClick={openPopup} className="btn btn-info mr-2">
+					<button onClick={openPopup} className="btn button-primary mr-2">
 						TRAILER
 					</button>
 					<Popup isOpen={isOpen} onClose={closePopup}>

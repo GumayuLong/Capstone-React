@@ -25,6 +25,12 @@
   border: none;
   cursor: pointer;
   margin-bottom: 20px;
+  color: #000  !important;
+  font-size: 30px;
+}
+
+.close-button:hover{
+  color: grey  !important;
 }
 
 .trailer{

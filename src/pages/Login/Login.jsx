@@ -96,7 +96,7 @@ export default function Login() {
 						<form onSubmit={handleSubmit}>
 							<div className="form-group">
 								<input
-									placeholder="Tài khoản"
+									placeholder="Tài khoản*"
 									onChange={handleChange}
 									name="taiKhoan"
 									type="text"
@@ -111,7 +111,7 @@ export default function Login() {
 								className="form-group "
 							>
 								<input
-									placeholder="Mật khẩu"
+									placeholder="Mật khẩu*"
 									onChange={handleChange}
 									name="matKhau"
 									className="form-control"

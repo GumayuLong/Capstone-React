@@ -8,7 +8,7 @@ import { setUserInfoAction } from "../../store/actions/userAction";
 import { notification } from "antd";
 import { validation } from "../../validations/validation";
 import "../Login/login.scss";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../Login/login.scss"
 
@@ -149,14 +149,14 @@ export default function Register() {
 						<div style={{ textAlign: "center" }}>
 							<FontAwesomeIcon
 								className="icon"
-								icon={faLock}
+								icon={faRightToBracket}
 							></FontAwesomeIcon>
 						</div>
 						<h1 className="title">Đăng ký</h1>
 						<form onSubmit={handleSubmit}>
 							<div className="form-group">
 								<input
-									placeholder="Tên tài khoản"
+									placeholder="Tên tài khoản*"
 									onChange={handleChangeRegister}
 									name="taiKhoan"
 									type="text"
@@ -169,7 +169,7 @@ export default function Register() {
 							</div>
 							<div className="form-group">
 								<input
-									placeholder="Mật khẩu"
+									placeholder="Mật khẩu*"
 									onChange={handleChangeRegister}
 									name="matKhau"
 									type="password"
@@ -182,7 +182,7 @@ export default function Register() {
 							</div>
 							<div className="form-group">
 								<input
-									placeholder="Nhập lại mật khẩu"
+									placeholder="Nhập lại mật khẩu*"
 									onChange={handleChangeConfirmPassword}
 									id="confirmPassword"
 									type="password"
@@ -196,7 +196,7 @@ export default function Register() {
 							</div>
 							<div className="form-group">
 								<input
-									placeholder="Họ và tên"
+									placeholder="Họ và tên*"
 									onChange={handleChangeRegister}
 									name="hoTen"
 									type="text"
@@ -209,7 +209,7 @@ export default function Register() {
 							</div>
 							<div className="form-group">
 								<input
-									placeholder="Email"
+									placeholder="Email*"
 									onChange={handleChangeRegister}
 									name="email"
 									type="text"
@@ -222,7 +222,7 @@ export default function Register() {
 							</div>
 							<div className="form-group">
 								<input
-									placeholder="Số điện thoại"
+									placeholder="Số điện thoại*"
 									onChange={handleChangeRegister}
 									name="soDt"
 									type="text"
