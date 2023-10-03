@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { userService } from "../../../services/user";
 import { validation } from "../../../validations/validation";
 import { setUserInfoAction } from "../../../store/actions/userAction";
 import { notification } from "antd";
 import { useDispatch } from "react-redux";
 
-export default function RegisterForm() {
+export default function EditUser() {
   const [data, setData] = useState({
     values: {
       taiKhoan: "",
@@ -13,7 +13,7 @@ export default function RegisterForm() {
       email: "",
       soDt: "",
       maNhom: "GP01",
-      maLoaiNguoiDung: "",
+      maLoaiNguoiDung: "QuanTri",
       hoTen: "",
     },
 
@@ -29,17 +29,6 @@ export default function RegisterForm() {
 
     valid: false,
   });
-  const [userType, setUserType] = useState([]);
-
-  useEffect(() => {
-    fetchUserTypeList();
-  }, []);
-
-  const fetchUserTypeList = async () => {
-    const result = await userService.fetchUserTypeListApi();
-    console.log(result);
-    setUserType(result.data.content);
-  };
 
   const [_, setMessage] = useState("");
   const dispatch = useDispatch();
@@ -92,13 +81,6 @@ export default function RegisterForm() {
       }
     }
 
-    if (name === "maLoaiNguoiDung" && name.seletedIndex === 0) {
-      errorMessage = "Vui lòng chọn loại người dùng";
-      valid &= false;
-    } else {
-      valid &= true;
-    }
-
     setData({
       ...data,
       values: {
@@ -123,7 +105,7 @@ export default function RegisterForm() {
         dispatch(setUserInfoAction(result.data.content));
 
         notification.success({
-          message: "Tạo người dùng thành công",
+          message: "Cập nhật người dùng thành công",
           placement: "topLeft",
         });
 
@@ -239,12 +221,8 @@ export default function RegisterForm() {
                   name="maLoaiNguoiDung"
                   onChange={handleChange}
                 >
-                  <option value="">Chọn người dùng</option>
-                  {userType.map((element) => (
-                    <option value={element.maLoaiNguoiDung}>
-                      {element.tenLoai}
-                    </option>
-                  ))}
+                  <option value="QuanTri">Admin</option>
+                  <option value="KhachHang">Customer</option>
                 </select>
                 <p className="text-danger" name="maLoaiNguoiDung">
                   {data.errors.maLoaiNguoiDung}
@@ -260,19 +238,13 @@ export default function RegisterForm() {
             >
               Đóng
             </button>
-            {data.valid ? (
-              <button
-                type="button"
-                class="btn btn-primary"
-                onClick={handleCreateUser}
-              >
-                Lưu
-              </button>
-            ) : (
-              <button type="button" class="btn btn-primary" disabled>
-                Lưu
-              </button>
-            )}
+            <button
+              type="button"
+              class="btn btn-primary"
+              onClick={handleCreateUser}
+            >
+              Lưu
+            </button>
           </div>
         </div>
       </div>

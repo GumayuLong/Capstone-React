@@ -9,6 +9,8 @@ import { Layout, Menu } from "antd";
 
 // import "../../components/Header/header.scss";
 import "./adminLayout.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -21,8 +23,11 @@ export default function AdminLayout() {
       return (
         <div className="d-flex align-item-center justify-content-end mx-3">
           <span className="text-white">Hello {userState.userInfo.hoTen}</span>
-          <button onClick={handleLogout} className=" ml-3  btn btn-login">
+          <button onClick={handleLogout} className="ml-3 btn btn-login">
             LOGOUT
+          </button>
+          <button onClick={handleBack} className="ml-3 btn btn-icon">
+            <FontAwesomeIcon icon={faRightToBracket} className="text-white" />
           </button>
         </div>
       );
@@ -32,6 +37,10 @@ export default function AdminLayout() {
   const handleLogout = () => {
     localStorage.removeItem("USER_INFO");
     dispatch(setUserInfoAction(null));
+    navigate("/");
+  };
+
+  const handleBack = () => {
     navigate("/");
   };
 

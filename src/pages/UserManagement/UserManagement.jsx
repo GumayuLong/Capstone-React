@@ -16,10 +16,10 @@ export default function UserManagement() {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    fetchMovieList();
+    fetchUserList();
   }, []);
 
-  const fetchMovieList = async () => {
+  const fetchUserList = async () => {
     const result = await userService.fetchUserListApi();
 
     setUserList(result.data.content);
@@ -27,6 +27,7 @@ export default function UserManagement() {
 
   const renderUserList = () => {
     return userList.map((element, index) => {
+      console.log(element.soDt);
       return (
         <tr
           className={(index + 1) % 2 === 0 ? "bg-light" : ""}
@@ -37,7 +38,7 @@ export default function UserManagement() {
           </td>
           <td>{element.hoTen}</td>
           <td>{element.taiKhoan}</td>
-          <td>{element.soDt}</td>
+          <td>{element.soDT}</td>
           <td>{element.email}</td>
           <td align="center">
             {element.maLoaiNguoiDung === "QuanTri" ? (
