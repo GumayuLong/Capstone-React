@@ -10,6 +10,7 @@ import { validation } from "../../validations/validation";
 import "../Login/login.scss";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../Login/login.scss"
 
 export default function Register() {
 	const navigate = useNavigate();
@@ -237,6 +238,13 @@ export default function Register() {
 							<button className="btn btn-success btncustom">
 								Đăng ký
 							</button>
+							<div>
+								<a href="/login">
+									<h3 className="connectlink">
+										Bạn chưa có tài khoản? Đăng ký
+									</h3>
+								</a>
+							</div>
 						</form>
 					</div>
 				</div>
