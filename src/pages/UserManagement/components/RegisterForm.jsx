@@ -12,7 +12,7 @@ export default function RegisterForm() {
       matKhau: "",
       email: "",
       soDt: "",
-      maNhom: "GP1",
+      maNhom: "GP01",
       maLoaiNguoiDung: "QuanTri",
       hoTen: "",
     },
@@ -120,136 +120,139 @@ export default function RegisterForm() {
   };
 
   return (
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Create User
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form onSubmit={handleCreateUser}>
-              <div className="form-group">
-                <label>Họ và tên</label>
-                <input
-                  placeholder="Họ và tên"
-                  className="form-control"
-                  value={data.values.hoTen}
-                  name="hoTen"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="hoTen">
-                  {data.errors.hoTen}
-                </p>
-              </div>
+		<div
+			class="modal fade"
+			id="exampleModal"
+			tabindex="-1"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Create User
+						</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form onSubmit={handleCreateUser}>
+							<div className="form-group">
+								<label>Họ và tên</label>
+								<input
+									placeholder="Họ và tên"
+									className="form-control"
+									value={data.values.hoTen}
+									name="hoTen"
+									onChange={handleChange}
+								/>
+								<p className="text-danger" name="hoTen">
+									{data.errors.hoTen}
+								</p>
+							</div>
 
-              <div className="form-group">
-                <label>Số điện thoại</label>
-                <input
-                  placeholder="Số điện thoại"
-                  className="form-control"
-                  value={data.values.soDt}
-                  name="soDt"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="soDt">
-                  {data.errors.soDt}
-                </p>
-              </div>
+							<div className="form-group">
+								<label>Số điện thoại</label>
+								<input
+									placeholder="Số điện thoại"
+									className="form-control"
+									value={data.values.soDt}
+									name="soDt"
+									onChange={handleChange}
+								/>
+								<p className="text-danger" name="soDt">
+									{data.errors.soDt}
+								</p>
+							</div>
 
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  placeholder="Email"
-                  className="form-control"
-                  value={data.values.email}
-                  name="email"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="email">
-                  {data.errors.email}
-                </p>
-              </div>
+							<div className="form-group">
+								<label>Email</label>
+								<input
+									placeholder="Email"
+									className="form-control"
+									value={data.values.email}
+									name="email"
+									onChange={handleChange}
+								/>
+								<p className="text-danger" name="email">
+									{data.errors.email}
+								</p>
+							</div>
 
-              <div className="form-group">
-                <label>Tài khoản</label>
-                <input
-                  placeholder="Tài khoản"
-                  className="form-control"
-                  value={data.values.taiKhoan}
-                  name="taiKhoan"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="taiKhoan">
-                  {data.errors.taiKhoan}
-                </p>
-              </div>
+							<div className="form-group">
+								<label>Tài khoản</label>
+								<input
+									placeholder="Tài khoản"
+									className="form-control"
+									value={data.values.taiKhoan}
+									name="taiKhoan"
+									onChange={handleChange}
+								/>
+								<p className="text-danger" name="taiKhoan">
+									{data.errors.taiKhoan}
+								</p>
+							</div>
 
-              <div className="form-group">
-                <label>Mật khẩu</label>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="form-control"
-                  value={data.values.matKhau}
-                  name="matKhau"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="matKhau">
-                  {data.errors.matKhau}
-                </p>
-              </div>
+							<div className="form-group">
+								<label>Mật khẩu</label>
+								<input
+									type="password"
+									placeholder="Password"
+									className="form-control"
+									value={data.values.matKhau}
+									name="matKhau"
+									onChange={handleChange}
+								/>
+								<p className="text-danger" name="matKhau">
+									{data.errors.matKhau}
+								</p>
+							</div>
 
-              <div className="form-group">
-                <label>Loại người dùng</label>
-                <select
-                  className="form-control"
-                  value={data.values.maLoaiNguoiDung}
-                  name="maLoaiNguoiDung"
-                  onChange={handleChange}
-                >
-                  <option value="QuanTri">Admin</option>
-                  <option value="KhachHang">Customer</option>
-                </select>
-                <p className="text-danger" name="maLoaiNguoiDung">
-                  {data.errors.maLoaiNguoiDung}
-                </p>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Đóng
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              onClick={handleCreateUser}
-            >
-              Lưu
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+							<div className="form-group">
+								<label>Loại người dùng</label>
+								<select
+									className="form-control"
+									value={data.values.maLoaiNguoiDung}
+									name="maLoaiNguoiDung"
+									onChange={handleChange}
+								>
+									<option value="QuanTri">Admin</option>
+									<option value="KhachHang">Customer</option>
+								</select>
+								<p
+									className="text-danger"
+									name="maLoaiNguoiDung"
+								>
+									{data.errors.maLoaiNguoiDung}
+								</p>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-dismiss="modal"
+						>
+							Đóng
+						</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							onClick={handleCreateUser}
+						>
+							Lưu
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
   );
 }

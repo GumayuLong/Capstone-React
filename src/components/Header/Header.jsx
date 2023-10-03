@@ -30,16 +30,20 @@ export default function Header() {
     }
 
     // ĐÃ ĐĂNG NHẬP
-    else {
-      return (
-        <>
-          <span className="text-white">Hello {userState.userInfo.hoTen}</span>
-          <button onClick={handleLogout} className=" ml-3 btn btn-login">
-            LOGOUT
-          </button>
-        </>
-      );
-    }
+    else if (userState.userInfo) {
+		return (
+			<>
+				<span className="text-white">
+					Hello {userState.userInfo.hoTen}
+				</span>
+				<button onClick={handleLogout} className=" ml-3 btn btn-login">
+					LOGOUT
+				</button>
+			</>
+		);
+
+    // else if ()
+	}
   };
 
   const renderMenuAdmin = () => {
