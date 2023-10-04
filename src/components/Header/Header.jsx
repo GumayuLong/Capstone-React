@@ -31,19 +31,17 @@ export default function Header() {
 
     // ĐÃ ĐĂNG NHẬP
     else if (userState.userInfo) {
-		return (
-			<>
-				<span className="text-white">
-					Hello {userState.userInfo.hoTen}
-				</span>
-				<button onClick={handleLogout} className=" ml-3 btn btn-login">
-					LOGOUT
-				</button>
-			</>
-		);
+      return (
+        <>
+          <span className="text-white">Hello {userState.userInfo.hoTen}</span>
+          <button onClick={handleLogout} className=" ml-3 btn btn-login">
+            LOGOUT
+          </button>
+        </>
+      );
 
-    // else if ()
-	}
+      // else if ()
+    }
   };
 
   const renderMenuAdmin = () => {
@@ -89,6 +87,11 @@ export default function Header() {
             <li className="nav-item">
               <NavLink className="nav-link" to="/">
                 Home
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/movie-selection">
+                Movie
               </NavLink>
             </li>
             <li className="nav-item">
