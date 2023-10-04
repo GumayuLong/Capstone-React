@@ -26,6 +26,20 @@ class UserService {
     });
   }
 
+  fetchUserTypeListApi() {
+    return request({
+      url: "/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung",
+      method: "GET",
+    });
+  }
+
+  fetchUserDetailApi(username) {
+    return request({
+      url: `/QuanLyNguoiDung/LayThongTinNguoiDung?taiKhoan=${username}`,
+      method: "POST",
+    });
+  }
+
   fetchCreateUserApi(data) {
     return request({
       url: "/QuanLyNguoiDung/ThemNguoiDung",
@@ -34,10 +48,17 @@ class UserService {
     });
   }
 
-  fetchUserTypeListApi() {
+  fetchUpdateUserApi() {
     return request({
-      url: "/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung",
-      method: "GET",
+      url: `/QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
+      method: "POST",
+    });
+  }
+
+  fetchDeleteUserApi(username) {
+    return request({
+      url: `/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${username}`,
+      method: "DELETE",
     });
   }
 }

@@ -11,9 +11,12 @@ import { userService } from "../../services/user";
 
 import "./userManagement.scss";
 import RegisterForm from "./components/RegisterForm";
+import EditUser from "./components/EditUser";
+import { notification } from "antd";
 
 export default function UserManagement() {
   const [userList, setUserList] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     fetchUserList();
@@ -25,9 +28,33 @@ export default function UserManagement() {
     setUserList(result.data.content);
   };
 
+  const handleEditUser = (taiKhoan) => {
+    console.log(taiKhoan);
+    setSelectedUser(taiKhoan);
+  };
+
+  const handleDeleteUser = async (taiKhoan) => {
+    const promise = await userService.fetchDeleteUserApi(taiKhoan);
+
+    promise.then((result) => {
+      notification.success({
+        message: "Xóa người dùng thành công" + result.data,
+        placement: "bottomRight",
+      });
+
+      fetchUserList();
+    });
+
+    promise.catch((error) => {
+      notification.error({
+        message: error.response.data,
+        placement: "bottomRight",
+      });
+    });
+  };
+
   const renderUserList = () => {
     return userList.map((element, index) => {
-      console.log(element.soDt);
       return (
         <tr
           className={(index + 1) % 2 === 0 ? "bg-light" : ""}
@@ -55,10 +82,20 @@ export default function UserManagement() {
             )}
           </td>
           <td align="center">
-            <button className="btn btn-info mr-2">
+            <button
+              type="button"
+              className="btn btn-info mr-2"
+              data-toggle="modal"
+              data-target="#updateUser"
+              onClick={() => handleEditUser(`${element.taiKhoan}`)}
+            >
               <FontAwesomeIcon icon={faPen} />
             </button>
-            <button className="btn btn-danger">
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => handleDeleteUser(`${element.taiKhoan}`)}
+            >
               <FontAwesomeIcon icon={faTrash} />
             </button>
           </td>
@@ -73,7 +110,7 @@ export default function UserManagement() {
         <button
           className="btn btn-success"
           data-toggle="modal"
-          data-target="#exampleModal"
+          data-target="#createUser"
         >
           <FontAwesomeIcon className="pr-2" icon={faPlus} />
           Thêm người dùng
@@ -81,6 +118,7 @@ export default function UserManagement() {
       </div>
 
       <RegisterForm />
+      <EditUser taiKhoan={selectedUser} />
 
       <table className="table table-bordered mt-2" style={{ fontSize: 18 }}>
         <thead className="bg-light p-2 text-center">
