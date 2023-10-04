@@ -1,0 +1,35 @@
+.w-65 {
+  width: 65%;
+}
+
+.item {
+  padding: 12px;
+}
+
+.card-title {
+  font-size: 20px !important;
+  text-align: center !important;
+}
+
+.buttonDetail {
+  background-color: #f26b38 !important;
+  color: white !important;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.titleFilm {
+  color: #000;
+  height: 45px;
+  display: -webkit-box;
+  opacity: 1;
+  overflow: hidden;
+  font-size: 18px;
+  max-height: 45px;
+  visibility: visible;
+  font-weight: 500;
+  line-height: 22px;
+  text-overflow: ellipsis;
+}

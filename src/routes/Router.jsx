@@ -12,6 +12,7 @@ import AuthGuard from "../guards/AuthGuard";
 import MovieManagement from "../pages/MovieManagement/MovieManagement";
 import UserManagement from "../pages/UserManagement/UserManagement";
 import CreateMovie from "../pages/MovieManagement/components/CreateMovie";
+import MovieSelection from "../pages/MovieSelection/MovieSelection";
 
 export default function Router() {
   const routing = useRoutes([
@@ -22,6 +23,10 @@ export default function Router() {
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/movie-selection",
+          element: <MovieSelection />,
         },
         {
           path: "/booking/:Id",
