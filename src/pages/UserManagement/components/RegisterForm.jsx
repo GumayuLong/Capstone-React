@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { userService } from "../../../services/user";
 import { validation } from "../../../validations/validation";
 import { setUserInfoAction } from "../../../store/actions/userAction";
-import { notification } from "antd";
+import { message, notification } from "antd";
 import { useDispatch } from "react-redux";
 
 export default function RegisterForm() {
@@ -37,31 +37,18 @@ export default function RegisterForm() {
 
   const fetchUserTypeList = async () => {
     const result = await userService.fetchUserTypeListApi();
-    console.log(result);
     setUserType(result.data.content);
   };
 
-  const [_, setMessage] = useState("");
+  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
     let { name, value } = event.target;
     let errorMessage = "";
 
-    let valid = true;
-    for (let key in data.errors) {
-      if (data.errors[key] !== "" || data.values[key] == "") {
-        valid &= false;
-      } else {
-        valid &= true;
-      }
-    }
-
     if (validation.validateRequiredAdmin(value)) {
       errorMessage = "Dữ liệu không được để trống";
-      valid &= false;
-    } else {
-      valid &= true;
     }
 
     if (name === "email") {
@@ -72,9 +59,6 @@ export default function RegisterForm() {
 
       if (!isValid) {
         errorMessage = "Email không đúng định dạng";
-        valid &= false;
-      } else {
-        valid &= true;
       }
     }
 
@@ -86,29 +70,45 @@ export default function RegisterForm() {
 
       if (!isValid) {
         errorMessage = "Số điện thoại không hợp lệ";
-        valid &= false;
-      } else {
-        valid &= true;
       }
     }
 
     if (name === "maLoaiNguoiDung" && name.seletedIndex === 0) {
       errorMessage = "Vui lòng chọn loại người dùng";
-      valid &= false;
-    } else {
-      valid &= true;
+    }
+
+    setData(
+      {
+        ...data,
+        values: {
+          ...data.values,
+          [name]: value,
+        },
+        errors: {
+          ...data.errors,
+          [name]: errorMessage,
+        },
+      },
+      () => {
+        checkValid();
+      }
+    );
+
+    console.log(data.valid);
+  };
+
+  const checkValid = () => {
+    let valid = true;
+    for (let key in data.errors) {
+      if (data.errors[key] !== "" || data.values[key] == "") {
+        valid = false;
+      } else {
+        valid = true;
+      }
     }
 
     setData({
       ...data,
-      values: {
-        ...data.values,
-        [name]: value,
-      },
-      errors: {
-        ...data.errors,
-        [name]: errorMessage,
-      },
       valid,
     });
   };
@@ -122,44 +122,78 @@ export default function RegisterForm() {
       promise.then((result) => {
         dispatch(setUserInfoAction(result.data.content));
 
-        notification.success({
-          message: "Tạo người dùng thành công",
-          placement: "topLeft",
-        });
-
         setMessage("Tạo người dùng thành công");
+
+        notification.success({
+          message: message,
+          placement: "bottomRight",
+        });
       });
       promise.catch((error) => {
-        setMessage("Tạo người dùng thất bại", error);
+        setMessage("Tạo người dùng thất bại");
+
+        notification.success({
+          message: message,
+          placement: "bottomRight",
+        });
       });
     }
   };
 
   return (
     <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      className="modal fade"
+      id="createUser"
+      tabIndex={-1}
+      aria-labelledby="createUser"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Create User
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="createUser">
+              Thêm thông tin người dùng
             </h5>
             <button
               type="button"
-              class="close"
+              className="close"
               data-dismiss="modal"
               aria-label="Close"
             >
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">×</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form onSubmit={handleCreateUser}>
+              <div className="form-group">
+                <label>Tài khoản</label>
+                <input
+                  placeholder="Tài khoản"
+                  className="form-control"
+                  value={data.values.taiKhoan}
+                  name="taiKhoan"
+                  onChange={handleChange}
+                />
+                <p className="text-danger" name="taiKhoan">
+                  {data.errors.taiKhoan}
+                </p>
+              </div>
+
+              <div className="form-group">
+                <label>Mật khẩu</label>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="form-control"
+                  value={data.values.matKhau}
+                  name="matKhau"
+                  onChange={handleChange}
+                />
+                <p className="text-danger" name="matKhau">
+                  {data.errors.matKhau}
+                </p>
+              </div>
+
               <div className="form-group">
                 <label>Họ và tên</label>
                 <input
@@ -199,35 +233,6 @@ export default function RegisterForm() {
                 />
                 <p className="text-danger" name="email">
                   {data.errors.email}
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label>Tài khoản</label>
-                <input
-                  placeholder="Tài khoản"
-                  className="form-control"
-                  value={data.values.taiKhoan}
-                  name="taiKhoan"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="taiKhoan">
-                  {data.errors.taiKhoan}
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label>Mật khẩu</label>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="form-control"
-                  value={data.values.matKhau}
-                  name="matKhau"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="matKhau">
-                  {data.errors.matKhau}
                 </p>
               </div>
 

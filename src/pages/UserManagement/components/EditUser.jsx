@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { userService } from "../../../services/user";
 import { validation } from "../../../validations/validation";
 import { setUserInfoAction } from "../../../store/actions/userAction";
-import { notification } from "antd";
+import { message, notification } from "antd";
 import { useDispatch } from "react-redux";
 
-export default function EditUser() {
+export default function EditUser({ taiKhoan = this.props.taiKhoan }) {
   const [data, setData] = useState({
     values: {
       taiKhoan: "",
@@ -33,6 +33,44 @@ export default function EditUser() {
   const [_, setMessage] = useState("");
   const dispatch = useDispatch();
 
+  const [userType, setUserType] = useState([]);
+
+  useEffect(() => {
+    fetchUserTypeList();
+    if (taiKhoan !== null) {
+      fetchUserDetails();
+    }
+  }, []);
+
+  const fetchUserTypeList = async () => {
+    const result = await userService.fetchUserTypeListApi();
+    setUserType(result.data.content);
+  };
+
+  const fetchUserDetails = async () => {
+    try {
+      const result = await userService.fetchUserDetailApi(taiKhoan);
+      const userData = result.data.content;
+
+      console.log(result.data.content);
+      // Populate the form with user data
+      setData({
+        values: {
+          taiKhoan: userData.taiKhoan,
+          matKhau: userData.matKhau,
+          email: userData.email,
+          soDt: userData.soDT,
+          maNhom: userData.maNhom,
+          maLoaiNguoiDung: userData.maLoaiNguoiDung,
+          hoTen: userData.hoTen,
+        },
+        errors: { ...data.errors },
+        valid: true,
+      });
+    } catch (error) {
+      setMessage("Lấy thông tin người dùng thất bại");
+    }
+  };
   const handleChange = (event) => {
     let { name, value } = event.target;
     let errorMessage = "";
@@ -95,53 +133,88 @@ export default function EditUser() {
     });
   };
 
-  const handleCreateUser = (event) => {
+  const handleUpdateUser = (event) => {
     event.preventDefault();
 
     if (data.valid) {
-      const promise = userService.fetchCreateUserApi(data.values);
+      const promise = userService.fetchUpdateUserApi(data.values);
 
       promise.then((result) => {
         dispatch(setUserInfoAction(result.data.content));
 
-        notification.success({
-          message: "Cập nhật người dùng thành công",
-          placement: "topLeft",
-        });
+        setMessage("Cập nhật người dùng thành công");
 
-        setMessage("Tạo người dùng thành công");
+        notification.success({
+          message: message,
+          placement: "bottomRight",
+        });
       });
       promise.catch((error) => {
-        setMessage("Tạo người dùng thất bại", error);
+        setMessage("Cập nhật người dùng thất bại");
+
+        notification.error({
+          message: message,
+          placement: "bottomRight",
+        });
       });
     }
   };
 
   return (
     <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      className="modal fade"
+      id="updateUser"
+      tabIndex={-1}
+      aria-labelledby="updateUser"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Create User
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="updateUser">
+              Cập nhật thông tin người dùng
             </h5>
             <button
               type="button"
-              class="close"
+              className="close"
               data-dismiss="modal"
               aria-label="Close"
             >
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">×</span>
             </button>
           </div>
-          <div class="modal-body">
-            <form onSubmit={handleCreateUser}>
+          <div className="modal-body">
+            <form onSubmit={handleUpdateUser}>
+              <div className="form-group">
+                <label>Tài khoản</label>
+                <input
+                  placeholder="Tài khoản"
+                  className="form-control"
+                  value={data.values.taiKhoan}
+                  name="taiKhoan"
+                  onChange={handleChange}
+                  disabled
+                />
+                <p className="text-danger" name="taiKhoan">
+                  {data.errors.taiKhoan}
+                </p>
+              </div>
+
+              <div className="form-group">
+                <label>Mật khẩu</label>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="form-control"
+                  value={data.values.matKhau}
+                  name="matKhau"
+                  onChange={handleChange}
+                />
+                <p className="text-danger" name="matKhau">
+                  {data.errors.matKhau}
+                </p>
+              </div>
+
               <div className="form-group">
                 <label>Họ và tên</label>
                 <input
@@ -185,35 +258,6 @@ export default function EditUser() {
               </div>
 
               <div className="form-group">
-                <label>Tài khoản</label>
-                <input
-                  placeholder="Tài khoản"
-                  className="form-control"
-                  value={data.values.taiKhoan}
-                  name="taiKhoan"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="taiKhoan">
-                  {data.errors.taiKhoan}
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label>Mật khẩu</label>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="form-control"
-                  value={data.values.matKhau}
-                  name="matKhau"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="matKhau">
-                  {data.errors.matKhau}
-                </p>
-              </div>
-
-              <div className="form-group">
                 <label>Loại người dùng</label>
                 <select
                   className="form-control"
@@ -221,8 +265,12 @@ export default function EditUser() {
                   name="maLoaiNguoiDung"
                   onChange={handleChange}
                 >
-                  <option value="QuanTri">Admin</option>
-                  <option value="KhachHang">Customer</option>
+                  <option value="">Chọn người dùng</option>
+                  {userType.map((element) => (
+                    <option value={element.maLoaiNguoiDung}>
+                      {element.tenLoai}
+                    </option>
+                  ))}
                 </select>
                 <p className="text-danger" name="maLoaiNguoiDung">
                   {data.errors.maLoaiNguoiDung}
@@ -241,7 +289,7 @@ export default function EditUser() {
             <button
               type="button"
               class="btn btn-primary"
-              onClick={handleCreateUser}
+              onClick={handleUpdateUser}
             >
               Lưu
             </button>
