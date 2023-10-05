@@ -41,7 +41,6 @@ export default function UserManagement() {
         message: "Xóa người dùng thành công" + result.data,
         placement: "bottomRight",
       });
-
       fetchUserList();
     });
 

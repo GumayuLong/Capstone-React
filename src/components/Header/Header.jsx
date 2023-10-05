@@ -96,25 +96,14 @@ export default function Header() {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">
+                Showtimes
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 Contact
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                News
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Apps
-              </a>
-            </li>
-            {/* <li className="nav-item">
-              <NavLink className="nav-link" to="/booking">
-                Booking
-              </NavLink>
-            </li> */}
-
             {renderMenuAdmin()}
           </ul>
           <div className="ml-auto">{renderContent()}</div>
