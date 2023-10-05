@@ -109,6 +109,9 @@
   border-right: 1px solid rgba(128, 128, 128, 0.3);
   height: 90px;
 }
+.borderbutton:hover{
+  background-color: #f26b38;
+}
 
 .buttonLogo {
   // padding: 20px;
@@ -230,6 +233,9 @@
   &:focus {
     outline: none;
   }
+}
+.buttonCustom:hover{
+  background-color: #f26b38;
 }
 
 .multitabWrapper {

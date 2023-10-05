@@ -294,6 +294,7 @@ export default function Home() {
 					Xem thêm
 				</Link>
 			</div>
+			<h1 className="text-center my-5">SHOWTIMES</h1>
 			<div
 				className="muiContainer multiContainer"
 				style={{ marginBottom: "90px" }}
