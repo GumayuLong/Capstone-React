@@ -106,7 +106,7 @@
 
 .borderbutton {
   border-bottom: 1px solid rgba(128, 128, 128, 0.3);
-  border-right: 1px solid rgba(128, 128, 128, 0.3);
+  border-right: 1px solid rgba(128, 128, 128, 0.3); 
   height: 90px;
 }
 .borderbutton:hover{
@@ -229,6 +229,7 @@
   text-transform: uppercase;
   background-color: #fff;
   border: none;
+  border-left: 1px solid rgba(128, 128, 128, 0.3);
   border-bottom: 1px solid rgba(128, 128, 128, 0.3);
   &:focus {
     outline: none;
@@ -253,7 +254,7 @@
 }
 
 .address {
-  color: #757575;
+  color: #000;
   overflow: hidden;
   font-weight: 400;
   text-overflow: ellipsis;
@@ -307,6 +308,8 @@
         margin-bottom: 5px;
       }
       .movie-time {
+        // box-sizing: border-box;
+        // padding: 10px;
         display: flex;
         justify-content: start;
         align-items: center;
@@ -321,8 +324,12 @@
         }
 
         .active {
+          text-align: center;
           background: #f26b38;
           color: white;
+          font-size: 12px;
+          width: 170px;
+          cursor: pointer;
         }
       }
     }
