@@ -23,10 +23,11 @@ class MovieService {
     });
   }
 
-  fetchMovieUpdateApi(id) {
+  fetchMovieUpdateApi(formData) {
     return request({
-      url: `/QuanLyPhim/CapNhatPhimUpload/${id}`,
+      url: `/QuanLyPhim/CapNhatPhimUpload`,
       method: "POST",
+      data: formData,
     });
   }
 

@@ -16,6 +16,8 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { LoadingContext } from "../../../contexts/LoadingContext/LoadingContext";
 import { movieService } from "../../../services/movie";
+import { history } from "../../../App";
+
 const { TextArea } = Input;
 
 export default function EditMovie() {
@@ -41,6 +43,7 @@ export default function EditMovie() {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      maPhim: movieDetail.maPhim,
       tenPhim: movieDetail?.tenPhim,
       trailer: movieDetail?.trailer,
       moTa: movieDetail?.moTa,
@@ -51,7 +54,7 @@ export default function EditMovie() {
       danhGia: movieDetail?.danhGia,
       hinhAnh: movieDetail?.hinhAnh,
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log({ values });
       values.maNhom = "GP01";
       let formData = new FormData();
@@ -59,17 +62,35 @@ export default function EditMovie() {
         if (key !== "hinhAnh") {
           formData.append(key, values[key]);
         } else {
-          formData.append("File", formik.hinhAnh, values[key].name);
+          if (values.hinhAnh !== null) {
+            formData.append("File", values.hinhAnh, values.hinhAnh.name);
+          }
         }
       }
       console.log("hinhAnh", formData.get);
-      // dispatch(createMovieAction(formData));
+
+      try {
+        const result = await movieService.fetchMovieUpdateApi(formData);
+        console.log(result.data.content);
+        notification.success({
+          message: "Cập nhật phim thành công",
+          placement: "bottomRight",
+        });
+
+        dispatch(movieService.fetchMovieListApi());
+        history.push("/admin/films");
+      } catch (error) {
+        console.log("error", error.response.data);
+        notification.error({
+          message: "Cập nhật phim thất bại",
+          placement: "bottomRight",
+        });
+      }
     },
   });
 
   const handleChangeDatePicker = (value) => {
-    formik.setFieldValue("ngayKhoiChieu", moment(value).format("DD/MM/YYYY"));
-    formik.setFieldError("ngayKhoiChieu", "Vui lòng chọn ngày khởi chiếu");
+    formik.setFieldValue("ngayKhoiChieu", moment(value));
   };
 
   const handleChangeValue = (name) => {
@@ -78,7 +99,7 @@ export default function EditMovie() {
     };
   };
 
-  const handleUploadFile = (event) => {
+  const handleUploadFile = async (event) => {
     let file = event.target.files[0];
 
     if (
@@ -87,13 +108,13 @@ export default function EditMovie() {
       file.type === "image/png" ||
       file.type === "image/gif"
     ) {
+      await formik.setFieldValue("hinhAnh", file);
+
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (e) => {
         setImg(e.target.result);
       };
-
-      formik.setFieldValue("hinhAnh", file);
     }
   };
 
@@ -120,7 +141,7 @@ export default function EditMovie() {
               size="large"
               name="maPhim"
               onChange={formik.handleChange}
-              value={movieDetail.maPhim}
+              value={formik.values.maPhim}
               disabled
             />
           </Form.Item>
@@ -154,7 +175,7 @@ export default function EditMovie() {
               size="large"
               style={{ width: "100%" }}
               onChange={handleChangeDatePicker}
-              // value={formik.values.ngayKhoiChieu}
+              value={moment(formik.values.ngayKhoiChieu)}
             />
           </Form.Item>
         </Col>
@@ -224,7 +245,7 @@ export default function EditMovie() {
 
       <Form.Item>
         <button type="submit" className="btn btn-primary">
-          Thêm phim
+          Cập nhật
         </button>
       </Form.Item>
     </Form>
