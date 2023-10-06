@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { movieService } from "../../services/movie";
@@ -19,7 +17,7 @@ import {
   faHandPointRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { cinemaService } from "../../services/cinema";
-import { formatTime } from "../../utils/date";
+import { formatShowDate, formatTime } from "../../utils/date";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -30,8 +28,6 @@ export default function Home() {
   const [heThongCumRap, setHeThongCumRap] = useState([]);
   const [getListCumRap, setGetListCumRap] = useState({});
   const [heThongLichChieu, setHeThongLichChieu] = useState([]);
-  const [index, setIndex] = useState();
-  const [time, setTime] = useState([]);
 
   useEffect(() => {
     fetchMovieList();
@@ -47,7 +43,6 @@ export default function Home() {
 
   const fetchBannerList = async () => {
     const result = await bannerService.fetchBannerListApi();
-    // console.log(result);
     setBannerList(result.data.content);
   };
 
@@ -58,7 +53,6 @@ export default function Home() {
 
   const fetchGetInfoLichChieuHeThongRap = async () => {
     const result = await cinemaService.fetchGetInfoLichChieuHeThongRapApi();
-    // console.log(result.data.content);
     setGetListCumRap(result.data.content);
   };
 
@@ -70,9 +64,7 @@ export default function Home() {
     );
 
     const cumRap = data.filter(
-      (element) =>
-        // console.log(element.maHeThongRap)
-        element.maHeThongRap === data[idx].maHeThongRap
+      (element) => element.maHeThongRap === data[idx].maHeThongRap
     );
 
     setHeThongCumRap(cumRap[0].lstCumRap);
@@ -82,9 +74,6 @@ export default function Home() {
     const data = [...heThongCumRap];
 
     const idx = data.findIndex((element) => element.maCumRap === rap.maCumRap);
-
-    setIndex(idx);
-    // console.log(data[idx]);
 
     const listFilmCumRap = data[idx].danhSachPhim.map((element) => {
       return element;
@@ -97,16 +86,9 @@ export default function Home() {
     console.log(showtime);
 
     setHeThongLichChieu(listFilmCumRap);
-    setTime(listFilmCumRap[idx].lstLichChieuTheoPhim);
 
     console.log(heThongLichChieu);
   };
-
-  // const renderGioChieu = () => {
-  // 	return heThongLichChieu.map((element) => {
-  // 		return
-  // 	})
-  // }
 
   const renderLichChieu = () => {
     return heThongLichChieu.map((element, idx) => {
@@ -127,6 +109,7 @@ export default function Home() {
                   return (
                     <p className="active px-2">
                       <FontAwesomeIcon icon={faCalendar} className="pr-2" />
+                      {formatShowDate(element.ngayChieuGioChieu)}~
                       {formatTime(element.ngayChieuGioChieu)}
                     </p>
                   );
@@ -163,17 +146,13 @@ export default function Home() {
               </a>
             </div>
           </strong>
-          {/* <span></span> */}
         </button>
       );
     });
   };
 
   const renderMovieList = () => {
-    // console.log(movieList)
-
     const limitedMovieList = movieList.slice(0, 8);
-
     return limitedMovieList.map((element) => {
       return (
         <div
@@ -225,7 +204,6 @@ export default function Home() {
   };
 
   const renderListGetInfoHeThongRap = () => {
-    // console.log(cinema)
     return cinema.map((element) => {
       return (
         <div key={element.maHeThongRap} className="borderbutton">
@@ -303,34 +281,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="movie-list">
-          {renderLichChieu()}
-
-          {/* <div className="movie-item">
-						<img
-							className="card-img-top"
-							src="https://movienew.cybersoft.edu.vn/hinhanh/death-note_gp01.jpg"
-							alt="movie"
-							style={{ width: 100, objectFit: "contain" }}
-						/>
-
-						<div className="movie-info">
-							<h5>Death Note</h5>
-							<div className="movie-datetime">
-								<p className="date">10/10/2023</p>
-								<div className="movie-time">
-									<p className="active">14:00</p>
-									<p>14:00</p>
-									<p>14:00</p>
-									<p>14:00</p>
-									<p>14:00</p>
-									<p>14:00</p>
-									<p>14:00</p>
-								</div>
-							</div>
-						</div>
-					</div> */}
-        </div>
+        <div className="movie-list">{renderLichChieu()}</div>
       </div>
     </Fragment>
   );
