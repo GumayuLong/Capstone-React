@@ -15,10 +15,11 @@ class MovieService {
     });
   }
 
-  fetchMovieCreateApi() {
+  fetchMovieCreateApi(formData) {
     return request({
       url: `/QuanLyPhim/ThemPhimUploadHinh`,
       method: "POST",
+      data: formData,
     });
   }
 

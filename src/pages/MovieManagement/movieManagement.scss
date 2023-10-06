@@ -6,12 +6,7 @@
 }
 
 .check {
-  width: 40px;
-  height: 40px;
+  width: 10px;
+  height: 10px;
   color: green;
-}
-
-.uncheck {
-  @extend .check;
-  color: red;
 }

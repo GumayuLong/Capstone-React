@@ -13,10 +13,12 @@ import "./userManagement.scss";
 import RegisterForm from "./components/RegisterForm";
 import EditUser from "./components/EditUser";
 import { notification } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function UserManagement() {
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserList();
@@ -103,20 +105,19 @@ export default function UserManagement() {
     });
   };
 
+  const handleAdd = () => {
+    navigate("admin/user/addnew");
+  };
+
   return (
     <Fragment>
       <div className="d-flex align-item-center justify-content-end">
-        <button
-          className="btn btn-success"
-          data-toggle="modal"
-          data-target="#createUser"
-        >
+        <button className="btn btn-success" onClick={handleAdd}>
           <FontAwesomeIcon className="pr-2" icon={faPlus} />
           Thêm người dùng
         </button>
       </div>
 
-      <RegisterForm />
       <EditUser taiKhoan={selectedUser} />
 
       <table className="table table-bordered mt-2" style={{ fontSize: 18 }}>

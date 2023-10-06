@@ -1,17 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Button, Input, Table } from "antd";
+
 import { movieService } from "../../services/movie";
+import { formatDateAdmin } from "../../utils/date";
 
 import "./movieManagement.scss";
-import { formatDateAdmin } from "../../utils/date";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faPen,
-  faPlus,
-  faTrash,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+
+const { Search } = Input;
 
 export default function MovieManagement() {
   const navigate = useNavigate();
@@ -27,68 +26,108 @@ export default function MovieManagement() {
     setMovieList(result.data.content);
   };
 
-  const renderMovieList = () => {
-    return movieList.map((element, index) => {
-      return (
-        <tr key={element.maPhim}>
-          <td width={100} align="center">
-            {index + 1}
-          </td>
-          <td width={100} align="center">
-            <img width={50} src={element.hinhAnh} alt="" />
-          </td>
-          <td width={300} align="center">
-            {element.maPhim}
-          </td>
-          <td>{element.tenPhim}</td>
-          <td width={150} align="center">
-            {element.hot ? (
-              <FontAwesomeIcon className="check" icon={faCheck} />
-            ) : (
-              <FontAwesomeIcon className="uncheck" icon={faXmark} />
-            )}
-          </td>
-          <td>{formatDateAdmin(element.ngayKhoiChieu)}</td>
-          <td align="center">
-            <button className="btn btn-info mr-2">
+  const columns = [
+    {
+      title: "Mã phim",
+      dataIndex: "maPhim",
+      sorter: (a, b) => a.maPhim - b.maPhim,
+      sortDirections: ["descend", "ascend"],
+      width: 150,
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "hinhAnh",
+      render: (text, object) => (
+        <Fragment>
+          <img src={object.hinhAnh} width={50} />
+        </Fragment>
+      ),
+      width: 100,
+    },
+    {
+      title: "Tên phim",
+      dataIndex: "tenPhim",
+      sorter: (a, b) => {
+        let tenPhim1 = a.tenPhim.toLowerCase().trim();
+        let tenPhim2 = b.tenPhim.toLowerCase().trim();
+        if (tenPhim1 > tenPhim2) {
+          return 1;
+        }
+        return -1;
+      },
+      sortDirections: ["descend", "ascend"],
+      width: 300,
+    },
+    {
+      title: "Hot",
+      dataIndex: "hot",
+      render: (text, object) => {
+        if (object.hot) {
+          return <FontAwesomeIcon className="check" icon={faCheck} />;
+        }
+      },
+    },
+    {
+      title: "Ngày khởi chiếu",
+      dataIndex: "ngayKhoiChieu",
+      render: (text, object) => <>{formatDateAdmin(object.ngayKhoiChieu)}</>,
+    },
+    {
+      title: "Mô tả",
+      dataIndex: "moTa",
+      render: (text, object) => (
+        <Fragment>
+          {object.moTa.length > 50
+            ? object.moTa.substr(0, 50) + "..."
+            : object.moTa}
+        </Fragment>
+      ),
+    },
+    {
+      title: "Thao tác",
+      dataIndex: "thaoTac",
+      render: (text, object) => (
+        <Fragment>
+          <NavLink
+            key={1}
+            className="mr-1"
+            to={`/admin/films/edit/${object.maPhim}`}
+          >
+            <button className="btn btn-info">
               <FontAwesomeIcon icon={faPen} />
             </button>
-            <button className="btn btn-danger">
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </td>
-        </tr>
-      );
-    });
+          </NavLink>
+          <button className="btn btn-danger">
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </Fragment>
+      ),
+    },
+  ];
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
   };
+
+  const onSearch = (value, _e, info) => console.log(info?.source, value);
 
   const handleAdd = () => {
     navigate("/admin/films/addnew");
   };
 
   return (
-    <Fragment>
-      <div className="d-flex align-item-center justify-content-end">
-        <button className="btn btn-success" onClick={handleAdd}>
-          <FontAwesomeIcon className="pr-2" icon={faPlus} />
-          Thêm phim
-        </button>
+    <div>
+      <div className="d-flex justify-content-between">
+        <h3>Quản lý phim</h3>
+        <Button onClick={handleAdd}>Thêm phim</Button>
       </div>
-
-      <table className="table mt-2" style={{ fontSize: 18 }}>
-        <thead className="bg-light p-2 text-center">
-          <tr>
-            <th>STT</th>
-            <th>Hình ảnh</th>
-            <th>Mã phim</th>
-            <th>Tên phim</th>
-            <th>Hot</th>
-            <th>Ngày khởi chiếu</th>
-            <th>Thao tác</th>
-          </tr>
-        </thead>
-        <tbody>{renderMovieList()}</tbody>
-      </table>
-    </Fragment>
+      <Search
+        className="py-3"
+        placeholder="input search text"
+        size="large"
+        onSearch={onSearch}
+      />
+      <Table columns={columns} dataSource={movieList} onChange={onChange} />
+    </div>
   );
 }
