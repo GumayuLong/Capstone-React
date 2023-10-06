@@ -13,6 +13,7 @@ import MovieManagement from "../pages/MovieManagement/MovieManagement";
 import UserManagement from "../pages/UserManagement/UserManagement";
 import CreateMovie from "../pages/MovieManagement/components/CreateMovie";
 import MovieSelection from "../pages/MovieSelection/MovieSelection";
+import RegisterForm from "../pages/UserManagement/components/RegisterForm";
 
 export default function Router() {
   const routing = useRoutes([
@@ -64,23 +65,27 @@ export default function Router() {
       ),
       children: [
         {
-          path: "/admin/films",
-          element: <MovieManagement />,
-          // children: [
-          //   {
-          //     path: "/admin/films/addnew",
-          //     element: <CreateMovie />,
-          //   },
-          // ],
-        },
-
-        {
-          path: "/admin/addnew",
-          element: <CreateMovie />,
+          index: true,
         },
         {
-          path: "/admin/user",
-          element: <UserManagement />,
+          children: [
+            {
+              path: "/admin/films",
+              element: <MovieManagement />,
+            },
+            {
+              path: "/admin/films/addnew",
+              element: <CreateMovie />,
+            },
+            {
+              path: "/admin/user",
+              element: <UserManagement />,
+            },
+            {
+              path: "/admin/user/addnew",
+              element: <RegisterForm />,
+            },
+          ],
         },
       ],
     },
