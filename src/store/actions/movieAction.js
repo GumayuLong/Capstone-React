@@ -19,3 +19,14 @@ export const createMovieAction = (formData) => {
     }
   };
 };
+
+export const getMovieDetailAction = (id) => {
+  return async (dispatch) => {
+    try {
+      const result = await movieService.fetchMovieDetailApi(id);
+      console.log(result.data.content);
+    } catch (error) {
+      console.log(error.response?.data);
+    }
+  };
+};

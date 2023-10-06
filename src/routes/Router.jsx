@@ -14,6 +14,7 @@ import UserManagement from "../pages/UserManagement/UserManagement";
 import CreateMovie from "../pages/MovieManagement/components/CreateMovie";
 import MovieSelection from "../pages/MovieSelection/MovieSelection";
 import RegisterForm from "../pages/UserManagement/components/RegisterForm";
+import EditMovie from "../pages/MovieManagement/components/EditMovie";
 
 export default function Router() {
   const routing = useRoutes([
@@ -76,6 +77,10 @@ export default function Router() {
             {
               path: "/admin/films/addnew",
               element: <CreateMovie />,
+            },
+            {
+              path: "/admin/films/edit/:movieId",
+              element: <EditMovie />,
             },
             {
               path: "/admin/user",

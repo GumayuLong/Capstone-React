@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Input, Table } from "antd";
 
 import { movieService } from "../../services/movie";
@@ -88,9 +88,15 @@ export default function MovieManagement() {
       dataIndex: "thaoTac",
       render: (text, object) => (
         <Fragment>
-          <button className="btn btn-info mr-1">
-            <FontAwesomeIcon icon={faPen} />
-          </button>
+          <NavLink
+            key={1}
+            className="mr-1"
+            to={`/admin/films/edit/${object.maPhim}`}
+          >
+            <button className="btn btn-info">
+              <FontAwesomeIcon icon={faPen} />
+            </button>
+          </NavLink>
           <button className="btn btn-danger">
             <FontAwesomeIcon icon={faTrash} />
           </button>

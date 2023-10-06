@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router";
 import {
   DatePicker,
   Form,
@@ -11,30 +12,46 @@ import {
 import { Col, Row } from "antd";
 import moment from "moment";
 import { useFormik } from "formik";
-import { movieService } from "../../../services/movie";
 
 import { useDispatch } from "react-redux";
-import { createMovieAction } from "../../../store/actions/movieAction";
+import { LoadingContext } from "../../../contexts/LoadingContext/LoadingContext";
+import { movieService } from "../../../services/movie";
 const { TextArea } = Input;
 
-export default function CreateMovie() {
+export default function EditMovie() {
+  const [movieDetail, setMovieDetail] = useState({});
   const [img, setImg] = useState("");
-  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
+  const [loadingState, setLoadingState] = useContext(LoadingContext);
+  const params = useParams();
+
+  useEffect(() => {
+    fetchMovieDetail();
+  }, []);
+
+  const fetchMovieDetail = async () => {
+    setLoadingState({ isLoading: true });
+    const result = await movieService.fetchMovieDetailApi(params.movieId);
+
+    setMovieDetail(result.data.content);
+    console.log(result);
+    setLoadingState({ isLoading: false });
+  };
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      tenPhim: "",
-      trailer: "",
-      moTa: "",
-      ngayKhoiChieu: "",
-      sapChieu: false,
-      hot: false,
-      dangChieu: false,
-      danhGia: 0,
-      hinhAnh: {},
+      tenPhim: movieDetail?.tenPhim,
+      trailer: movieDetail?.trailer,
+      moTa: movieDetail?.moTa,
+      ngayKhoiChieu: movieDetail?.ngayKhoiChieu,
+      sapChieu: movieDetail.sapChieu,
+      hot: movieDetail.hot,
+      dangChieu: movieDetail.dangChieu,
+      danhGia: movieDetail?.danhGia,
+      hinhAnh: movieDetail?.hinhAnh,
     },
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       console.log({ values });
       values.maNhom = "GP01";
       let formData = new FormData();
@@ -45,23 +62,8 @@ export default function CreateMovie() {
           formData.append("File", formik.hinhAnh, values[key].name);
         }
       }
-      // console.log("hinhAnh", formData.get);
+      console.log("hinhAnh", formData.get);
       // dispatch(createMovieAction(formData));
-
-      try {
-        const result = await movieService.fetchMovieCreateApi(formData);
-        console.log(result.data.content);
-        notification.success({
-          message: "Thêm phim thành công",
-          placement: "bottomRight",
-        });
-      } catch (error) {
-        console.log(error.response?.data);
-        notification.error({
-          message: "Thêm phim thất bại",
-          placement: "bottomRight",
-        });
-      }
     },
   });
 
@@ -109,22 +111,38 @@ export default function CreateMovie() {
         maxWidth: 1000,
       }}
     >
-      <h4>Thêm mới phim</h4>
+      <h4>Chỉnh sửa phim</h4>
 
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col className="gutter-row" span={12}>
           <Form.Item label="Mã phim">
-            <Input size="large" name="maPhim" onChange={formik.handleChange} />
+            <Input
+              size="large"
+              name="maPhim"
+              onChange={formik.handleChange}
+              value={movieDetail.maPhim}
+              disabled
+            />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={12}>
           <Form.Item label="Tên phim">
-            <Input size="large" name="tenPhim" onChange={formik.handleChange} />
+            <Input
+              size="large"
+              name="tenPhim"
+              value={formik.values.tenPhim}
+              onChange={formik.handleChange}
+            />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={12}>
           <Form.Item label="Link trailer">
-            <Input size="large" name="trailer" onChange={formik.handleChange} />
+            <Input
+              size="large"
+              name="trailer"
+              value={formik.values.trailer}
+              onChange={formik.handleChange}
+            />
           </Form.Item>
         </Col>
 
@@ -136,13 +154,18 @@ export default function CreateMovie() {
               size="large"
               style={{ width: "100%" }}
               onChange={handleChangeDatePicker}
+              // value={formik.values.ngayKhoiChieu}
             />
           </Form.Item>
         </Col>
 
         <Col className="gutter-row" span={6}>
           <Form.Item label="Sắp chiếu" valuePropName="checked">
-            <Switch name="sapChieu" onChange={handleChangeValue("sapChieu")} />
+            <Switch
+              name="sapChieu"
+              checked={formik.values.sapChieu}
+              onChange={handleChangeValue("sapChieu")}
+            />
           </Form.Item>
         </Col>
 
@@ -150,6 +173,7 @@ export default function CreateMovie() {
           <Form.Item label="Đang chiếu" valuePropName="checked">
             <Switch
               name="dangChieu"
+              checked={formik.values.dangChieu}
               onChange={handleChangeValue("dangChieu")}
             />
           </Form.Item>
@@ -157,7 +181,11 @@ export default function CreateMovie() {
 
         <Col className="gutter-row" span={6}>
           <Form.Item label="Hot" valuePropName="checked">
-            <Switch name="hot" onChange={handleChangeValue("hot")} />
+            <Switch
+              name="hot"
+              checked={formik.values.hot}
+              onChange={handleChangeValue("hot")}
+            />
           </Form.Item>
         </Col>
 
@@ -165,6 +193,7 @@ export default function CreateMovie() {
           <Form.Item label="Số sao">
             <InputNumber
               name="danhGia"
+              value={formik.values.danhGia}
               onChange={handleChangeValue("danhGia")}
               min={1}
               max={10}
@@ -178,13 +207,19 @@ export default function CreateMovie() {
           size="large"
           rows={6}
           name="moTa"
+          value={formik.values.moTa}
           onChange={formik.handleChange}
         />
       </Form.Item>
 
       <Form.Item label="Hình ảnh">
         <input type="file" onChange={handleUploadFile} />
-        <img className="mt-2" src={img} width={200} alt="" />
+        <img
+          className="mt-2"
+          src={img === "" ? movieDetail.hinhAnh : img}
+          width={200}
+          alt=""
+        />
       </Form.Item>
 
       <Form.Item>
