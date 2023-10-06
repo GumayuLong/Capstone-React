@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { movieService } from "../../services/movie";
@@ -30,7 +28,6 @@ export default function Home() {
 	const [heThongCumRap, setHeThongCumRap] = useState([]);
 	const [getListCumRap, setGetListCumRap] = useState({});
 	const [heThongLichChieu, setHeThongLichChieu] = useState([]);
-	const [time, setTime] = useState([]);
 
 	useEffect(() => {
 		fetchMovieList();
