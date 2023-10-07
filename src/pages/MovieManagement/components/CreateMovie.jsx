@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import { movieService } from "../../../services/movie";
 
 import { useDispatch } from "react-redux";
-import { createMovieAction } from "../../../store/actions/movieAction";
+// import { createMovieAction } from "../../../store/actions/movieAction";
 const { TextArea } = Input;
 
 export default function CreateMovie() {
