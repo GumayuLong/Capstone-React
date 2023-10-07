@@ -6,7 +6,11 @@
 }
 
 .check {
-  width: 10px;
-  height: 10px;
+  width: 25px;
+  height: 25px;
   color: green;
+}
+
+.ant-btn > span {
+  display: block !important;
 }
