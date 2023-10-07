@@ -8,6 +8,13 @@ class MovieService {
     });
   }
 
+  fetchSearchMovieApi(movie) {
+    return request({
+      url: `/QuanLyPhim/LayDanhSachPhim?maNhom=GP01&tenPhim=${movie}`,
+      method: "GET",
+    });
+  }
+
   fetchMovieDetailApi(movieId) {
     return request({
       url: `/QuanLyPhim/LayThongTinPhim?MaPhim=${movieId}`,
@@ -33,7 +40,7 @@ class MovieService {
 
   fetchMovieDeletApi(id) {
     return request({
-      url: `/QuanLyPhim/XoaPhim/${id}`,
+      url: `/QuanLyPhim/XoaPhim?MaPhim=${id}`,
       method: "DELETE",
     });
   }

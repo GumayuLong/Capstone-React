@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Button, Input, Table } from "antd";
+import { Button, Input, Table, notification } from "antd";
 
 import { movieService } from "../../services/movie";
 import { formatDateAdmin } from "../../utils/date";
@@ -9,21 +9,30 @@ import "./movieManagement.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
 export default function MovieManagement() {
   const navigate = useNavigate();
   const [movieList, setMovieList] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchMovieList();
   }, []);
 
-  const fetchMovieList = async () => {
-    const result = await movieService.fetchMovieListApi();
+  const fetchMovieList = async (tenPhim = "") => {
+    if (tenPhim.trim() !== "") {
+      const result = await movieService.fetchSearchMovieApi(tenPhim);
 
-    setMovieList(result.data.content);
+      setMovieList(result.data.content);
+    } else {
+      const result = await movieService.fetchMovieListApi();
+
+      setMovieList(result.data.content);
+    }
   };
 
   const columns = [
@@ -32,7 +41,7 @@ export default function MovieManagement() {
       dataIndex: "maPhim",
       sorter: (a, b) => a.maPhim - b.maPhim,
       sortDirections: ["descend", "ascend"],
-      width: 150,
+      width: 120,
     },
     {
       title: "Hình ảnh",
@@ -85,7 +94,8 @@ export default function MovieManagement() {
     },
     {
       title: "Thao tác",
-      dataIndex: "thaoTac",
+      dataIndex: "maPhim",
+      width: 130,
       render: (text, object) => (
         <Fragment>
           <NavLink
@@ -97,7 +107,33 @@ export default function MovieManagement() {
               <FontAwesomeIcon icon={faPen} />
             </button>
           </NavLink>
-          <button className="btn btn-danger">
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              if (
+                window.confirm("Bạn có chắc muốn xóa phim " + object.tenPhim)
+              ) {
+                try {
+                  const result = movieService.fetchMovieDeletApi(object.maPhim);
+                  console.log(result.data.content);
+                  notification.success({
+                    message: "Xóa phim thành công",
+                    placement: "bottomRight",
+                  });
+
+                  dispatch(movieService.fetchMovieListApi());
+                } catch (error) {
+                  console.log("error", error.response?.data);
+                  notification.error({
+                    message: "Xóa phim thất bại",
+                    placement: "bottomRight",
+                  });
+
+                  dispatch(movieService.fetchMovieListApi());
+                }
+              }
+            }}
+          >
             <FontAwesomeIcon icon={faTrash} />
           </button>
         </Fragment>
@@ -109,7 +145,9 @@ export default function MovieManagement() {
     console.log("params", pagination, filters, sorter, extra);
   };
 
-  const onSearch = (value, _e, info) => console.log(info?.source, value);
+  const onSearch = (value) => {
+    fetchMovieList(value);
+  };
 
   const handleAdd = () => {
     navigate("/admin/films/addnew");
@@ -123,11 +161,17 @@ export default function MovieManagement() {
       </div>
       <Search
         className="py-3"
-        placeholder="input search text"
+        placeholder="Nhập tên phim..."
         size="large"
+        enterButton={<SearchOutlined />}
         onSearch={onSearch}
       />
-      <Table columns={columns} dataSource={movieList} onChange={onChange} />
+      <Table
+        rowKey={"maPhim"}
+        columns={columns}
+        dataSource={movieList}
+        onChange={onChange}
+      />
     </div>
   );
 }
