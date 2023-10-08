@@ -105,3 +105,9 @@
     }
   }
 }
+
+.navbar-dark .navbar-toggler {
+  &:focus {
+    outline: none !important ;
+  }
+}

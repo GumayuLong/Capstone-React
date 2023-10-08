@@ -72,7 +72,7 @@ export default function MovieSelection() {
 
   return (
     <div className="mx-auto my-5 container">
-      <h1 className="text-center my-5">MOVIE SELECTION</h1>
+      <h1 className="text-center pt-5 pb-2">MOVIE SELECTION</h1>
       <div className="row">{renderMovieList()}</div>
     </div>
   );

@@ -67,7 +67,6 @@ export default function EditMovie() {
           }
         }
       }
-      console.log("hinhAnh", formData.get);
 
       try {
         const result = await movieService.fetchMovieUpdateApi(formData);

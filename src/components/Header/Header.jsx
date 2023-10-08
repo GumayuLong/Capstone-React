@@ -67,7 +67,7 @@ export default function Header() {
   return (
     <div>
       {/* Header */}
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark header">
+      <nav className="navbar navbar-expand-md navbar-dark bg-dark header">
         <a className="navbar-brand" href="#">
           <h3>Cyber Cinema</h3>
         </a>

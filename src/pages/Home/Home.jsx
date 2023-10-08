@@ -237,7 +237,7 @@ export default function Home() {
   return (
     <Fragment>
       <section className="carosel">
-        <Slider {...settings}>
+        <Slider {...settings} style={{ paddingTop: 65 }}>
           {bannerList.map((element) => (
             <div key={element.maBanner}>
               <img className="img-fluid" src={element.hinhAnh} />
@@ -256,32 +256,34 @@ export default function Home() {
           Xem thêm
         </Link>
       </div>
-      <h1 className="text-center my-5">SHOWTIMES</h1>
-      <div
-        className="muiContainer multiContainer"
-        style={{ marginBottom: "90px" }}
-      >
-        <div className="lichchieu">
-          <div className="tabVertical">
-            <div
-              className="multitabsScroller multitabsFix"
-              style={{ overflow: "hidden" }}
-            >
-              <div className="flexContainer">
-                {renderListGetInfoHeThongRap()}
+      <div className="showTime">
+        <h1 className="text-center my-5">SHOWTIMES</h1>
+        <div
+          className="muiContainer multiContainer"
+          style={{ marginBottom: "90px" }}
+        >
+          <div className="lichchieu">
+            <div className="tabVertical">
+              <div
+                className="multitabsScroller multitabsFix"
+                style={{ overflow: "hidden" }}
+              >
+                <div className="flexContainer">
+                  {renderListGetInfoHeThongRap()}
+                </div>
+              </div>
+            </div>
+            {/* <span className="activeSpan"></span> */}
+          </div>
+          <div className="verticalTabpanel">
+            <div className="multitabVertical">
+              <div className="multitabsScroller">
+                <div className="flexContainer">{renderCumRap()}</div>
               </div>
             </div>
           </div>
-          {/* <span className="activeSpan"></span> */}
+          <div className="movie-list">{renderLichChieu()}</div>
         </div>
-        <div className="verticalTabpanel">
-          <div className="multitabVertical">
-            <div className="multitabsScroller">
-              <div className="flexContainer">{renderCumRap()}</div>
-            </div>
-          </div>
-        </div>
-        <div className="movie-list">{renderLichChieu()}</div>
       </div>
     </Fragment>
   );

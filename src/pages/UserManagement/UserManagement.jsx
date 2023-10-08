@@ -12,7 +12,7 @@ import { userService } from "../../services/user";
 import "./userManagement.scss";
 import RegisterForm from "./components/RegisterForm";
 import EditUser from "./components/EditUser";
-import { notification } from "antd";
+import { Button, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 
 export default function UserManagement() {
@@ -111,11 +111,15 @@ export default function UserManagement() {
 
   return (
     <Fragment>
-      <div className="d-flex align-item-center justify-content-end">
-        <button className="btn btn-success" onClick={handleAdd}>
-          <FontAwesomeIcon className="pr-2" icon={faPlus} />
-          Thêm người dùng
-        </button>
+      <div className="d-flex align-items-center justify-content-between">
+        <h3>Danh sách người dùng</h3>
+        <Button
+          onClick={handleAdd}
+          className="d-flex align-items-center justify-content-center"
+        >
+          <FontAwesomeIcon icon={faPlus} className="mr-2" />
+          <span style={{ fontSize: 16 }}>Thêm người dùng</span>
+        </Button>
       </div>
 
       <EditUser taiKhoan={selectedUser} />
