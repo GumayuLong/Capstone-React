@@ -21,6 +21,11 @@
   gap: 15px;
 }
 
+.row {
+  display: flex;
+  justify-content: center;
+}
+
 .item {
   padding: 12px;
 }
@@ -63,26 +68,9 @@
   text-overflow: ellipsis;
 }
 
-.lichChieu {
-  height: 720px;
-  display: flex;
-  overflow: hidden;
-  flex-grow: 1;
-  max-height: 720px;
-  margin-bottom: 40px;
-  background-color: #fff;
-  max-width: 960px;
-  padding-left: 24px;
-  padding-right: 24px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .tabVertical {
   width: 90px;
-  position: relative;
+  // position: relative;
   flex-direction: column;
   display: flex;
   overflow: hidden;
@@ -92,7 +80,7 @@
 .multitabsScroller {
   flex: 1 1 auto;
   display: inline-block;
-  position: relative;
+  // position: relative;
 }
 
 .multitabsFix {
@@ -106,11 +94,12 @@
 
 .borderbutton {
   border-bottom: 1px solid rgba(128, 128, 128, 0.3);
-  border-right: 1px solid rgba(128, 128, 128, 0.3); 
+  border-right: 1px solid rgba(128, 128, 128, 0.3);
   height: 90px;
-}
-.borderbutton:hover{
-  background-color: #f26b38;
+
+  &:hover {
+    background-color: #efefef;
+  }
 }
 
 .buttonLogo {
@@ -138,6 +127,7 @@
   vertical-align: middle;
   justify-content: center;
   background-color: transparent;
+
   &:focus {
     outline: none;
   }
@@ -231,44 +221,46 @@
   border: none;
   border-left: 1px solid rgba(128, 128, 128, 0.3);
   border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+
   &:focus {
     outline: none;
   }
-}
-.buttonCustom:hover{
-  background-color: #f26b38;
-}
 
-.multitabWrapper {
-  display: unset;
-  width: 100%;
-}
-
-.htrtitle {
-  color: #108f3e;
-  overflow: hidden;
-  font-weight: 500;
-  // line-height: 1.4;
-  text-overflow: ellipsis;
-  font-size: 13px;
-}
-
-.address {
-  color: #000;
-  overflow: hidden;
-  font-weight: 400;
-  text-overflow: ellipsis;
-  font-size: 10px;
-}
-
-.btnChiTiet {
-  color: #fb4226;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
   &:hover {
-    color: #fb4226;
-    text-decoration: none;
+    background-color: #efefef;
+  }
+
+  .multitabWrapper {
+    display: unset;
+    width: 100%;
+
+    .htrtitle {
+      color: #108f3e;
+      overflow: hidden;
+      font-weight: 500;
+      // line-height: 1.4;
+      text-overflow: ellipsis;
+      font-size: 13px;
+    }
+
+    .address {
+      color: #000;
+      overflow: hidden;
+      font-weight: 400;
+      text-overflow: ellipsis;
+      font-size: 10px;
+    }
+
+    .btnChiTiet {
+      color: #fb4226;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      &:hover {
+        color: #fb4226;
+        text-decoration: none;
+      }
+    }
   }
 }
 
@@ -286,6 +278,23 @@
   width: 100%;
   margin: 0 auto;
   border: 1px solid rgba(128, 128, 128, 0.3);
+
+  .lichChieu {
+    height: 720px;
+    display: flex;
+    overflow: hidden;
+    flex-grow: 1;
+    max-height: 720px;
+    margin-bottom: 40px;
+    background-color: #fff;
+    max-width: 960px;
+    padding-left: 24px;
+    padding-right: 24px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .movie-list {
@@ -333,5 +342,11 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .showTime {
+    display: none !important;
   }
 }

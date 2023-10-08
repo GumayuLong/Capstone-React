@@ -89,7 +89,7 @@ export default function Login() {
         <div className="form">
           <div className="w-75 mx-auto py-5">
             <div style={{ textAlign: "center" }}>
-              <FontAwesomeIcon className="icon" icon={faUser}></FontAwesomeIcon>
+              <FontAwesomeIcon className="icon" icon={faUser} />
             </div>
             <h1 className="title">Đăng nhập</h1>
             <form onSubmit={handleSubmit}>

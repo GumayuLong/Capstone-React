@@ -14,7 +14,6 @@ import { useFormik } from "formik";
 import { movieService } from "../../../services/movie";
 
 import { useDispatch } from "react-redux";
-// import { createMovieAction } from "../../../store/actions/movieAction";
 const { TextArea } = Input;
 
 export default function CreateMovie() {
@@ -42,10 +41,10 @@ export default function CreateMovie() {
         if (key !== "hinhAnh") {
           formData.append(key, values[key]);
         } else {
-          formData.append("File", formik.hinhAnh, values[key].name);
+          formData.append("File", values.hinhAnh, values.hinhAnh.name);
         }
       }
-      // console.log("hinhAnh", formData.get);
+      // console.log("form", formData.get());
       // dispatch(createMovieAction(formData));
 
       try {

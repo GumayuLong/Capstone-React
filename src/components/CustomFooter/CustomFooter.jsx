@@ -14,8 +14,8 @@ export default function CustomFooter() {
     <footer className="navbar-dark bg-dark">
       <div className="mx-auto w-65">
         <div className="row">
-          <div className="col-12 col-xl-3 col-md-12 col-sm-12">
-            <div className="flex flex-col shop-info">
+          <div className="col-12 col-xl-3 col-md-6 col-sm-12">
+            <div className="flex">
               <a className="navbar-brand" href="#">
                 <h3 className="text-center">Cyber Cinema</h3>
               </a>
@@ -35,8 +35,8 @@ export default function CustomFooter() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-xl-3 col-md-4 col-sm-6">
-            <div className="flex flex-col">
+          <div className="col-12 col-xl-3 col-md-6 col-sm-6">
+            <div className="flex">
               <h5 className="my-2 pl-3 title-custom navbar-brand">
                 GIỚI THIỆU
               </h5>
@@ -64,8 +64,8 @@ export default function CustomFooter() {
               </ul>
             </div>
           </div>
-          <div className="col-12 col-xl-3 col-md-4 col-sm-6">
-            <div className="flex flex-col">
+          <div className="col-12 col-xl-3 col-md-6 col-sm-6">
+            <div className="flex">
               <h5 className="my-2 pl-3 title-custom navbar-brand">GÓC PHIM</h5>
               <ul className="list-unstyled my-2">
                 <li>
@@ -91,8 +91,8 @@ export default function CustomFooter() {
               </ul>
             </div>
           </div>
-          <div className="col-12 col-xl-3 col-md-4 col-sm-6">
-            <div className="flex flex-col">
+          <div className="col-12 col-xl-3 col-md-6 col-sm-6">
+            <div className="flex">
               <h5 className="my-2 pl-3 title-custom navbar-brand">HỖ TRỢ</h5>
               <ul className="list-unstyled my-2">
                 <li>

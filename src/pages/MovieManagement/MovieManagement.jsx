@@ -8,7 +8,12 @@ import { formatDateAdmin } from "../../utils/date";
 import "./movieManagement.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faPen,
+  faPlus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
@@ -111,7 +116,9 @@ export default function MovieManagement() {
             className="btn btn-danger"
             onClick={() => {
               if (
-                window.confirm("Bạn có chắc muốn xóa phim " + object.tenPhim)
+                window.confirm(
+                  "Bạn có chắc muốn xóa phim " + object.tenPhim + "?"
+                )
               ) {
                 try {
                   const result = movieService.fetchMovieDeletApi(object.maPhim);
@@ -128,8 +135,6 @@ export default function MovieManagement() {
                     message: "Xóa phim thất bại",
                     placement: "bottomRight",
                   });
-
-                  dispatch(movieService.fetchMovieListApi());
                 }
               }
             }}
@@ -157,7 +162,13 @@ export default function MovieManagement() {
     <div>
       <div className="d-flex justify-content-between">
         <h3>Quản lý phim</h3>
-        <Button onClick={handleAdd}>Thêm phim</Button>
+        <Button
+          onClick={handleAdd}
+          className="d-flex align-items-center justify-content-center"
+        >
+          <FontAwesomeIcon icon={faPlus} className="mr-2" />
+          <span style={{ fontSize: 16 }}>Thêm phim</span>
+        </Button>
       </div>
       <Search
         className="py-3"
