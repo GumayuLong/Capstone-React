@@ -38,7 +38,7 @@ class MovieService {
     });
   }
 
-  fetchMovieDeletApi(id) {
+  fetchMovieDeleteApi(id) {
     return request({
       url: `/QuanLyPhim/XoaPhim?MaPhim=${id}`,
       method: "DELETE",
