@@ -14,3 +14,24 @@
 .ant-btn > span {
   display: block !important;
 }
+
+.ant-table-wrapper {
+  .ant-table-thead > tr > th {
+    text-align: center;
+  }
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .btn-icon {
+    border: none;
+    border-radius: 3px;
+    background-color: transparent;
+    .icon-size {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}

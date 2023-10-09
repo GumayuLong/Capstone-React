@@ -9,13 +9,14 @@ import "./movieManagement.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCalendar,
   faCheck,
   faPen,
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -37,6 +38,29 @@ export default function MovieManagement() {
       const result = await movieService.fetchMovieListApi();
 
       setMovieList(result.data.content);
+    }
+  };
+
+  const handleDeleteMovie = async (object) => {
+    const confirm = window.confirm(
+      "Bạn có chắc muốn xóa phim " + object.tenPhim + "?"
+    );
+
+    if (!confirm) return;
+    try {
+      await movieService.fetchMovieDeleteApi(object.maPhim);
+      notification.success({
+        message: "Xóa phim thành công",
+        placement: "bottomRight",
+      });
+
+      const result = await movieService.fetchMovieListApi();
+      setMovieList(result.data.content);
+    } catch (error) {
+      notification.error({
+        message: "Xóa phim thất bại",
+        placement: "bottomRight",
+      });
     }
   };
 
@@ -100,48 +124,36 @@ export default function MovieManagement() {
     {
       title: "Thao tác",
       dataIndex: "maPhim",
-      width: 130,
+      width: 150,
       render: (text, object) => (
-        <Fragment>
+        <div className="btn-action">
           <NavLink
             key={1}
-            className="mr-1"
+            className="mb-1"
             to={`/admin/films/edit/${object.maPhim}`}
           >
-            <button className="btn btn-info">
-              <FontAwesomeIcon icon={faPen} />
+            <button className="btn-icon text-info">
+              <FontAwesomeIcon className="icon-size" icon={faPen} />
             </button>
           </NavLink>
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              if (
-                window.confirm(
-                  "Bạn có chắc muốn xóa phim " + object.tenPhim + "?"
-                )
-              ) {
-                try {
-                  const result = movieService.fetchMovieDeletApi(object.maPhim);
-                  console.log(result.data.content);
-                  notification.success({
-                    message: "Xóa phim thành công",
-                    placement: "bottomRight",
-                  });
 
-                  dispatch(movieService.fetchMovieListApi());
-                } catch (error) {
-                  console.log("error", error.response?.data);
-                  notification.error({
-                    message: "Xóa phim thất bại",
-                    placement: "bottomRight",
-                  });
-                }
-              }
-            }}
+          <NavLink
+            key={1}
+            className="mb-1"
+            to={`/admin/films/movie-schedule/${object.maPhim}`}
           >
-            <FontAwesomeIcon icon={faTrash} />
+            <button className="btn-icon text-warning">
+              <FontAwesomeIcon className="icon-size" icon={faCalendar} />
+            </button>
+          </NavLink>
+
+          <button
+            className="btn-icon text-danger mb-1"
+            onClick={() => handleDeleteMovie(object)}
+          >
+            <FontAwesomeIcon className="icon-size" icon={faTrash} />
           </button>
-        </Fragment>
+        </div>
       ),
     },
   ];
