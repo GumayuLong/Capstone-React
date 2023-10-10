@@ -1,301 +1,179 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Col, Input, Row, Form, message, notification, Select } from "antd";
+import { useFormik } from "formik";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { LoadingContext } from "../../../contexts/LoadingContext/LoadingContext";
 import { userService } from "../../../services/user";
-import { validation } from "../../../validations/validation";
-import { setUserInfoAction } from "../../../store/actions/userAction";
-import { message, notification } from "antd";
 import { useDispatch } from "react-redux";
 
-export default function EditUser({ taiKhoan = this.props.taiKhoan }) {
-  const [data, setData] = useState({
-    values: {
-      taiKhoan: "",
-      matKhau: "",
-      email: "",
-      soDt: "",
-      maNhom: "GP01",
-      maLoaiNguoiDung: "QuanTri",
-      hoTen: "",
-    },
-
-    errors: {
-      taiKhoan: "",
-      matKhau: "",
-      email: "",
-      soDt: "",
-      maNhom: "",
-      maLoaiNguoiDung: "",
-      hoTen: "",
-    },
-
-    valid: false,
-  });
-
-  const [_, setMessage] = useState("");
-  const dispatch = useDispatch();
-
+export default function EditUser() {
+  const [userDetail, setUserDetail] = useState({});
   const [userType, setUserType] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loadingState, setLoadingState] = useContext(LoadingContext);
+  const params = useParams();
 
   useEffect(() => {
+    fetchUserDetail();
     fetchUserTypeList();
-    if (taiKhoan !== null) {
-      fetchUserDetails();
-    }
   }, []);
 
+  const fetchUserDetail = async () => {
+    setLoadingState({ isLoading: true });
+    console.log(params);
+    const result = await userService.fetchUserDetailApi(params.taiKhoan);
+
+    setUserDetail(result.data.content);
+    console.log(result);
+    setLoadingState({ isLoading: false });
+  };
+
   const fetchUserTypeList = async () => {
-    const result = await userService.fetchUserTypeListApi();
-    setUserType(result.data.content);
-  };
-
-  const fetchUserDetails = async () => {
     try {
-      const result = await userService.fetchUserDetailApi(taiKhoan);
-      const userData = result.data.content;
-
-      console.log(result.data.content);
-      // Populate the form with user data
-      setData({
-        values: {
-          taiKhoan: userData.taiKhoan,
-          matKhau: userData.matKhau,
-          email: userData.email,
-          soDt: userData.soDT,
-          maNhom: userData.maNhom,
-          maLoaiNguoiDung: userData.maLoaiNguoiDung,
-          hoTen: userData.hoTen,
-        },
-        errors: { ...data.errors },
-        valid: true,
-      });
+      const result = await userService.fetchUserTypeListApi();
+      setUserType(result.data.content);
     } catch (error) {
-      setMessage("Lấy thông tin người dùng thất bại");
+      console.log("Error", error.response?.data);
     }
   };
-  const handleChange = (event) => {
-    let { name, value } = event.target;
-    let errorMessage = "";
 
-    let valid = true;
-    for (let key in data.errors) {
-      if (data.errors[key] !== "" || data.values[key] == "") {
-        valid &= false;
-      } else {
-        valid &= true;
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      taiKhoan: userDetail.taiKhoan,
+      matKhau: userDetail.matKhau,
+      email: userDetail.email,
+      soDT: userDetail.soDT,
+      maNhom: "GP01",
+      maLoaiNguoiDung: userDetail.maLoaiNguoiDung,
+      hoTen: userDetail.hoTen,
+    },
+
+    onSubmit: async (values) => {
+      try {
+        await userService.fetchUpdateUserApi(values);
+        notification.success({
+          message: "Cập nhật người dùng thành công",
+          placement: "bottomRight",
+        });
+
+        await userService.fetchUserListApi();
+        navigate("/admin/user");
+      } catch (error) {
+        console.log(error.response?.data);
+        notification.error({
+          message: "Cập nhật người dùng thất bại",
+          placement: "bottomRight",
+        });
       }
-    }
+    },
+  });
 
-    if (validation.validateRequiredAdmin(value)) {
-      errorMessage = "Dữ liệu không được để trống";
-      valid &= false;
-    } else {
-      valid &= true;
-    }
-
-    if (name === "email") {
-      let isValid = validation.validateWithRegexAdmin(
-        value,
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-      );
-
-      if (!isValid) {
-        errorMessage = "Email không đúng định dạng";
-        valid &= false;
-      } else {
-        valid &= true;
-      }
-    }
-
-    if (name === "soDt") {
-      let isValid = validation.validateWithRegexAdmin(
-        value,
-        /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
-      );
-
-      if (!isValid) {
-        errorMessage = "Số điện thoại không hợp lệ";
-        valid &= false;
-      } else {
-        valid &= true;
-      }
-    }
-
-    setData({
-      ...data,
-      values: {
-        ...data.values,
-        [name]: value,
-      },
-      errors: {
-        ...data.errors,
-        [name]: errorMessage,
-      },
-      valid,
+  const selectUserType = () => {
+    return userType?.map((element) => {
+      return {
+        label: element.tenLoai,
+        value: element.maLoaiNguoiDung,
+      };
     });
   };
 
-  const handleUpdateUser = (event) => {
-    event.preventDefault();
-
-    if (data.valid) {
-      const promise = userService.fetchUpdateUserApi(data.values);
-
-      promise.then((result) => {
-        dispatch(setUserInfoAction(result.data.content));
-
-        setMessage("Cập nhật người dùng thành công");
-
-        notification.success({
-          message: message,
-          placement: "bottomRight",
-        });
-      });
-      promise.catch((error) => {
-        setMessage("Cập nhật người dùng thất bại");
-
-        notification.error({
-          message: message,
-          placement: "bottomRight",
-        });
-      });
-    }
+  const handleChangeUserType = (value) => {
+    formik.setFieldValue("maLoaiNguoiDung", value);
+    console.log(value);
   };
 
   return (
-    <div
-      className="modal fade"
-      id="updateUser"
-      tabIndex={-1}
-      aria-labelledby="updateUser"
-      aria-hidden="true"
+    <Form
+      onSubmitCapture={formik.handleSubmit}
+      labelCol={{
+        span: 10,
+      }}
+      wrapperCol={{
+        span: 100,
+      }}
+      layout="vertical"
+      style={{
+        maxWidth: 1000,
+      }}
     >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title" id="updateUser">
-              Cập nhật thông tin người dùng
-            </h5>
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div className="modal-body">
-            <form onSubmit={handleUpdateUser}>
-              <div className="form-group">
-                <label>Tài khoản</label>
-                <input
-                  placeholder="Tài khoản"
-                  className="form-control"
-                  value={data.values.taiKhoan}
-                  name="taiKhoan"
-                  onChange={handleChange}
-                  disabled
-                />
-                <p className="text-danger" name="taiKhoan">
-                  {data.errors.taiKhoan}
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label>Mật khẩu</label>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="form-control"
-                  value={data.values.matKhau}
-                  name="matKhau"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="matKhau">
-                  {data.errors.matKhau}
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label>Họ và tên</label>
-                <input
-                  placeholder="Họ và tên"
-                  className="form-control"
-                  value={data.values.hoTen}
-                  name="hoTen"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="hoTen">
-                  {data.errors.hoTen}
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label>Số điện thoại</label>
-                <input
-                  placeholder="Số điện thoại"
-                  className="form-control"
-                  value={data.values.soDt}
-                  name="soDt"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="soDt">
-                  {data.errors.soDt}
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  placeholder="Email"
-                  className="form-control"
-                  value={data.values.email}
-                  name="email"
-                  onChange={handleChange}
-                />
-                <p className="text-danger" name="email">
-                  {data.errors.email}
-                </p>
-              </div>
-
-              <div className="form-group">
-                <label>Loại người dùng</label>
-                <select
-                  className="form-control"
-                  value={data.values.maLoaiNguoiDung}
-                  name="maLoaiNguoiDung"
-                  onChange={handleChange}
-                >
-                  <option value="">Chọn người dùng</option>
-                  {userType.map((element) => (
-                    <option value={element.maLoaiNguoiDung}>
-                      {element.tenLoai}
-                    </option>
-                  ))}
-                </select>
-                <p className="text-danger" name="maLoaiNguoiDung">
-                  {data.errors.maLoaiNguoiDung}
-                </p>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Đóng
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              onClick={handleUpdateUser}
-            >
-              Lưu
-            </button>
-          </div>
-        </div>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Col className="gutter-row" span={12}>
+          <Form.Item label="Họ và tên">
+            <Input
+              size="large"
+              name="hoTen"
+              value={formik.values.hoTen}
+              onChange={formik.handleChange}
+              placeholder="Họ và tên"
+            />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={12}>
+          <Form.Item label="Email">
+            <Input
+              size="large"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              placeholder="Email"
+            />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={12}>
+          <Form.Item label="Số điện thoại">
+            <Input
+              size="large"
+              name="soDT"
+              value={formik.values.soDT}
+              onChange={formik.handleChange}
+              placeholder="Số điện thoại"
+            />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={12}>
+          <Form.Item label="Tài khoản">
+            <Input
+              size="large"
+              name="taiKhoan"
+              value={formik.values.taiKhoan}
+              onChange={formik.handleChange}
+              placeholder="Tài khoản"
+              disabled
+            />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={12}>
+          <Form.Item label="Mật khẩu">
+            <Input.Password
+              size="large"
+              name="matKhau"
+              value={formik.values.matKhau}
+              onChange={formik.handleChange}
+              placeholder="Mật khẩu"
+            />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={12}>
+          <Form.Item label="Loại người dùng">
+            <Select
+              size="large"
+              placeholder="Chọn loại người dùng"
+              name="maLoaiNguoiDung"
+              value={formik.values.maLoaiNguoiDung}
+              onChange={handleChangeUserType}
+              options={selectUserType()}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <div className="d-flex justify-content-end">
+        <button type="submit" className="btn btn-primary">
+          Câp nhật
+        </button>
       </div>
-    </div>
+    </Form>
   );
 }

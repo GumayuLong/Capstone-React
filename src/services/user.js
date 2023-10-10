@@ -26,6 +26,13 @@ class UserService {
     });
   }
 
+  fetchSearchUserApi(keyword) {
+    return request({
+      url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP01&tuKhoa=${keyword}`,
+      method: "GET",
+    });
+  }
+
   fetchUserTypeListApi() {
     return request({
       url: "/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung",
@@ -48,10 +55,11 @@ class UserService {
     });
   }
 
-  fetchUpdateUserApi() {
+  fetchUpdateUserApi(data) {
     return request({
       url: `/QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
       method: "POST",
+      data: data,
     });
   }
 

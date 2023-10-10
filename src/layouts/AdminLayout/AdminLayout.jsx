@@ -45,12 +45,13 @@ export default function AdminLayout() {
   };
 
   return (
-    <Layout>
+    <Layout style={{ overflow: "hidden" }}>
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {}}
         onCollapse={(collapsed, type) => {}}
+        style={{ height: "100vh" }}
       >
         <div className="demo-logo-vertical" />
 
@@ -63,7 +64,7 @@ export default function AdminLayout() {
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout>
+      <Layout style={{ height: "100vh" }}>
         <Header
           style={{
             padding: 0,
@@ -72,16 +73,14 @@ export default function AdminLayout() {
         >
           {renderContent()}
         </Header>
-        <Content style={{ padding: "10px 20px" }}>
+        <Content style={{ padding: "10px 20px", overflowY: "scroll" }}>
           <Outlet />
         </Content>
         <Footer
           style={{
             padding: 0,
           }}
-        >
-          <CustomFooter />
-        </Footer>
+        ></Footer>
       </Layout>
     </Layout>
   );

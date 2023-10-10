@@ -1,23 +1,24 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { Button, Input, Table, notification } from "antd";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { userService } from "../../services/user";
+
+import "./userManagement.scss";
+
 import {
   faCheck,
   faPen,
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { userService } from "../../services/user";
+import { SearchOutlined } from "@ant-design/icons";
 
-import "./userManagement.scss";
-import RegisterForm from "./components/RegisterForm";
-import EditUser from "./components/EditUser";
-import { Button, notification } from "antd";
-import { useNavigate } from "react-router-dom";
+const { Search } = Input;
 
 export default function UserManagement() {
   const [userList, setUserList] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,83 +31,119 @@ export default function UserManagement() {
     setUserList(result.data.content);
   };
 
-  const handleEditUser = (taiKhoan) => {
-    console.log(taiKhoan);
-    setSelectedUser(taiKhoan);
-  };
+  const handleDeleteUser = async (object) => {
+    const confirm = window.confirm(
+      "Bạn có chắc muốn xóa người dùng " + object.taiKhoan + "?"
+    );
 
-  const handleDeleteUser = async (taiKhoan) => {
-    const promise = await userService.fetchDeleteUserApi(taiKhoan);
-
-    promise.then((result) => {
+    if (!confirm) return;
+    try {
+      await userService.fetchDeleteUserApi(object.taiKhoan);
       notification.success({
-        message: "Xóa người dùng thành công" + result.data,
+        message: "Xóa người dùng thành công",
         placement: "bottomRight",
       });
-      fetchUserList();
-    });
 
-    promise.catch((error) => {
+      const result = await userService.fetchUserListApi();
+      setUserList(result.data.content);
+    } catch (error) {
       notification.error({
-        message: error.response.data,
-        placement: "bottomRight",
+        message: "Xóa người dùng thất bại",
       });
-    });
+    }
   };
 
-  const renderUserList = () => {
-    return userList.map((element, index) => {
-      return (
-        <tr
-          className={(index + 1) % 2 === 0 ? "bg-light" : ""}
-          key={element.taiKhoan}
-        >
-          <td align="center" width={100}>
-            {index + 1}
-          </td>
-          <td>{element.hoTen}</td>
-          <td>{element.taiKhoan}</td>
-          <td>{element.soDT}</td>
-          <td>{element.email}</td>
-          <td align="center">
-            {element.maLoaiNguoiDung === "QuanTri" ? (
+  const columns = [
+    {
+      title: "Họ và tên",
+      dataIndex: "hoTen",
+      width: 200,
+      sorter: (a, b) => {
+        let hoTen1 = a.hoTen.toLowerCase().trim();
+        let hoTen2 = b.hoTen.toLowerCase().trim();
+        if (hoTen1 > hoTen2) {
+          return 1;
+        }
+        return -1;
+      },
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Tài khoản",
+      dataIndex: "taiKhoan",
+      render: (text, object) => <>{object.taiKhoan}</>,
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "soDT",
+      render: (text, object) => <>{object.soDT}</>,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      render: (text, object) => <>{object.email}</>,
+    },
+    {
+      title: "Quản trị",
+      dataIndex: "maLoaiNguoiDung",
+      width: 130,
+      render: (text, object) => {
+        if (object.maLoaiNguoiDung === "QuanTri") {
+          return (
+            <div className="btn-action">
               <FontAwesomeIcon className="check" icon={faCheck} />
-            ) : (
-              ""
-            )}
-          </td>
-          <td align="center">
-            {element.maLoaiNguoiDung === "KhachHang" ? (
+            </div>
+          );
+        }
+      },
+    },
+    {
+      title: "Khách hàng",
+      dataIndex: "maLoaiNguoiDung",
+      width: 130,
+      render: (text, object) => {
+        if (object.maLoaiNguoiDung === "KhachHang") {
+          return (
+            <div className="btn-action">
               <FontAwesomeIcon className="check" icon={faCheck} />
-            ) : (
-              ""
-            )}
-          </td>
-          <td align="center">
-            <button
-              type="button"
-              className="btn btn-info mr-2"
-              data-toggle="modal"
-              data-target="#updateUser"
-              onClick={() => handleEditUser(`${element.taiKhoan}`)}
-            >
-              <FontAwesomeIcon icon={faPen} />
+            </div>
+          );
+        }
+      },
+    },
+    {
+      title: "Thao tác",
+      dataIndex: "taiKhoan",
+      width: 150,
+      render: (text, object) => (
+        <div className="btn-action">
+          <NavLink
+            key={1}
+            className="mb-1"
+            to={`/admin/user/edit/${object.taiKhoan}`}
+          >
+            <button className="btn-icon text-info">
+              <FontAwesomeIcon className="icon-size" icon={faPen} />
             </button>
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={() => handleDeleteUser(`${element.taiKhoan}`)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </td>
-        </tr>
-      );
-    });
+          </NavLink>
+
+          <button
+            className="btn-icon text-danger"
+            onClick={() => handleDeleteUser(object)}
+          >
+            <FontAwesomeIcon className="icon-size" icon={faTrash} />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
   };
 
   const handleAdd = () => {
-    navigate("admin/user/addnew");
+    navigate("/admin/user/addnew");
   };
 
   return (
@@ -121,24 +158,12 @@ export default function UserManagement() {
           <span style={{ fontSize: 16 }}>Thêm người dùng</span>
         </Button>
       </div>
-
-      <EditUser taiKhoan={selectedUser} />
-
-      <table className="table table-bordered mt-2" style={{ fontSize: 18 }}>
-        <thead className="bg-light p-2 text-center">
-          <tr>
-            <th>STT</th>
-            <th>Họ và tên</th>
-            <th>Tài khoản</th>
-            <th>Số điện thoại</th>
-            <th>Email</th>
-            <th>Quản trị</th>
-            <th>Khách hàng</th>
-            <th>Thao tác</th>
-          </tr>
-        </thead>
-        <tbody>{renderUserList()}</tbody>
-      </table>
+      <Table
+        rowKey={"maPhim"}
+        columns={columns}
+        dataSource={userList}
+        onChange={onChange}
+      />
     </Fragment>
   );
 }

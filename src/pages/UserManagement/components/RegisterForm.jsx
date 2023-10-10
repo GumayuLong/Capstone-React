@@ -2,45 +2,43 @@ import React, { useEffect, useState } from "react";
 import { userService } from "../../../services/user";
 import { Col, Input, Row, Form, message, notification, Select } from "antd";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
   const [userType, setUserType] = useState([]);
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
       taiKhoan: "",
       matKhau: "",
       email: "",
-      soDt: "",
+      soDT: "",
       maNhom: "GP01",
       maLoaiNguoiDung: "",
       hoTen: "",
     },
 
-    onSubmit: (values) => {
-      // values.maNhom = "GP01";
-      // let data = new FormData();
-      // for (let key in values) {
-      //   data.append(key, values[key]);
-      // }
+    onSubmit: async (values) => {
+      try {
+        const result = await userService.fetchCreateUserApi(values);
 
-      // try {
-      //   const result = userService.fetchCreateUserApi(data);
+        console.log(result.data.content);
 
-      //   console.log(result.data.content);
+        notification.success({
+          message: "Thêm người dùng thành công",
+          placement: "bottomRight",
+        });
 
-      //   notification.success({
-      //     message: "Thêm người dùng thành công",
-      //     placement: "bottomRight",
-      //   });
-      // } catch (error) {
-      //   console.log(error.response?.data);
+        navigate("/admin/user");
+      } catch (error) {
+        console.log(error.response?.data);
 
-      //   notification.error({
-      //     message: "Thêm người dùng thất bại",
-      //     placement: "bottomRight",
-      //   });
-      // }
+        notification.error({
+          message: "Thêm người dùng thất bại",
+          placement: "bottomRight",
+        });
+      }
 
       console.log(values);
     },
@@ -51,8 +49,26 @@ export default function RegisterForm() {
   }, []);
 
   const fetchUserTypeList = async () => {
-    const result = await userService.fetchUserTypeListApi();
-    setUserType(result.data.content);
+    try {
+      const result = await userService.fetchUserTypeListApi();
+      setUserType(result.data.content);
+    } catch (error) {
+      console.log("Error", error.response?.data);
+    }
+  };
+
+  const selectUserType = () => {
+    return userType?.map((element) => {
+      return {
+        label: element.tenLoai,
+        value: element.maLoaiNguoiDung,
+      };
+    });
+  };
+
+  const handleChangeUserType = (value) => {
+    formik.setFieldValue("maLoaiNguoiDung", value);
+    console.log(value);
   };
 
   return (
@@ -72,17 +88,32 @@ export default function RegisterForm() {
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col className="gutter-row" span={12}>
           <Form.Item label="Họ và tên">
-            <Input size="large" name="hoTen" onChange={formik.handleChange} />
+            <Input
+              size="large"
+              name="hoTen"
+              onChange={formik.handleChange}
+              placeholder="Họ và tên"
+            />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={12}>
           <Form.Item label="Email">
-            <Input size="large" name="email" onChange={formik.handleChange} />
+            <Input
+              size="large"
+              name="email"
+              onChange={formik.handleChange}
+              placeholder="Email"
+            />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={12}>
           <Form.Item label="Số điện thoại">
-            <Input size="large" name="soDt" onChange={formik.handleChange} />
+            <Input
+              size="large"
+              name="soDT"
+              onChange={formik.handleChange}
+              placeholder="Số điện thoại"
+            />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={12}>
@@ -91,33 +122,28 @@ export default function RegisterForm() {
               size="large"
               name="taiKhoan"
               onChange={formik.handleChange}
+              placeholder="Tài khoản"
             />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={12}>
           <Form.Item label="Mật khẩu">
-            <Input size="large" name="matKhau" onChange={formik.handleChange} />
+            <Input.Password
+              size="large"
+              name="matKhau"
+              onChange={formik.handleChange}
+              placeholder="Mật khẩu"
+            />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={12}>
           <Form.Item label="Loại người dùng">
             <Select
-              labelInValue
-              defaultValue={{
-                value: "",
-                label: "Chọn loại người dùng",
-              }}
               size="large"
+              placeholder="Chọn loại người dùng"
               name="maLoaiNguoiDung"
-              onChange={formik.handleChange}
-              options={userType.map((element) => {
-                return [
-                  {
-                    value: element.maLoaiNguoiDung,
-                    label: element.tenLoai,
-                  },
-                ];
-              })}
+              onChange={handleChangeUserType}
+              options={selectUserType()}
             />
           </Form.Item>
         </Col>

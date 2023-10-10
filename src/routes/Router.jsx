@@ -16,6 +16,7 @@ import MovieSelection from "../pages/MovieSelection/MovieSelection";
 import RegisterForm from "../pages/UserManagement/components/RegisterForm";
 import EditMovie from "../pages/MovieManagement/components/EditMovie";
 import AddShowtime from "../pages/MovieManagement/components/AddShowtime";
+import EditUser from "../pages/UserManagement/components/EditUser";
 
 export default function Router() {
   const routing = useRoutes([
@@ -94,6 +95,10 @@ export default function Router() {
             {
               path: "/admin/user/addnew",
               element: <RegisterForm />,
+            },
+            {
+              path: "/admin/user/edit/:taiKhoan",
+              element: <EditUser />,
             },
           ],
         },

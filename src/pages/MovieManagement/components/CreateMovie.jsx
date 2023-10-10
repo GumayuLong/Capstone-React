@@ -13,13 +13,13 @@ import moment from "moment";
 import { useFormik } from "formik";
 import { movieService } from "../../../services/movie";
 
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const { TextArea } = Input;
 
 export default function CreateMovie() {
   const [img, setImg] = useState("");
   const [message, setMessage] = useState("");
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -44,8 +44,6 @@ export default function CreateMovie() {
           formData.append("File", values.hinhAnh, values.hinhAnh.name);
         }
       }
-      // console.log("form", formData.get());
-      // dispatch(createMovieAction(formData));
 
       try {
         const result = await movieService.fetchMovieCreateApi(formData);
@@ -54,6 +52,7 @@ export default function CreateMovie() {
           message: "Thêm phim thành công",
           placement: "bottomRight",
         });
+        navigate("/admin/films");
       } catch (error) {
         console.log(error.response?.data);
         notification.error({
@@ -66,7 +65,6 @@ export default function CreateMovie() {
 
   const handleChangeDatePicker = (value) => {
     formik.setFieldValue("ngayKhoiChieu", moment(value).format("DD/MM/YYYY"));
-    formik.setFieldError("ngayKhoiChieu", "Vui lòng chọn ngày khởi chiếu");
   };
 
   const handleChangeValue = (name) => {

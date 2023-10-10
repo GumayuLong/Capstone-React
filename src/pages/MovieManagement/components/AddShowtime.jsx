@@ -32,7 +32,7 @@ export default function AddShowtime() {
 
         setMessage(result.data.content);
         notification.success({
-          message: message,
+          message: "Thêm lịch chiếu thành công!",
           placement: "bottomRight",
         });
       } catch (error) {
@@ -76,7 +76,7 @@ export default function AddShowtime() {
     });
   };
 
-  const handleChangeCinemaGroup = async (value, option) => {
+  const handleChangeCinemaGroup = async (value) => {
     try {
       const result = await cinemaService.fetchCinemaListApi(value);
 
