@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Col, Input, Row, Form, message, notification, Select } from "antd";
+import { Col, Input, Row, Form, notification, Select } from "antd";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { LoadingContext } from "../../../contexts/LoadingContext/LoadingContext";
 import { userService } from "../../../services/user";
-import { useDispatch } from "react-redux";
 
 export default function EditUser() {
   const [userDetail, setUserDetail] = useState({});
   const [userType, setUserType] = useState([]);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [loadingState, setLoadingState] = useContext(LoadingContext);
   const params = useParams();
 
