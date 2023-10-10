@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   DatePicker,
   Form,
@@ -24,6 +24,7 @@ export default function EditMovie() {
   const [movieDetail, setMovieDetail] = useState({});
   const [img, setImg] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [loadingState, setLoadingState] = useContext(LoadingContext);
   const params = useParams();
 
@@ -54,8 +55,8 @@ export default function EditMovie() {
       danhGia: movieDetail?.danhGia,
       hinhAnh: movieDetail?.hinhAnh,
     },
+
     onSubmit: async (values) => {
-      console.log({ values });
       values.maNhom = "GP01";
       let formData = new FormData();
       for (let key in values) {
@@ -76,8 +77,8 @@ export default function EditMovie() {
           placement: "bottomRight",
         });
 
-        dispatch(movieService.fetchMovieListApi());
-        history.push("/admin/films");
+        await movieService.fetchMovieListApi();
+        navigate("/admin/films");
       } catch (error) {
         console.log("error", error.response.data);
         notification.error({

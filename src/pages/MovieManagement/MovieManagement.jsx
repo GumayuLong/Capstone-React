@@ -15,7 +15,6 @@ import {
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
 import { SearchOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
@@ -23,7 +22,6 @@ const { Search } = Input;
 export default function MovieManagement() {
   const navigate = useNavigate();
   const [movieList, setMovieList] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchMovieList();
@@ -101,7 +99,11 @@ export default function MovieManagement() {
       dataIndex: "hot",
       render: (text, object) => {
         if (object.hot) {
-          return <FontAwesomeIcon className="check" icon={faCheck} />;
+          return (
+            <div className="btn-action">
+              <FontAwesomeIcon className="check" icon={faCheck} />
+            </div>
+          );
         }
       },
     },
@@ -113,10 +115,11 @@ export default function MovieManagement() {
     {
       title: "Mô tả",
       dataIndex: "moTa",
+      width: 550,
       render: (text, object) => (
         <Fragment>
-          {object.moTa.length > 50
-            ? object.moTa.substr(0, 50) + "..."
+          {object.moTa.length > 200
+            ? object.moTa.substr(0, 200) + "..."
             : object.moTa}
         </Fragment>
       ),
@@ -171,7 +174,7 @@ export default function MovieManagement() {
   };
 
   return (
-    <div>
+    <Fragment>
       <div className="d-flex justify-content-between">
         <h3>Quản lý phim</h3>
         <Button
@@ -195,6 +198,6 @@ export default function MovieManagement() {
         dataSource={movieList}
         onChange={onChange}
       />
-    </div>
+    </Fragment>
   );
 }
