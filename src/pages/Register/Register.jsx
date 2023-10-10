@@ -143,7 +143,7 @@ export default function Register() {
   };
 
   return (
-    <div className="bgcustom" style={{ minHeight: "90vh" }}>
+    <div className="bgcustom">
       <main className="main">
         <div className="form" style={{ top: "45%" }}>
           <div className="w-75 mx-auto py-5">

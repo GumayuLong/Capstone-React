@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ticketService } from "../../services/ticket";
 import { filter, sumBy } from "lodash";
 import { LoadingContext } from "../../contexts/LoadingContext/LoadingContext";
-import "./booking.scss"
+import "./booking.scss";
 
 export default function Booking() {
   const params = useParams();
@@ -64,8 +64,7 @@ export default function Booking() {
               handleSelect(element);
             }}
             disabled={element.daDat}
-            style={{ width: 50, height: 50, padding: 0 }}
-            className={`mr-1 mb-1 btn ${className}`}
+            className={`mr-1 mb-1 btn chair ${className}`}
           >
             {element.tenGhe}
           </button>
@@ -80,7 +79,9 @@ export default function Booking() {
 
     // console.log(data);
     return data.map((element) => {
-      return <p className="badge badge-success mr-2 mb-0">Ghế {element.tenGhe}</p>;
+      return (
+        <p className="badge badge-success mr-2 mb-0">Ghế {element.tenGhe}</p>
+      );
     });
   };
 
@@ -90,7 +91,6 @@ export default function Booking() {
     const total = sumBy(data, "giaVe");
 
     return <div>{total.toLocaleString()}vnd</div>;
-    
   };
 
   const handleBookTicket = async () => {
@@ -112,61 +112,52 @@ export default function Booking() {
   };
 
   return (
-		<div className="py-5 bgImg">
-			<div className="row">
-				<div className="col-8 mb-4">
-					<div style={{ width: "95%" }} className="mx-auto">
-						<div className="mr-2 mb-1 d-inline-block p-2 rounded text-white bg-secondary">
-							GHẾ ĐÃ ĐẶT
-						</div>
-						<div className="mr-2 mb-1 d-inline-block p-2 rounded text-white bg-dark">
-							GHẾ TRỐNG
-						</div>
-						<div className="mr-2 mb-1 d-inline-block p-2 rounded text-white bg-success">
-							GHẾ ĐANG CHỌN
-						</div>
-						<div className="mr-2 mb-1 d-inline-block p-2 rounded text-white bg-warning">
-							GHẾ VIP
-						</div>
-					</div>
-				</div>
-				<div className="col-8">
-					<div style={{ width: "95%" }} className="mx-auto">
-						{renderChairList()}
-					</div>
-				</div>
+    <div className="py-5 bgImg">
+      <div className="row pt-5 mx-auto" style={{ maxWidth: "80%" }}>
+        <div className="col-8">
+          <div className="chair-type-list mb-4">
+            <div className="chair-type mr-2 mb-1 p-2 rounded text-white bg-secondary">
+              GHẾ ĐÃ ĐẶT
+            </div>
+            <div className="chair-type mr-2 mb-1 p-2 rounded text-white bg-dark">
+              GHẾ TRỐNG
+            </div>
+            <div className="chair-type mr-2 mb-1 p-2 rounded text-white bg-success">
+              GHẾ ĐANG CHỌN
+            </div>
+            <div className="chair-type mr-2 mb-1 p-2 rounded text-white bg-warning">
+              GHẾ VIP
+            </div>
+          </div>
+          <div className="mx-auto chair-list">{renderChairList()}</div>
+        </div>
 
-				<div className="col-4">
-					<div className="bgCol4">
-						<img
-							style={{
-								width: 360,
-								height: 400,
-								objectFit: "cover",
-								borderRadius: "10px",
-							}}
-							src={movieDetail.hinhAnh}
-							alt="#"
-						/>
-						<h4 className="mb-0 filmTitle">
-							{movieDetail.tenPhim}
-						</h4>
-						<h5 className="mb-0 selectChair">
-							Số ghế:
-							<div className="d-flex">{renderSeatList()}</div>
-						</h5>
-						<h5 className="total">
-							Tổng tiền: {renderTotalPrice()}
-						</h5>
-						<button
-							className="btn btn-primary"
-							onClick={handleBookTicket}
-						>
-							ĐẶT VÉ
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
+        <div className="col-4">
+          <div className="bgCol4">
+            <img className="img-fluid" src={movieDetail.hinhAnh} alt="#" />
+            <h4 className="mb-0 filmTitle">{movieDetail.tenPhim}</h4>
+            <h5 className="mb-0 selectChair">
+              Số ghế:
+              <div className="d-flex">{renderSeatList()}</div>
+            </h5>
+            <h5 className="total">Tổng tiền: {renderTotalPrice()}</h5>
+            <button
+              className="btn btn-primary"
+              style={{
+                position: "absolute",
+                bottom: "3%",
+                right: "0",
+                left: "0",
+                maxWidth: "100%",
+                margin: "0 20px",
+              }}
+              onClick={handleBookTicket}
+            >
+              ĐẶT VÉ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,17 +1,18 @@
-.button-primary{
-    background-color: #f26b38 !important;
-    color: #fff !important;
+.button-primary {
+  background-color: #f26b38 !important;
+  color: #fff !important;
+  transition: all 0.5s;
+
+  &:hover {
+    background-color: #f26a38ae !important;
+  }
 }
-.button-primary:hover{
-    background-color: #027bff !important;
-}
-.bgImg{
-    // background-image: url(https://images.rawpixel.com/image_800/cHJpdmF0ZS9zdGF0aWMvaW1hZ2VzL3dlYnNpdGUvMjAyMi0wNS9weDEzNjY3MTAtaW1hZ2Uta3d2eHhlcXAuanBn.jpg?s=cMgi-rhB0f-F4EMnInnttF08qpDNIX_WOf6S5W6FEDE);
-    // background-image: url(https://i.pinimg.com/originals/4e/de/5a/4ede5a33c5490195b2b17466ad26d124.gif);
-    background-image: url(https://a-static.besthdwallpaper.com/beautiful-mountain-nature-wallpaper-1600x900-80752_47.jpg);
-    position: relative;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+
+.bgImg {
+  background-image: url(https://a-static.besthdwallpaper.com/beautiful-mountain-nature-wallpaper-1600x900-80752_47.jpg);
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }

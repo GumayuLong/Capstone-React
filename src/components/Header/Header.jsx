@@ -8,6 +8,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
+
   const renderContent = () => {
     if (!userState.userInfo) {
       return (
@@ -33,8 +34,8 @@ export default function Header() {
     else if (userState.userInfo) {
       return (
         <>
-          <span className="text-white">Hello {userState.userInfo.hoTen}</span>
-          <button onClick={handleLogout} className=" ml-3 btn btn-login">
+          <span className="state">Hello {userState.userInfo.hoTen}</span>
+          <button onClick={handleLogout} className=" ml-2 btn btn-login">
             LOGOUT
           </button>
         </>
@@ -83,7 +84,7 @@ export default function Header() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="collapsibleNavId">
-          <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+          <ul className="navbar-nav mx-auto">
             <li className="nav-item">
               <NavLink className="nav-link" to="/">
                 Home

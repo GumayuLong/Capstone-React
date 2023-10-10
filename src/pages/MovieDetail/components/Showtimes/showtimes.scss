@@ -2,4 +2,20 @@
   background-color: #fff;
   margin-top: 12px;
   text-align: center;
+  color: #f26b38;
+}
+
+.nav-pills {
+  .nav-link {
+    &.active {
+      color: #fff;
+      background-color: #f26b38 !important;
+    }
+
+    &:hover {
+      text-decoration: underline;
+      color: #bc532d;
+      transition: all 0.5s;
+    }
+  }
 }
