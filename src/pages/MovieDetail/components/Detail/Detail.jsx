@@ -40,14 +40,14 @@ export default function Detail() {
 
   return (
     <div className="row">
-      <div className="col-3">
+      <div className="col-5 col-sm-5 col-md-4 col-xl-3">
         <img
           className="w-100"
           src={detail.hinhAnh}
           style={{ borderRadius: "10px" }}
         />
       </div>
-      <div className="col-9">
+      <div className="col-7 col-sm-7 col-md-8 col-xl-9">
         <h4>{detail.tenPhim}</h4>
         <p>{detail.moTa}</p>
         <p>{formatDate(detail.ngayKhoiChieu)}</p>

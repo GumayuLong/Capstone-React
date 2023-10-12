@@ -9,6 +9,7 @@ import Register from "../pages/Register/Register";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import NoAuthGuard from "../guards/NoAuthGuard";
 import AuthGuard from "../guards/AuthGuard";
+import AdminGuard from "../guards/AdminGuard";
 import MovieManagement from "../pages/MovieManagement/MovieManagement";
 import UserManagement from "../pages/UserManagement/UserManagement";
 import CreateMovie from "../pages/MovieManagement/components/CreateMovie";
@@ -62,9 +63,9 @@ export default function Router() {
     {
       path: "/admin",
       element: (
-        <AuthGuard>
+        <AdminGuard>
           <AdminLayout />
-        </AuthGuard>
+        </AdminGuard>
       ),
       children: [
         {
