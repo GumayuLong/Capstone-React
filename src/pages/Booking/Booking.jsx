@@ -80,7 +80,7 @@ export default function Booking() {
     // console.log(data);
     return data.map((element) => {
       return (
-        <p className="badge badge-success mr-2 mb-0">Ghế {element.tenGhe}</p>
+        <p className="badge badge-success mr-2 my-1">Ghế {element.tenGhe}</p>
       );
     });
   };
@@ -90,7 +90,7 @@ export default function Booking() {
 
     const total = sumBy(data, "giaVe");
 
-    return <div>{total.toLocaleString()}vnd</div>;
+    return <span>{total.toLocaleString()}vnd</span>;
   };
 
   const handleBookTicket = async () => {
@@ -114,7 +114,7 @@ export default function Booking() {
   return (
     <div className="py-5 bgImg">
       <div className="row pt-5 mx-auto" style={{ maxWidth: "80%" }}>
-        <div className="col-8">
+        <div className="col-12 col-xl-8 col-lg-12 col-md-12 col-sm-12 mx-auto">
           <div className="chair-type-list mb-4">
             <div className="chair-type mr-2 mb-1 p-2 rounded text-white bg-secondary">
               GHẾ ĐÃ ĐẶT
@@ -132,25 +132,30 @@ export default function Booking() {
           <div className="mx-auto chair-list">{renderChairList()}</div>
         </div>
 
-        <div className="col-4">
+        <div className="col-12 col-xl-4 col-lg-12 col-md-12 col-sm-12">
           <div className="bgCol4">
-            <img className="img-fluid" src={movieDetail.hinhAnh} alt="#" />
-            <h4 className="mb-0 filmTitle">{movieDetail.tenPhim}</h4>
-            <h5 className="mb-0 selectChair">
-              Số ghế:
-              <div className="d-flex">{renderSeatList()}</div>
-            </h5>
-            <h5 className="total">Tổng tiền: {renderTotalPrice()}</h5>
+            <div className="booking-info">
+              <img src={movieDetail.hinhAnh} alt="#" />
+              <div className="booking-right">
+                <h4 className="mb-0 filmTitle">{movieDetail.tenPhim}</h4>
+                <h5 className="mb-0 selectChair">
+                  Số ghế:
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ flexWrap: "wrap" }}
+                  >
+                    {renderSeatList()}
+                  </div>
+                </h5>
+                <h5 className="total">
+                  <span>Tổng tiền: </span>
+                  {renderTotalPrice()}
+                </h5>
+              </div>
+            </div>
             <button
-              className="btn btn-primary"
-              style={{
-                position: "absolute",
-                bottom: "3%",
-                right: "0",
-                left: "0",
-                maxWidth: "100%",
-                margin: "0 20px",
-              }}
+              className="btn btn-primary booking"
+              style={{}}
               onClick={handleBookTicket}
             >
               ĐẶT VÉ

@@ -12,14 +12,18 @@
   border-radius: 10px;
   padding: 20px;
   width: 100% !important;
-  height: 100%;
+  height: auto;
   position: relative;
 
   img {
-    width: 360px;
-    height: 60% !important;
+    width: 100%;
+    max-height: 500px;
     object-fit: cover;
     border-radius: 10px;
+  }
+
+  .booking {
+    width: 100%;
   }
 }
 
@@ -63,25 +67,50 @@
   }
 }
 
-@media screen and (max-width: 1677px) {
+@media screen and (max-width: 1199px) {
   .chair-list {
     padding-bottom: 15px;
     overflow-x: auto;
   }
-}
 
-@media screen and (max-width: 1350px) {
   .chair-list {
     .chair {
-      width: 45px;
-      height: 45px;
+      width: 50px;
+      height: 50px;
       padding: 0;
       font-size: 14px;
     }
   }
+
+  .bgCol4 {
+    .booking-info {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    img {
+      width: 100px;
+      max-width: 100px;
+      height: 100px;
+      margin-right: 20px;
+    }
+
+    .booking-right {
+      .filmTitle {
+        margin-top: 0;
+        text-align: left;
+      }
+    }
+  }
+
+  .chair-type {
+    font-size: 14px;
+  }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 767px) {
   .chair-list {
     .chair {
       width: 35px;
@@ -90,18 +119,20 @@
       font-size: 14px;
     }
   }
+}
 
-  .bgCol4 {
-    img {
-      height: 150px;
-    }
-  }
-
+@media screen and (max-width: 575px) {
   .chair-type-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    .chair-type {
-      font-size: 14px;
+  }
+
+  .chair-list {
+    .chair {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      font-size: 12px;
     }
   }
 }

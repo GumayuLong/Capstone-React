@@ -22,7 +22,7 @@ export default function Showtimes() {
       return (
         <a
           key={element.maHeThongRap}
-          class={`nav-link text-capitalize ${idx === 0 && "active"} cumrap`}
+          className={`nav-link text-capitalize ${idx === 0 && "active"} cumrap`}
           data-toggle="pill"
           href={`#${element.maHeThongRap}`}
           role="tab"
@@ -39,20 +39,20 @@ export default function Showtimes() {
       return (
         <div
           key={element.maHeThongRap}
-          class={`tab-pane fade show ${idx === 0 && "active"}`}
+          className={`tab-pane fade show ${idx === 0 && "active"}`}
           id={element.maHeThongRap}
           role="tabpanel"
         >
           {element.cumRapChieu.map((element) => {
             return (
-              <div key={element.maCumRap} class="row mb-5">
-                <div class="col-1">
-                  <img class="img-fluid rounded" src={element.hinhAnh} />
+              <div key={element.maCumRap} className="row mb-5">
+                <div className="col-1">
+                  <img className="img-fluid rounded" src={element.hinhAnh} />
                 </div>
-                <div class="col-11 pl-0">
+                <div className="col-11 pl-0">
                   <h5>{element.tenCumRap}</h5>
                   <span
-                    class="text-danger"
+                    className="text-danger"
                     style={{
                       fontStyle: "italic",
                       textTransform: "uppercase",
@@ -61,22 +61,15 @@ export default function Showtimes() {
                     {element.diaChi}
                   </span>
                 </div>
-                <div class="col-12">
-                  <div
-                    class="row"
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: "10px",
-                      height: "50px",
-                      display: "flex",
-                      alignItems: "center",
-                      marginTop: "12px",
-                    }}
-                  >
+                <div className="col-12">
+                  <div className="showtime-list">
                     {element.lichChieuPhim.map((element) => {
                       return (
-                        <div key={element.maRap} class="col-4">
-                          <Link to={`/booking/${element.maLichChieu}`}>
+                        <div key={element.maRap} className="showtime">
+                          <Link
+                            className="datetime"
+                            to={`/booking/${element.maLichChieu}`}
+                          >
                             {formatDate(element.ngayChieuGioChieu)}
                           </Link>
                         </div>
@@ -93,10 +86,10 @@ export default function Showtimes() {
   };
 
   return (
-    <div class="row">
-      <div class="col-3">
+    <div className="row">
+      <div className="col-3">
         <div
-          class="nav flex-column nav-pills"
+          className="nav flex-column nav-pills"
           id="v-pills-tab"
           role="tablist"
           aria-orientation="vertical"
@@ -104,8 +97,8 @@ export default function Showtimes() {
           {renderTabList()}
         </div>
       </div>
-      <div class="col-9">
-        <div class="tab-content" id="v-pills-tabContent">
+      <div className="col-9">
+        <div className="tab-content" id="v-pills-tabContent">
           {renderTabContent()}
         </div>
       </div>

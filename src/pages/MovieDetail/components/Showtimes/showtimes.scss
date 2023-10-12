@@ -19,3 +19,26 @@
     }
   }
 }
+
+.showtime-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  .showtime {
+    background-color: #fff;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    margin: 12px 12px 0 0;
+    .datetime {
+      color: #f26b38;
+      &:hover {
+        color: #bc532d;
+      }
+    }
+  }
+}
