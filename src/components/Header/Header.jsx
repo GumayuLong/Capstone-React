@@ -96,12 +96,12 @@ export default function Header() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="#showtimes">
                 Showtimes
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="#footer">
                 Contact
               </a>
             </li>

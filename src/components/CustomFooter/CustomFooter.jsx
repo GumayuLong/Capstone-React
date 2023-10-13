@@ -11,7 +11,7 @@ import {
 import "./footer.scss";
 export default function CustomFooter() {
   return (
-    <footer className="navbar-dark bg-dark">
+    <footer className="navbar-dark bg-dark" id="footer">
       <div className="mx-auto w-65">
         <div className="row">
           <div className="col-12 col-xl-3 col-md-6 col-sm-12">
