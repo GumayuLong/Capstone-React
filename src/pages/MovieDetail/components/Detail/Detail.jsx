@@ -60,7 +60,8 @@ export default function Detail() {
 
             <iframe
               className="trailer"
-              src="https://www.youtube.com/embed/0tFUfuEhh28?si=Ey_-hpMwKQMEqxF-"
+              // src="https://www.youtube.com/embed/0tFUfuEhh28?si=Ey_-hpMwKQMEqxF-"
+              src={detail.trailer}
               title="YouTube video player"
               frameBorder={0}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
