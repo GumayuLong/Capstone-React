@@ -12,11 +12,10 @@ import { useFormik } from "formik";
 import moment from "moment";
 import { cinemaService } from "../../../services/cinema";
 import { useParams } from "react-router-dom";
-import { set } from "lodash";
 
 export default function AddShowtime() {
   const params = useParams();
-  const [message, setMessage] = useState("");
+  const [_, setMessage] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -26,17 +25,13 @@ export default function AddShowtime() {
       giaVe: "",
     },
     onSubmit: async (values) => {
-      console.log({ values });
       try {
-        const result = await cinemaService.fetchCreateShowtime(values);
-
-        setMessage(result.data.content);
+        await cinemaService.fetchCreateShowtime(values);
         notification.success({
           message: "Thêm lịch chiếu thành công!",
           placement: "bottomRight",
         });
       } catch (error) {
-        setMessage(error.respnse?.data);
         notification.error({
           message: "Thêm lịch chiếu thất bại!",
           placement: "bottomRight",

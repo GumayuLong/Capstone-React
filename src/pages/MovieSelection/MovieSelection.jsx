@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { movieService } from "../../services/movie";
+import { LoadingContext } from "../../contexts/LoadingContext/LoadingContext";
+
 import { faHandPointRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -9,14 +12,18 @@ import "./movieSelection.scss";
 export default function MovieSelection() {
   const [movieList, setMovieList] = useState([]);
   const navigate = useNavigate();
+  const [_, setLoadingState] = useContext(LoadingContext);
 
   useEffect(() => {
     fetchMovieList();
   }, []);
 
   const fetchMovieList = async () => {
+    setLoadingState({ isLoading: true });
     const result = await movieService.fetchMovieListApi();
+
     setMovieList(result.data.content);
+    setLoadingState({ isLoading: false });
   };
 
   const renderMovieList = () => {

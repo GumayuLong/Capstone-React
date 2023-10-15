@@ -9,7 +9,6 @@ import {
 } from "antd";
 
 import { Col, Row } from "antd";
-import moment from "moment";
 import { useFormik } from "formik";
 import { movieService } from "../../../services/movie";
 
@@ -19,7 +18,6 @@ const { TextArea } = Input;
 
 export default function CreateMovie() {
   const [img, setImg] = useState("");
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -35,7 +33,6 @@ export default function CreateMovie() {
       hinhAnh: {},
     },
     onSubmit: async (values) => {
-      console.log({ values });
       values.maNhom = "GP01";
       let formData = new FormData();
       for (let key in values) {
@@ -186,7 +183,7 @@ export default function CreateMovie() {
         <img className="mt-2" src={img} width={200} alt="" />
       </Form.Item>
 
-      <Form.Item>
+      <Form.Item className="d-flex justify-content-end">
         <button type="submit" className="btn btn-primary">
           Thêm phim
         </button>
