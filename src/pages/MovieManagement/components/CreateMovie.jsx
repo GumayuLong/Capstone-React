@@ -14,6 +14,7 @@ import { useFormik } from "formik";
 import { movieService } from "../../../services/movie";
 
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 const { TextArea } = Input;
 
 export default function CreateMovie() {
@@ -64,7 +65,8 @@ export default function CreateMovie() {
   });
 
   const handleChangeDatePicker = (value) => {
-    formik.setFieldValue("ngayKhoiChieu", moment(value).format("DD/MM/YYYY"));
+    const ngayKhoiChieu = dayjs(value).format("DD/MM/YYYY");
+    formik.setFieldValue("ngayKhoiChieu", ngayKhoiChieu);
   };
 
   const handleChangeValue = (name) => {

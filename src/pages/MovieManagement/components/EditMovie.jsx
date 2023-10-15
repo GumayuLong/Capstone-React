@@ -54,7 +54,7 @@ export default function EditMovie() {
     },
 
     onSubmit: async (values) => {
-      console.log(values);
+      console.log({ values });
 
       values.maNhom = "GP01";
       let formData = new FormData();
