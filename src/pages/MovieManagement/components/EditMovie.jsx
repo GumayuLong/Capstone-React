@@ -14,7 +14,6 @@ import { useFormik } from "formik";
 
 import { LoadingContext } from "../../../contexts/LoadingContext/LoadingContext";
 import { movieService } from "../../../services/movie";
-import moment from "moment/moment";
 import dayjs from "dayjs";
 const { TextArea } = Input;
 
@@ -59,20 +58,18 @@ export default function EditMovie() {
       values.maNhom = "GP01";
       let formData = new FormData();
       for (let key in values) {
-        if (key === "ngayKhoiChieu") {
-          formData.append(
-            "ngayKhoiChieu",
-            dayjs(values.ngayKhoiChieu, "DD/MM/YYYY")
-          );
-        }
-        if (key !== "hinhAnh") {
+        if (key !== "hinhAnh" && key !== "ngayKhoiChieu") {
           formData.append(key, values[key]);
-        } else {
+        } else if (key === "hinhAnh") {
           if (values.hinhAnh !== null) {
             formData.append("File", values.hinhAnh, values.hinhAnh.name);
           }
+        } else if (key === "ngayKhoiChieu") {
+          let ngayKhoiChieu = dayjs(values.ngayKhoiChieu).format("DD/MM/YYYY");
+          formData.append("ngayKhoiChieu", ngayKhoiChieu);
         }
       }
+
       try {
         const result = await movieService.fetchMovieUpdateApi(formData);
         console.log(result.data.content);
@@ -92,10 +89,6 @@ export default function EditMovie() {
       }
     },
   });
-
-  const formatDate = (date, formatType = "DD/MM/YYYY") => {
-    return moment(date).add(9, "H").format(formatType);
-  };
 
   const handleChangeDatePicker = (value) => {
     let ngayKhoiChieu = dayjs(value).format("YYYY-MM-DD");

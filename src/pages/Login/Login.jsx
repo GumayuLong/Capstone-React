@@ -6,10 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { validation } from "../../validations/validation";
 import "./login.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faUser } from "@fortawesome/free-solid-svg-icons";
-// import { EyeOutLined } from "@ant-design/icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-import { Button, Checkbox, Form, Input } from "antd";
+import { Form, Input } from "antd";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -23,19 +22,9 @@ export default function Login() {
     matKhau: "",
   });
 
-  const [posts, setPosts] = useState([]);
+  const [_, setPosts] = useState([]);
   const [errMessage, setErrMessage] = useState("");
-  const [password, setPassword] = useState("password");
-  const [showPassword, setShowPassword] = useState(true);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-    if (showPassword) {
-      setPassword("text");
-    } else {
-      setPassword("password");
-    }
-  };
+  const [__, setPassword] = useState("password");
 
   const handleChange = (event) => {
     setState({
@@ -122,32 +111,6 @@ export default function Login() {
               >
                 {errMessage}
               </p>
-              {/* <div className="form-group">
-                <input
-                  placeholder="Tài khoản*"
-                  onChange={handleChange}
-                  name="taiKhoan"
-                  type="text"
-                  className="form-control"
-                />
-                <p ref={accountInputRef} className="text-danger"></p>
-              </div>
-              <div className="form-group ">
-                <input
-                  placeholder="Mật khẩu*"
-                  onChange={handleChange}
-                  name="matKhau"
-                  className="form-control"
-                  type={password}
-                />
-                <FontAwesomeIcon
-                  icon={faEye}
-                  onClick={togglePasswordVisibility}
-                ></FontAwesomeIcon>
-                <p ref={passwordInputRef} className="text-danger">
-                  {errMessage}
-                </p>
-              </div> */}
               <button className="btn btn-primary btncustom">Đăng nhập</button>
               <div>
                 <a href="/register">

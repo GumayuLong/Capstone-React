@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Button, Input, Table, notification } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -13,22 +13,24 @@ import {
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { SearchOutlined } from "@ant-design/icons";
 
-const { Search } = Input;
+import { LoadingContext } from "../../contexts/LoadingContext/LoadingContext";
 
 export default function UserManagement() {
   const [userList, setUserList] = useState([]);
   const navigate = useNavigate();
+  const [_, setLoadingState] = useContext(LoadingContext);
 
   useEffect(() => {
     fetchUserList();
   }, []);
 
   const fetchUserList = async () => {
+    setLoadingState({ isLoading: true });
     const result = await userService.fetchUserListApi();
 
     setUserList(result.data.content);
+    setLoadingState({ isLoading: false });
   };
 
   const handleDeleteUser = async (object) => {
@@ -49,6 +51,7 @@ export default function UserManagement() {
     } catch (error) {
       notification.error({
         message: "Xóa người dùng thất bại",
+        placement: "bottomRight",
       });
     }
   };

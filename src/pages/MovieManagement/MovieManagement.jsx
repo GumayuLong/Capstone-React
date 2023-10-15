@@ -1,9 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Input, Table, notification } from "antd";
 
 import { movieService } from "../../services/movie";
 import { formatDateAdmin } from "../../utils/date";
+import { LoadingContext } from "../../contexts/LoadingContext/LoadingContext";
 
 import "./movieManagement.scss";
 
@@ -22,12 +23,14 @@ const { Search } = Input;
 export default function MovieManagement() {
   const navigate = useNavigate();
   const [movieList, setMovieList] = useState([]);
+  const [_, setLoadingState] = useContext(LoadingContext);
 
   useEffect(() => {
     fetchMovieList();
   }, []);
 
   const fetchMovieList = async (tenPhim = "") => {
+    setLoadingState({ isLoading: true });
     if (tenPhim.trim() !== "") {
       const result = await movieService.fetchSearchMovieApi(tenPhim);
 
@@ -37,6 +40,8 @@ export default function MovieManagement() {
 
       setMovieList(result.data.content);
     }
+
+    setLoadingState({ isLoading: false });
   };
 
   const handleDeleteMovie = async (object) => {

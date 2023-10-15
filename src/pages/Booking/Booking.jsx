@@ -11,7 +11,7 @@ export default function Booking() {
 
   const [movieDetail, setMovieDetail] = useState({});
   const [chairList, setChairList] = useState([]);
-  const [loadingState, setLoadingState] = useContext(LoadingContext);
+  const [_, setLoadingState] = useContext(LoadingContext);
 
   useEffect(() => {
     fetchTicketDetail();
