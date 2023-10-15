@@ -159,7 +159,7 @@ export default function UserManagement() {
         </Button>
       </div>
       <Table
-        rowKey={"maPhim"}
+        rowKey={"taiKhoan"}
         columns={columns}
         dataSource={userList}
         onChange={onChange}

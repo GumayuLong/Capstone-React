@@ -26,7 +26,7 @@ export default function AddShowtime() {
       giaVe: "",
     },
     onSubmit: async (values) => {
-      console.log(values);
+      console.log({ values });
       try {
         const result = await cinemaService.fetchCreateShowtime(values);
 
