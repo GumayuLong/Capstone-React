@@ -177,6 +177,7 @@
 .verticalTabpanel {
   width: 300px;
   border-right: 1px solid rgba(128, 128, 128, 0.3);
+  overflow-y: scroll;
 }
 
 .multitabVertical {
@@ -299,6 +300,7 @@
 
 .movie-list {
   overflow-y: scroll;
+  max-width: 568px;
   .movie-item {
     padding: 20px;
     display: flex;

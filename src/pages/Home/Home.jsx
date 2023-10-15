@@ -285,7 +285,9 @@ export default function Home() {
 						</div>
 						{/* <span className="activeSpan"></span> */}
 					</div>
-					<div className="verticalTabpanel">
+					<div
+						className="verticalTabpanel"
+					>
 						<div className="multitabVertical">
 							<div className="multitabsScroller">
 								<div className="flexContainer">
