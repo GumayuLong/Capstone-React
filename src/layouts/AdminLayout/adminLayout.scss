@@ -2,21 +2,22 @@
   display: inline-block !important;
   position: relative;
   color: #f26b38 !important;
-  font-size: 18px;
+  font-size: 14px !important;
+  line-height: 14px !important;
   background: transparent;
   border: 1px solid #f26b38 !important;
   z-index: 1;
   overflow: hidden;
   transition: 0.5s !important;
-  height: 40px;
-  margin: 12px 0;
+  height: fit-content !important;
+  padding: 10px !important;
 
   &::before {
     content: "";
     position: absolute;
     background: #f26b38;
-    height: 150px;
-    width: 200px;
+    height: 100px;
+    width: 150px;
     border-radius: 50%;
     z-index: -1;
     top: 100%;
@@ -31,4 +32,33 @@
       left: -30px;
     }
   }
+}
+
+.ant-layout-sider-children {
+  background-color: #343a40;
+  .ant-menu-dark {
+    background-color: transparent;
+    a {
+      color: #fff !important;
+    }
+    span {
+      color: #fff !important;
+    }
+    .ant-menu-item-active {
+      background-color: #f26b38 !important;
+      a {
+        text-decoration: none;
+      }
+    }
+    .ant-menu-item-selected {
+      background-color: transparent;
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.ant-layout .ant-layout-sider-zero-width-trigger {
+  background-color: #343a40;
 }

@@ -10,22 +10,19 @@ import {
 } from "antd";
 
 import { Col, Row } from "antd";
-import moment from "moment";
 import { useFormik } from "formik";
 
-import { useDispatch } from "react-redux";
 import { LoadingContext } from "../../../contexts/LoadingContext/LoadingContext";
 import { movieService } from "../../../services/movie";
-import { history } from "../../../App";
-
+import moment from "moment/moment";
+import dayjs from "dayjs";
 const { TextArea } = Input;
 
 export default function EditMovie() {
   const [movieDetail, setMovieDetail] = useState({});
   const [img, setImg] = useState("");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loadingState, setLoadingState] = useContext(LoadingContext);
+  const [_, setLoadingState] = useContext(LoadingContext);
   const params = useParams();
 
   useEffect(() => {
@@ -57,9 +54,17 @@ export default function EditMovie() {
     },
 
     onSubmit: async (values) => {
+      console.log(values);
+
       values.maNhom = "GP01";
       let formData = new FormData();
       for (let key in values) {
+        if (key === "ngayKhoiChieu") {
+          formData.append(
+            "ngayKhoiChieu",
+            dayjs(values.ngayKhoiChieu, "DD/MM/YYYY")
+          );
+        }
         if (key !== "hinhAnh") {
           formData.append(key, values[key]);
         } else {
@@ -68,7 +73,6 @@ export default function EditMovie() {
           }
         }
       }
-
       try {
         const result = await movieService.fetchMovieUpdateApi(formData);
         console.log(result.data.content);
@@ -89,8 +93,13 @@ export default function EditMovie() {
     },
   });
 
+  const formatDate = (date, formatType = "DD/MM/YYYY") => {
+    return moment(date).add(9, "H").format(formatType);
+  };
+
   const handleChangeDatePicker = (value) => {
-    formik.setFieldValue("ngayKhoiChieu", moment(value));
+    let ngayKhoiChieu = dayjs(value).format("YYYY-MM-DD");
+    formik.setFieldValue("ngayKhoiChieu", ngayKhoiChieu);
   };
 
   const handleChangeValue = (name) => {
@@ -166,7 +175,6 @@ export default function EditMovie() {
             />
           </Form.Item>
         </Col>
-
         <Col className="gutter-row" span={12}>
           <Form.Item label="Ngày khởi chiếu">
             <DatePicker
@@ -175,7 +183,7 @@ export default function EditMovie() {
               size="large"
               style={{ width: "100%" }}
               onChange={handleChangeDatePicker}
-              value={moment(formik.values.ngayKhoiChieu)}
+              value={dayjs(formik.values.ngayKhoiChieu, "YYYY-MM-DD")}
             />
           </Form.Item>
         </Col>
@@ -243,7 +251,7 @@ export default function EditMovie() {
         />
       </Form.Item>
 
-      <Form.Item>
+      <Form.Item className="d-flex justify-content-end">
         <button type="submit" className="btn btn-primary">
           Cập nhật
         </button>
