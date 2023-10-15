@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import CustomFooter from "../../components/CustomFooter/CustomFooter";
 import { setUserInfoAction } from "../../store/actions/userAction";
 
 import { DesktopOutlined, UserOutlined } from "@ant-design/icons";
@@ -18,16 +17,20 @@ export default function AdminLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
+
   const renderContent = () => {
     if (userState.userInfo) {
       return (
-        <div className="d-flex align-item-center justify-content-end mx-3">
-          <span className="text-white">Hello {userState.userInfo.hoTen}</span>
+        <div
+          className="d-flex align-items-center justify-content-end"
+          style={{ borderBottom: "1px solid #343a40", height: 50 }}
+        >
+          <span className="text-dark">Hello {userState.userInfo.hoTen}</span>
           <button onClick={handleLogout} className="ml-3 btn btn-login">
             LOGOUT
           </button>
-          <button onClick={handleBack} className="ml-3 btn btn-icon">
-            <FontAwesomeIcon icon={faRightToBracket} className="text-white" />
+          <button onClick={handleBack} className="mx-3 btn btn-icon">
+            <FontAwesomeIcon icon={faRightToBracket} className="text-dark" />
           </button>
         </div>
       );
@@ -53,14 +56,21 @@ export default function AdminLayout() {
         onCollapse={(collapsed, type) => {}}
         style={{ height: "100vh" }}
       >
-        <div className="demo-logo-vertical" />
+        <div className="demo-logo-vertical">
+          <a
+            className="navbar-brand text-white p-3 m-0 d-flex justify-content-center"
+            href="#"
+          >
+            <h3>Cyber Cinema</h3>
+          </a>
+        </div>
 
         <Menu mode="inline" theme="dark" defaultSelectedKeys={["1"]}>
           <Menu.Item key="1" icon={<DesktopOutlined />}>
-            <Link to="/admin/films">Movie Management</Link>
+            <Link to="/admin/films">Danh sách phim</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<UserOutlined />}>
-            <Link to="/admin/user">User Management</Link>
+            <Link to="/admin/user">Người dùng</Link>
           </Menu.Item>
         </Menu>
       </Sider>
@@ -68,7 +78,7 @@ export default function AdminLayout() {
         <Header
           style={{
             padding: 0,
-            background: "#343a40",
+            background: "#F5F5F5",
           }}
         >
           {renderContent()}
